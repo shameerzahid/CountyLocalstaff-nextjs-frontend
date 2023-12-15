@@ -1,0 +1,19 @@
+.sidebarlogo{
+    margin-left: 2.5vw;
+    margin-top: 0.5vh;
+    margin-bottom: 4vh;
+    width: 11vw;
+}
+.sidelogo{
+    height: 4vh;
+}
+.text
+{
+    font-size: 2.5vh;
+}
+/* styles.css */
+.active {
+    background-color: white !important;
+    color: #03AF9F;
+  }
+  
