@@ -19,27 +19,28 @@ export default function Page() {
 
       {/* Login page on the right side */}
 
-      <Box className="secbox" flex="1" display="flex" flexDirection="column"  alignItems="center"
+      <Box className="secbox" flex="1" display="flex" flexDirection="column"
       //  margin="100px"
       >
-      <Container margin="9vh 0 3vh 3vh">    
+      <span className='pagelogo'>    
          <Image className='loginlogo' src={logo} alt="Image"  priority={true}/>
-</Container>
+</span>
 <Container className='container'>
-<Center>
+  <Flex flexDirection="column" marginLeft="10vh" marginRight="10vh" marginTop="5vh">
+  <Center>
     <h1 className='heading'
     //  size="3xl" color="#0B393E"
      >Login</h1>
-  </Center>      <Text paddingTop="5vh" color="#666" paddingBottom="3vh" fontSize="2xl">To Login to your account, please enter your Email and Password below to start</Text>
-      <Text as='b' fontSize="xl" >Email</Text>
+  </Center>      <Text paddingTop="5vh" width="27vw" color="#666" paddingBottom="3vh" fontSize="1xl">To Login to your account, please enter your Email and Password below to start</Text>
+      <Text as='b' fontSize="md" >Email</Text>
       <Input placeholder='Enter Your Email' className="input"  />
-      <Text as='b' fontSize="xl" >Password</Text>
+      <Text as='b' fontSize="md" >Password</Text>
       <Input placeholder='Enter Your Password' className="input"/>
       <Box className='forget' >
       <Checkbox size='lg' colorScheme='green' defaultChecked>
     Remember me
   </Checkbox>
-      <Link color='#0B393E' href='#' fontWeight="bold" fontSize="xl">
+      <Link color='#0B393E' href='#' fontWeight="bold" fontSize="md">
     Forgot Password?
   </Link>
 
@@ -50,6 +51,8 @@ export default function Page() {
         </Button>
       </Center>
   
+  </Flex>
+
 
 </Container>
       

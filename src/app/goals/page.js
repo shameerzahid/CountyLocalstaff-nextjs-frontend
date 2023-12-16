@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 // import 'antd/dist/antd.css';
 import Flatpickr from 'react-flatpickr'
+import AdminAddGoalForm from "../components/AdminAddGoalForm"
 import 'flatpickr/dist/flatpickr.css';
 import {
   Box,
@@ -45,7 +46,7 @@ export default function Goals() {
   const users = ["User 1", "User 2", "User 3"];
 
   const [assignAll, setAssignAll] = useState(false);
-  const [endGoal, setEndGoal] = useState(false)
+  const [endGoal, setEndGoal] = useState(true)
   const [goalNumber, setGoalNumber] = useState("");
   const [checkedUsers, setCheckedUsers] = useState({}); // Store the checked state of individual checkboxes
 
@@ -138,6 +139,7 @@ export default function Goals() {
                   py={2}
                   width="10vw"
                   height="7vh"
+                  fontSize="sm"
                   textAlign="center"
                   borderBottom={activeLink1 ? "3px solid #03AF9F" : "none"}
                   // _hover={{ borderBottom: "2px solid #4CAF50" }}
@@ -151,8 +153,9 @@ export default function Goals() {
                   py={2}
                   textAlign="center"
                   height="7vh"
+                  fontSize="sm"
                   borderBottom={activeLink2 ? "3px solid #03AF9F" : "none"}
-                  width="10vw"
+                  width="15vw"
                   // _hover={{ borderBottom: "2px solid #4CAF50" }}
                   onClick={() => handleLinkClick(2)}
                 >
@@ -163,17 +166,17 @@ export default function Goals() {
               </Box>
             </Box>
           </Flex>
-          <Divider orientation='horizontal' marginTop="-2.3vh" border="1px solid #ccc"/>
+          <Divider orientation='horizontal' marginTop="-3vh" border="1px solid #ccc"/>
           {/* <Tabs /> */}
           {(activeLink1 && endGoal) && <AdminCurrentGoal />}
           {activeLink2 && <AdminUpcomingGoal />}
-           <Flex
+           {/* <Flex
             direction="column"
             align="center"
             justify="center"
             h="70vh"
           >
-            <GoGoal fontSize="7em" color="#0d7a79" />
+            <GoGoal fontSize="7em" color="#03AF9F" />
             <Heading>No Active Goal</Heading>
             <Button
               bg="#03AF9F"
@@ -185,8 +188,9 @@ export default function Goals() {
               onClick={onOpen}
             >
               Create Goal
-            </Button> </Flex> 
-            <Drawer
+            </Button> </Flex>  */}
+            <AdminAddGoalForm isOpen={isOpen} onClose={onClose} />
+            {/* <Drawer
             size="md"
             isOpen={isOpen}
             placement="right"
@@ -202,7 +206,6 @@ export default function Goals() {
                 <DrawerBody>
                   <Stack spacing='24px'>
                     <Box>
-                {/* <FormLabel htmlFor='username'>Email</FormLabel>  */}
                 <Button onClick={openCalendar}  bg='#03AF9F' color="white" _hover={{ bg: '#0d7a79' }} size="lg">
               Save
             </Button>
@@ -213,7 +216,6 @@ export default function Goals() {
           type="text"
           placeholder="Please select date"
           readOnly
-          // value={selectedDate ? selectedDate.toLocaleDateString() : ''}
         />
         <span className="calendar-icon" onClick={() => calendarRef.current.flatpickr.toggle()}>
           📅
@@ -293,7 +295,7 @@ export default function Goals() {
                   </Stack>
                 </DrawerBody>
               </DrawerContent>
-            </Drawer> 
+            </Drawer>  */}
         </Box>
       </div>
     </>

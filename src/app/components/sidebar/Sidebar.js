@@ -38,7 +38,7 @@ export default function Sidebar() {
             h="100vh"
             boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
             // borderRadius={navSize == "small" ? "15px" : "30px"}
-            w={navSize == "small" ? "6vw" : "21vw"}
+            w={navSize == "small" ? "6vw" : "24vw"}
             flexDir="column"
             justifyContent="space-between"
             backgroundColor="#0B393E"
@@ -51,7 +51,7 @@ export default function Sidebar() {
                 alignItems={navSize == "small" ? "center" : "flex-start"}
                 as="nav"
             >
-                <Flex flexDirection="row" justifyContent="space-between" width={navSize=="large" ? "17vw": "8.5vw"}>
+                <Flex flexDirection="row" justifyContent="space-between" marginTop="4vh" width={navSize=="large" ? "20.1vw": "8.5vw"}>
                 {
                     navSize == "large" ?
                     <Image className='sidebarlogo' src={logo} alt="Image"  priority={true}/> :
@@ -64,7 +64,7 @@ export default function Sidebar() {
     mt={5}
     _hover={{ background: 'none' }}
     style={{ fontSize: '35px',color: 'white'}}
-    marginLeft={navSize=="large" ? "2.5vw": ""}
+    // marginLeft={navSize=="large" ? "6vw": ""}
     icon={navSize == 'large' ? <FaArrowCircleLeft /> : <FaArrowCircleRight />}
     onClick={() => {
         if (navSize == "small")
@@ -74,10 +74,10 @@ export default function Sidebar() {
     }}
 />
                 </Flex>   
-                <NavItem navSize={navSize} icon={GoGoal} title="Goals" goto="/goals" description="This is the description for the dashboard." />
-                <NavItem navSize={navSize} icon={FaUserTie} title="Users" goto="/users" active />
-                <NavItem navSize={navSize} icon={BiSolidReport} title="Reports" goto="/users"  />
-                <NavItem navSize={navSize} icon={IoPawOutline} title="Active Goals" goto="/users"  />
+                <NavItem navSize={navSize} icon={GoGoal} title="Goals" goto="goals" description="This is the description for the dashboard." />
+                <NavItem navSize={navSize} icon={FaUserTie} title="Users" goto="users" active />
+                <NavItem navSize={navSize} icon={BiSolidReport} title="Reports" goto="users"  />
+                <NavItem navSize={navSize} icon={IoPawOutline} title="Active Goals" goto="users"  />
             </Flex>
 
             <Flex

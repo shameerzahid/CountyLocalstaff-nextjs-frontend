@@ -1,8 +1,8 @@
 .sidebarlogo{
     margin-left: 2.5vw;
-    margin-top: 0.5vh;
+    margin-top: 2vh;
     margin-bottom: 4vh;
-    width: 11vw;
+    width: 10rem;
 }
 .sidelogo{
     height: 4vh;
@@ -16,4 +16,13 @@
     background-color: white !important;
     color: #03AF9F;
   }
-  
+  .sidebarlink:hover {
+    text-decoration: none;
+    background-color: white;
+    color: #03AF9F;
+    /* Include any other hover styles you want */
+  }
+  .sidebarlink
+  {
+    overflow: 'hidden'
+  }

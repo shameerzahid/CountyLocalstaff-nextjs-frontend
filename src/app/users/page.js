@@ -1,15 +1,17 @@
 "use client"
 import { Box, Button, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, FormLabel, Heading, Input, Select, Stack, Text, useDisclosure } from "@chakra-ui/react";
+
 import Sidebar from "../components/sidebar/Sidebar";
 import { useRef, useState } from "react";
 import Details from "../components/Details";
 import UserTable from "../components/UserTable";
+import AdminAddUserForm from "../components/AdminAddUserForm"
 
 export default function Users() {
   const [activeLink1, setActiveLink1] = useState(true);
   const [activeLink2, setActiveLink2] = useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const firstField = useRef()
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const initialFocusRef = useRef();
 
 
   const handleLinkClick = (index) => {
@@ -53,6 +55,7 @@ export default function Users() {
                 cursor="pointer"
                 px={4}
                 py={2}
+                fontSize="sm"
                 textAlign="center"
                 borderBottom={activeLink1 ? "3px solid #03AF9F" : "none"}
                 height="7vh"
@@ -65,6 +68,7 @@ export default function Users() {
                 cursor="pointer"
                 px={4}
                 py={2}
+                fontSize="sm"
                 textAlign="center"
                 height="7vh"
                 borderBottom={activeLink2 ? "3px solid #03AF9F" : "none"}
@@ -75,9 +79,12 @@ export default function Users() {
               </Text>
               </Box>
               <Box>
-              <Button onClick={onOpen} bg='#03AF9F' color="white" width="7vw" height="6vh" _hover={{ bg: '#0d7a79' }} size="lg" >
+              <Button fontSize="2.5vh" onClick={onOpen} bg='#03AF9F' color="white" width="7vw" height="6vh" _hover={{ bg: '#0d7a79' }} size="lg" >
                 Add User</Button>
-      <Drawer size="md"
+                <AdminAddUserForm  isOpen={isOpen} onClose={onClose} edit={false}
+                //  initialFocusRef={initialFocusRef} 
+                 />
+      {/* <Drawer size="md"
         isOpen={isOpen}
         placement='right'
         initialFocusRef={firstField}
@@ -146,21 +153,21 @@ export default function Users() {
                   <option value='kola'>User</option>
                 </Select>
               </Box>
-              {/* <Box> */}
+              
               <Button bg='#03AF9F' color="white" _hover={{ bg: '#0d7a79' }} size="lg">
               Save
             </Button>
-              {/* </Box> */}
+              
             </Stack>
           </DrawerBody>
         </DrawerContent>
       </Drawer>
-
+ */}
 
                               </Box>
             </Box>
           </Flex>
-          <Divider orientation='horizontal' marginTop="-2.3vh" border="1px solid #ccc"/>
+          <Divider orientation='horizontal' marginTop="-3vh" border="1px solid #ccc"/>
           {activeLink1 && <Details/>}
           {activeLink2 && <UserTable/>}
         </Box>
