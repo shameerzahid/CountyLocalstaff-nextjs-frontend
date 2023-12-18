@@ -61,49 +61,52 @@ export default function AdminCurrentGoal() {
           const bg = useToken('colors', '#F6F6F6')
           return (
             <div>
-                <Flex flexDirection="row" alignItems="center" width="40vw" justifyContent="space-between" fontSize="2.5vh" fontWeight="500" marginTop="3vh" marginLeft="4vw">
-                    <Flex flexDirection="row" alignItems="center" justifyContent="space-between" width="300px">
-                    <FaCalendarAlt color="#03AF9F" />
-                    <Text marginLeft="0.5vw" marginRight="2vw">Upcoming Goal from</Text>
-                    <Text>date to date</Text>
+                <Flex flexDirection="row" alignItems="center" width="650px" fontSize="16px" fontWeight="500" marginTop="22px" marginLeft="40px">
+                    <Flex flexDirection="row" alignItems="center" width="560px">
+                   <Flex  alignItems="center" width="250px"> <FaCalendarAlt color="#03AF9F" />
+                    <Text marginLeft="5px">Upcoming Goal from</Text> </Flex>
+                    <Text>date--- to date---</Text>
                     </Flex>
-                    <Flex flexDirection="row" alignItems="center" justifyContent="center">
-                    <GoGoal color="#03AF9F" />
-                    <Text marginLeft="0.5vw" marginRight="2vw">Goal Number</Text>
+                    <Flex flexDirection="row" alignItems="center" width="250px" marginLeft="20px">
+                   <Flex justifyContent="center" alignItems="center" width="200px"> 
+                                       <GoGoal color="#03AF9F" />
+                    <Text marginLeft="5px">Goal Number</Text> </Flex>
                     <Text>No</Text>
                     </Flex>  
                    
                 </Flex>
-                <Flex flexDirection="row" alignItems="center" width="40vw" justifyContent="space-between" fontSize="2.5vh" fontWeight="500" marginTop="3vh" marginLeft="4vw">
-                    <Flex flexDirection="row" alignItems="center" justifyContent="space-between" width="300px">
-                    <GiTrophyCup color="#03AF9F" />
-                      <Text marginLeft="0.5vw" marginRight="2vw">Goal Reward</Text>
-                    <Text>date to date</Text>
+                <Flex flexDirection="row" alignItems="center" width="650px" fontSize="16px" fontWeight="500" marginTop="22px" marginLeft="40px">
+                    <Flex flexDirection="row" alignItems="center" width="560px">
+                   <Flex  alignItems="center" width="250px"> <GiTrophyCup color="#03AF9F" />
+                    <Text marginLeft="5px">Goal Reward</Text> </Flex>
+                    <Text>date--- to date---</Text>
                     </Flex>
-                    <Flex flexDirection="row" alignItems="center" justifyContent="center">
-                    <GiStairsGoal color="#03AF9F" />
-                    <Text marginLeft="0.5vw" marginRight="2vw">Bonus Goal</Text>
+                    <Flex flexDirection="row" alignItems="center" width="250px" marginLeft="20px">
+                   <Flex justifyContent="center" alignItems="center" width="200px"> 
+                                       <GiStairsGoal color="#03AF9F" />
+                    <Text marginLeft="5px">Bonus Goal</Text> </Flex>
                     <Text>No</Text>
-                    </Flex>
-                    </Flex>
-              <Flex flexDirection="row" justifyContent="space-between" marginTop="2.5vh" >
+                    </Flex>  
+                   
+                </Flex>
+              <Flex flexDirection="row" justifyContent="space-between" marginTop="4vh" >
             <div className="tablecontainer" style={{ height: "59vh", width:"48vw", overflowY: "auto", backgroundColor: "white", borderRadius:"2.5vh", padding: "2vh", border:"1px solid #ccc" }}>
               <Table className="table"  style={{borderCollapse:"separate", borderSpacing:"0 1em"}} variant="striped"  size="md"  bg="white" height={`${numRows * rowHeight}vh`}>
                 <Thead>
                   <Tr >
-                    <Th style={{borderBottom:"none", padding:"0px 32px"}}fontSize="2vh" >Users</Th>
-                    <Th style={{borderBottom:"none", padding:"0px 32px"}}fontSize="2vh">Last Updated</Th>
-                    <Th style={{borderBottom:"none", padding:"0px 32px"}}fontSize="2vh">progress</Th>
+                    <Th style={{borderBottom:"none", padding:"0px 32px"}} fontSize="15px" >Users</Th>
+                    <Th style={{borderBottom:"none", padding:"0px 32px"}}fontSize="15px">Last Updated</Th>
+                    <Th style={{borderBottom:"none", padding:"0px 32px"}}fontSize="15px">progress</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
                   {users.slice(0, numRows).map((user,index) => (
-                    <Tr key={user.id} style={{ height: "8vh", boxShadow: '0px 4px 16px -4px rgba(0, 0, 0, 0.12)', borderRadius:"6px"}}>
+                    <Tr key={user.id} style={{ height: "45px", boxShadow: '0px 4px 16px -4px rgba(0, 0, 0, 0.12)', borderRadius:"6px"}}>
                       <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 30px"}} >{user.name}</Td>
                       <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 30px"}} >{user.lastupdated}</Td>
                       <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 30px"}} >{user.progress}</Td>
                       <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 30px"}} >
-                      <Button  fontSize="2.5vh" height="5vh" border="1px solid #03AF9F" bg='white' color="#03AF9F"  _hover={{ bg: '#03AF9F', color: "white" }} size="lg">
+                      <Button  fontSize="16px" height="30px" border="1px solid #03AF9F" bg='white' color="#03AF9F"  _hover={{ bg: '#03AF9F', color: "white" }} size="lg">
                       Details
                     </Button>
                       </Td>
@@ -113,13 +116,13 @@ export default function AdminCurrentGoal() {
               </Table>
              
             </div>
-            <Flex flexDirection="column" height="59vh"  backgroundColor="white" borderRadius="2vh" border="1px solid #ccc" paddingTop="9px">
-            <div id="container" style={{ width: '250px', height: '250px' }}></div>
-            <Flex flexDirection="row" justifyContent="center" alignItems="center" marginTop="4vh">
-            <Button border="1px solid #03AF9F" marginRight="2vw" bg='white' color="#03AF9F" height="6vh" _hover={{ bg: '#03AF9F', color: "white" }}>
+            <Flex flexDirection="column" height="59vh" width="24vw"  backgroundColor="white" borderRadius="15px" border="1px solid #ccc">
+            <div id="container" style={{ height: '45vh', margin: "auto", marginBottom: "0", marginTop: "5px"}}></div>
+            <Flex flexDirection="row" justifyContent="center" alignItems="center" marginTop="15px">
+            <Button fontSize="16px" height="35px" width="43%" border="1px solid #03AF9F" marginRight="2vw" bg='white' color="#03AF9F" _hover={{ bg: '#03AF9F', color: "white" }}>
               Edit Goal
             </Button>
-            <Button bg='#03AF9F' color="white" height="6vh" _hover={{ bg: '#0d7a79' }}>
+            <Button fontSize="16px" height="35px" width="43%" bg='#03AF9F' color="white" _hover={{ bg: '#0d7a79' }}>
               End Goal
             </Button>   </Flex>
             </Flex>

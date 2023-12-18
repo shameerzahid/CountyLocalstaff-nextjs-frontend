@@ -109,7 +109,7 @@ export default function Goals() {
     <>
       <div style={{ backgroundColor: "#F4F9F6", display: "flex", flexDirection: "row" }}>
         <Sidebar />
-        <Box margin="6vh" width="calc(100% - 11vw)">
+        <Box margin="25px 40px 20px 40px" width="calc(100% - 11vw)">
           <Heading fontSize="4xl">Goals</Heading>
           <Flex
             as="nav"
@@ -138,7 +138,7 @@ export default function Goals() {
                   cursor="pointer"
                   px={4}
                   py={2}
-                  width="10vw"
+                  width="150px"
                   height="45px"
                   fontSize="sm"
                   textAlign="center"
@@ -156,7 +156,7 @@ export default function Goals() {
                   height="45px"
                   fontSize="sm"
                   borderBottom={activeLink2 ? "3px solid #03AF9F" : "none"}
-                  width="15vw"
+                  width="150px"
                   // _hover={{ borderBottom: "2px solid #4CAF50" }}
                   onClick={() => handleLinkClick(2)}
                 >
@@ -167,7 +167,7 @@ export default function Goals() {
               </Box>
             </Box>
           </Flex>
-          <Divider orientation='horizontal' marginTop="-19px" border="1px solid #ccc"/>
+          <Divider orientation='horizontal' marginTop="-18px" border="1px solid #ccc"/>
           {/* <Tabs /> */}
           {(activeLink1 && endGoal) && <AdminCurrentGoal />}
           {activeLink2 && <AdminUpcomingGoal />}

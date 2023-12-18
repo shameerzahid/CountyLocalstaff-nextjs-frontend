@@ -78,26 +78,26 @@ export default function UserTable() {
   }
   // console.log(selectedUser)
   return (
-    <div className="tablecontainer" style={{ height: "70vh", overflowY: "auto", backgroundColor: "white", borderRadius:"2.5vh", margin: "2.5vh 0 0 0", padding: "2vh" }}>
+    <div className="tablecontainer" style={{ height: "70vh", overflowY: "auto", backgroundColor: "white", borderRadius:"20px", margin: "25px 0 0 0", padding: "20px" }}>
       <Table className="table"  style={{borderCollapse:"separate", borderSpacing:"0 1em"}} variant="striped"  size="md"  bg="white" height={`${numRows * rowHeight}vh`}>
         <Thead>
           <Tr >
-            <Th style={{borderBottom:"none", padding:"0px 32px"}}fontSize="2vh">User</Th>
-            <Th style={{borderBottom:"none", padding:"0px 32px"}} fontSize="2vh">Email</Th>
-            <Th style={{borderBottom:"none", padding:"0px 32px"}} fontSize="2vh">Role</Th>
-            <Th style={{borderBottom:"none", padding:"0px 32px"}} fontSize="2vh">Status</Th>
-            <Th style={{borderBottom:"none", padding:"0px 32px"}} fontSize="2vh">Action</Th>
+            <Th style={{borderBottom:"none", padding:"0px 32px"}}fontSize="15px">User</Th>
+            <Th style={{borderBottom:"none", padding:"0px 32px"}} fontSize="15px">Email</Th>
+            <Th style={{borderBottom:"none", padding:"0px 32px"}} fontSize="15px">Role</Th>
+            <Th style={{borderBottom:"none", padding:"0px 32px"}} fontSize="15px">Status</Th>
+            <Th style={{borderBottom:"none", padding:"0px 32px"}} fontSize="15px">Action</Th>
           </Tr>
         </Thead>
         <Tbody>
           {users.slice(0, numRows).map((user,index) => (
-            <Tr  key={user.id} style={{ height: "8vh", boxShadow: '0px 4px 16px -4px rgba(0, 0, 0, 0.12)', borderRadius:"6px"}}>
+            <Tr  key={user.id} style={{ height: "45px", boxShadow: '0px 4px 16px -4px rgba(0, 0, 0, 0.12)', borderRadius:"6px"}}>
               <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 30px"}}  >{user.username}</Td>
               <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 30px"}}>{user.email}</Td>
               <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 30px"}}>{user.role}</Td>
               <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 30px"}}>{user.status}</Td>
               <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 30px"}}>
-              <Button fontSize="2.5vh" height="4vh" onClick={() => handleEdit(user)} border="1px solid #03AF9F" bg='white' color="#03AF9F"  _hover={{ bg: '#03AF9F', color: "white" }} size="lg">
+              <Button fontSize="16px" height="25px" onClick={() => handleEdit(user)} border="1px solid #03AF9F" bg='white' color="#03AF9F"  _hover={{ bg: '#03AF9F', color: "white" }} size="lg">
               Edit
             </Button>
               </Td>

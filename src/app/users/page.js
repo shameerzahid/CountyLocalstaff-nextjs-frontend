@@ -28,7 +28,7 @@ export default function Users() {
     <>
       <div style={{ backgroundColor: "#F4F9F6", display: "flex", flexDirection: "row" }}>
         <Sidebar />
-        <Box margin="6vh" width="calc(100% - 11vw)">
+        <Box margin="25px 40px 20px 40px" width="calc(100% - 11vw)">
           <Heading fontSize="4xl">Users</Heading>
           <Flex
             as="nav"
@@ -62,7 +62,7 @@ export default function Users() {
                 textAlign="center"
                 borderBottom={activeLink1 ? "3px solid #03AF9F" : "none"}
                 height="45px"
-                width="10vw"
+                width="120px"
                 onClick={() => handleLinkClick(1)}
               >
                 My Details
@@ -75,7 +75,7 @@ export default function Users() {
                 textAlign="center"
                 height="45px"
                 borderBottom={activeLink2 ? "3px solid #03AF9F" : "none"}
-                width="10vw"
+                width="120px"
                 onClick={() => handleLinkClick(2)}
               >
                 Users
@@ -170,7 +170,7 @@ export default function Users() {
                               </Box>
             </Box>
           </Flex>
-          <Divider orientation='horizontal' marginTop="-19px" border="1px solid #ccc"/>
+          <Divider orientation='horizontal' marginTop="-18px" border="1px solid #ccc"/>
           {activeLink1 && <Details/>}
           {activeLink2 && <UserTable/>}
         </Box>

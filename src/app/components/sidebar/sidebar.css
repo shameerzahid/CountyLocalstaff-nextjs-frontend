@@ -1,8 +1,16 @@
 .sidebarlogo{
-    margin-left: 2.5vw;
+    margin-left: 25px;
     margin-top: 2vh;
     margin-bottom: 4vh;
-    width: 10rem;
+    width: 150px;
+}
+.sidebarlogosmall
+{
+  margin-left: 3px;
+  margin-top: 2vh;
+  margin-bottom: 4vh;
+  /* width: 70px; */
+  height: 60px;
 }
 .sidelogo{
     height: 4vh;
@@ -16,13 +24,39 @@
     background-color: white !important;
     color: #03AF9F;
   }
-  .sidebarlink:hover {
+  /* .sidebarlink:hover {
     text-decoration: none;
     background-color: white;
     color: #03AF9F;
     /* Include any other hover styles you want */
-  }
+  /* } */ 
   .sidebarlink
   {
-    overflow: 'hidden'
+    overflow: 'hidden';
+    height: 58px;
+    width: 100%;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    &:hover {
+      text-decoration: none;
+      background-color: white;
+      color: #03AF9F;
+    }
   }
+
+  /* .sidebarlink:focus {
+    text-decoration: none;
+    background-color: white;
+    color: #03AF9F;
+  } */
+  
+
+   
+  
+    /* Handle hover state */
+   
+  
+    /* Apply styles based on isActive */
+
+
+  

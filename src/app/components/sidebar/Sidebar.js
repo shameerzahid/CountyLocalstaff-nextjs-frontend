@@ -6,7 +6,9 @@ import {
     IconButton,
     Divider,
     Avatar,
-    Heading
+    Heading,
+    Menu,
+    MenuButton
 } from '@chakra-ui/react'
 import {
     FiMenu,
@@ -31,16 +33,58 @@ import Image from 'next/image'
 import LogoIcon from '../../assets/Logo-icon.png'
 import Lefticon from '../../assets/icon-bar-togle.png'
 import Righticon from '../../assets/sidebartoggle.png'
+import Link from 'next/link'
 
 export default function Sidebar() {
     const [navSize, changeNavSize] = useState("large")
+    const [goal, setGoal] = useState(false);
+    const [userActive, setuserActive] = useState(false);
+    const [reportActive, setreportActive] = useState(false);
+    const [ActiveGoal, setActiveGoal] = useState(false);
+    const [logout, setLogout] = useState(false);
+    const goalActive = () => {
+        setGoal(true)
+        setuserActive(false)
+        setreportActive(false)
+        setActiveGoal(false)
+        setLogout(false)
+    }
+
+    const usersActive = () => {
+        setGoal(false)
+        setuserActive(true)
+        setreportActive(false)
+        setActiveGoal(false)
+        setLogout(false)
+    }
+    const reportsActive = () => {
+        setGoal(false)
+        setuserActive(false)
+        setreportActive(true)
+        setActiveGoal(false)
+        setLogout(false)
+    }
+    const activeGoalActive = () => {
+        setGoal(false)
+        setuserActive(false)
+        setreportActive(false)
+        setActiveGoal(true)
+        setLogout(false)
+    }
+    const LogoutActive = () => {
+        setGoal(false)
+        setuserActive(false)
+        setreportActive(false)
+        setActiveGoal(false)
+        setLogout(true)
+    }
     return (
         <Flex
             pos="sticky"
             h="100vh"
             boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
             // borderRadius={navSize == "small" ? "15px" : "30px"}
-            w={navSize == "small" ? "6vw" : "24vw"}
+            w={navSize == "small" ? "80px" : "255px"}
             flexDir="column"
             justifyContent="space-between"
             backgroundColor="#0B393E"
@@ -54,21 +98,21 @@ export default function Sidebar() {
                 alignItems={navSize == "small" ? "center" : "flex-start"}
                 as="nav"
             >
-                <Flex flexDirection="row" justifyContent="space-between" marginTop="4vh" width={navSize=="large" ? "20.1vw": "8.5vw"}>
+                <Flex flexDirection="row" justifyContent="space-between" marginTop="8px" width={navSize=="large" ? "230px": "75px"}>
                 {
                     navSize == "large" ?
                     <Image className='sidebarlogo' src={logo} alt="Image"  priority={true}/> :
-                    <Image className='sidebarlogo' style={{height: "3.5rem", marginLeft: "1.5vw"}} src={LogoIcon} alt="Image"  priority={true}/>
+                    <Image className='sidebarlogosmall' src={LogoIcon} alt="Image"  priority={true}/>
 
 
                 }
                 <IconButton
     background="none"
-    mt={5}
+    marginTop="25px"
     _hover={{ background: 'none' }}
     style={{ fontSize: '35px',color: 'white'}}
     // marginLeft={navSize=="large" ? "6vw": ""}
-    icon={navSize == 'large' ? <Image src={Lefticon} style={{marginLeft: "0.5vw"}} /> : <Image src={Righticon} style={{ marginLeft: "-1vw"}} />}
+    icon={navSize == 'large' ? <Image src={Lefticon} style={{marginLeft: "20px"}} /> : <Image src={Righticon} style={{ marginLeft: "-10px"}} />}
     onClick={() => {
         if (navSize == "small")
             changeNavSize("large")
@@ -81,6 +125,7 @@ export default function Sidebar() {
                 <NavItem navSize={navSize} icon={FaUserTie} title="Users" goto="users" active />
                 <NavItem navSize={navSize} icon={BiSolidReport} title="Reports" goto="reports"  />
                 <NavItem navSize={navSize} icon={IoPawOutline} title="Active Goals" goto="users"  />
+
             </Flex>
 
             <Flex
