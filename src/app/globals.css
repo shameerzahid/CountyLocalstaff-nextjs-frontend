@@ -18,7 +18,23 @@ body, html {
     display: none;
   }
 
-  
+  .flatpickr
+  {
+
+    height: 7vh;
+    width: 100%;
+    padding: 2.5vh;
+    margin: 0;
+    /* padding: 0%; */
+    border: 1px solid #ccc;
+    border-radius: 1vh;
+    /* background-color: red; */
+  }
+  .flatpickr:focus
+  {
+    box-shadow: 0 0 10px rgba(3, 175, 159, 0.5);
+
+  }
 
   /* table::-webkit-scrollbar {
     display: none;
@@ -67,7 +83,7 @@ body, html {
     margin-top: 5vh;
   }
   .input {
-    height: 8vh !important;
+    height: 50px !important;
     margin-top: 1.5vh !important;
     margin-bottom: 2vh !important;
     border-radius: 16px !important;

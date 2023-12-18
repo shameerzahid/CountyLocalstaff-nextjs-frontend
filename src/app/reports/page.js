@@ -1,38 +1,10 @@
 "use client"
-import { Table, Thead, Tbody, Tr, Th, Td, Button, Flex, Text, useToken, useDisclosure } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td, Button, Flex, Text, useToken } from "@chakra-ui/react";
 import { FaCalendarAlt } from "react-icons/fa";
 import { GoGoal } from "react-icons/go";
-import { GiStairsGoal, GiTrophyCup } from "react-icons/gi";
-import anychart from 'anychart';
-import { useEffect, useRef,useState } from "react";
-export default function AdminCurrentGoal() {
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-    useEffect(() => {
-        anychart.onDocumentReady(function () {
-
-            // create data
-            var data = [
-              {x: "Completed", value: 1},
-              {x: "Bonus", value: 2},
-              {x: "Incomplete", value: 3},
-            ];
-        
-            // create a chart and set the data
-            var chart = anychart.pie(data);
-        
-            // set the chart title
-            chart.title("Team Overview");
-        
-            // set the container id
-            chart.container("container");
-            chart.palette(["#03AF9F", "#FFCE21", "#DCFF07"])
-            // initiate drawing the chart
-            chart.draw();
-        });
-    })
-   
+import { GiStairsGoal, GiTrophyCup } from "react-icons/gi";import { useEffect} from "react";
+import Sidebar from "../components/sidebar/Sidebar";
+export default function Report() {
         const users = [
             {
               id: 1,
@@ -60,9 +32,10 @@ export default function AdminCurrentGoal() {
           const numRows = Math.min(Math.floor(70 / rowHeight), users.length); // Calculate the number of rows that fit within 70vh
           const bg = useToken('colors', '#F6F6F6')
           return (
-            <div>
+            <div style={{ backgroundColor: "#F4F9F6", display: "flex", flexDirection: "row" }}>
+            <Sidebar />
                 <Flex flexDirection="row" alignItems="center" width="40vw" justifyContent="space-between" fontSize="2.5vh" fontWeight="500" marginTop="3vh" marginLeft="4vw">
-                    <Flex flexDirection="row" alignItems="center" justifyContent="space-between" width="300px">
+                    <Flex flexDirection="row" alignItems="center" justifyContent="space-between">
                     <FaCalendarAlt color="#03AF9F" />
                     <Text marginLeft="0.5vw" marginRight="2vw">Upcoming Goal from</Text>
                     <Text>date to date</Text>
@@ -71,23 +44,23 @@ export default function AdminCurrentGoal() {
                     <GoGoal color="#03AF9F" />
                     <Text marginLeft="0.5vw" marginRight="2vw">Goal Number</Text>
                     <Text>No</Text>
-                    </Flex>  
+                    </Flex>
                    
                 </Flex>
                 <Flex flexDirection="row" alignItems="center" width="40vw" justifyContent="space-between" fontSize="2.5vh" fontWeight="500" marginTop="3vh" marginLeft="4vw">
-                    <Flex flexDirection="row" alignItems="center" justifyContent="space-between" width="300px">
+                <Flex flexDirection="row" alignItems="center" justifyContent="center">
                     <GiTrophyCup color="#03AF9F" />
-                      <Text marginLeft="0.5vw" marginRight="2vw">Goal Reward</Text>
-                    <Text>date to date</Text>
+                    <Text marginLeft="0.5vw" marginRight="6vw">Goal Reward</Text>
+                    <Text>This is text</Text>
                     </Flex>
                     <Flex flexDirection="row" alignItems="center" justifyContent="center">
                     <GiStairsGoal color="#03AF9F" />
                     <Text marginLeft="0.5vw" marginRight="2vw">Bonus Goal</Text>
                     <Text>No</Text>
                     </Flex>
-                    </Flex>
-              <Flex flexDirection="row" justifyContent="space-between" marginTop="2.5vh" >
-            <div className="tablecontainer" style={{ height: "59vh", width:"48vw", overflowY: "auto", backgroundColor: "white", borderRadius:"2.5vh", padding: "2vh", border:"1px solid #ccc" }}>
+                   
+                </Flex>
+            <div className="tablecontainer" style={{ height: "59vh", width:"48vw", overflowY: "auto", backgroundColor: "white", borderRadius:"2.5vh", padding: "2vh", border:"1px solid #ccc", marginTop: "2.5vh" }}>
               <Table className="table"  style={{borderCollapse:"separate", borderSpacing:"0 1em"}} variant="striped"  size="md"  bg="white" height={`${numRows * rowHeight}vh`}>
                 <Thead>
                   <Tr >
@@ -113,17 +86,7 @@ export default function AdminCurrentGoal() {
               </Table>
              
             </div>
-            <Flex flexDirection="column" height="59vh"  backgroundColor="white" borderRadius="2vh" border="1px solid #ccc" paddingTop="9px">
-            <div id="container" style={{ width: '250px', height: '250px' }}></div>
-            <Flex flexDirection="row" justifyContent="center" alignItems="center" marginTop="4vh">
-            <Button border="1px solid #03AF9F" marginRight="2vw" bg='white' color="#03AF9F" height="6vh" _hover={{ bg: '#03AF9F', color: "white" }}>
-              Edit Goal
-            </Button>
-            <Button bg='#03AF9F' color="white" height="6vh" _hover={{ bg: '#0d7a79' }}>
-              End Goal
-            </Button>   </Flex>
-            </Flex>
-              </Flex>
+           
             </div>
           );
         }

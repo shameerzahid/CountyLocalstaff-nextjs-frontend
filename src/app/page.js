@@ -31,7 +31,7 @@ export default function Page() {
     <h1 className='heading'
     //  size="3xl" color="#0B393E"
      >Login</h1>
-  </Center>      <Text paddingTop="5vh" width="27vw" color="#666" paddingBottom="3vh" fontSize="1xl">To Login to your account, please enter your Email and Password below to start</Text>
+  </Center>      <Text paddingTop="5vh" color="#666" paddingBottom="3vh" fontSize="1xl">To Login to your account, please enter your Email and Password below to start</Text>
       <Text as='b' fontSize="md" >Email</Text>
       <Input placeholder='Enter Your Email' className="input"  />
       <Text as='b' fontSize="md" >Password</Text>

@@ -25,7 +25,7 @@ export default function AdminAddUserForm({ isOpen, onClose, name, username, emai
 
     return (
         <div >
-        <Drawer  size="sm"
+        <Drawer size='sm'
         isOpen={isOpen}
         placement='right'
         // initialFocusRef={firstField}
@@ -38,14 +38,14 @@ export default function AdminAddUserForm({ isOpen, onClose, name, username, emai
             Add User
           </DrawerHeader>
 
-          <DrawerBody marginTop="5vh" className="drawercontainer">
+          <DrawerBody marginTop="3vh" marginBottom="3vh" className="drawercontainer">
             <Stack spacing='24px'>
               <Box>
                 <FormLabel htmlFor='username'>First Name</FormLabel>
                 <Input
                 type="text"
                 name="firstName"
-                height="7vh"
+                height="50px"
                 value={name}
                 onChange={(e) => setNewName(e.target.value) }
                 placeholder="Enter First Name"
@@ -59,7 +59,7 @@ export default function AdminAddUserForm({ isOpen, onClose, name, username, emai
                 name="lastName"
                 value={username}
                 placeholder="Enter last Name"
-                height="7vh"
+                height="50px"
                 _focus={{
                     boxShadow: '0 0 10px rgba(3, 175, 159, 0.5)'}}
               />
@@ -72,7 +72,7 @@ export default function AdminAddUserForm({ isOpen, onClose, name, username, emai
                 name="Email"
                 value={email}
                 placeholder="Enter Email"
-                height="7vh"
+                height="50px"
                 _focus={{
                     boxShadow: '0 0 10px rgba(3, 175, 159, 0.5)'}}
               />
@@ -87,7 +87,7 @@ export default function AdminAddUserForm({ isOpen, onClose, name, username, emai
                     type="text"
                     name="Password"
                     placeholder="Enter Password"
-                    height="7vh"
+                    height="50px"
                     _focus={{
                         boxShadow: '0 0 10px rgba(3, 175, 159, 0.5)'}}
                   />
@@ -96,7 +96,7 @@ export default function AdminAddUserForm({ isOpen, onClose, name, username, emai
             
               <Box>
                 <FormLabel htmlFor='owner'>Role</FormLabel>
-                <Select id='owner' defaultValue={role} height="7vh">
+                <Select id='owner' defaultValue={role} height="50px">
   <option value={0} disabled>Select Role</option>
   <option value={1}>Super Admin</option>
   <option value={2}>Admin</option>

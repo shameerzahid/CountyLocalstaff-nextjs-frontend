@@ -30,9 +30,9 @@ import {
   useToken,
 } from "@chakra-ui/react";
 import { useRef } from "react";
-import Tab from "../components/Tab";
-import Tabs from "../components/Tabs";
+
 import flatpickr from "flatpickr";
+import { GoGoal } from "react-icons/go";
 
 export default function AdminAddGoalForm({ isOpen, onClose}) {
 
@@ -113,18 +113,24 @@ onClose={onClose}
     {/* <Button onClick={openCalendar}  bg='#03AF9F' color="white" _hover={{ bg: '#0d7a79' }} size="lg">
   Save
 </Button> */}
-<Container onClick={openCalendar} placeholder="">
+<Container onClick={openCalendar} placeholder="" padding={0} margin={0}>
 <div className="datepicker-container">
-<div className="datepicker-input-container">
+{/* <div className="datepicker-input-container">
 <input
 type="text"
 placeholder="Please select date"
 readOnly
-// value={selectedDate ? selectedDate.toLocaleDateString() : ''}
 />
-</div>
-<Flatpickr ref={calendarRef} options={options}><input />   </Flatpickr>
-</div> </Container>
+</div> */}
+ <Flatpickr
+        ref={calendarRef}
+        placeholder="Please select date"
+       className="flatpickr"
+        options={options}
+        value={[]}
+        onChange={(dates) => console.log(dates)}
+      >       
+      </Flatpickr></div> </Container>
   </Box>
          <Box>
     <FormLabel htmlFor='username'>Goal Reward</FormLabel>

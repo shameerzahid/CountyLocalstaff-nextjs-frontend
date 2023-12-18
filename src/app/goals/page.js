@@ -35,8 +35,6 @@ import { useRef } from "react";
 import { GoGoal } from "react-icons/go";
 import AdminCurrentGoal from "../components/AdminCurrentgoal";
 import AdminUpcomingGoal from "../components/AdminUpcomingGoal";
-import Tab from "../components/Tab";
-import Tabs from "../components/Tabs";
 
 export default function Goals() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -119,6 +117,8 @@ export default function Goals() {
             justify="space-between"
             wrap="wrap"
             p={4}
+            paddingLeft={0}
+            paddingRight={0}
           >
             <Box
               display={{ base: "block", md: "flex" }}
@@ -131,6 +131,7 @@ export default function Goals() {
                 display={{ base: "block", md: "flex" }}
                 width={{ base: "full", md: "auto" }}
                 alignItems="center"
+                fontWeight={550}
                 flexGrow={1}
               >
                 <Text
@@ -138,7 +139,7 @@ export default function Goals() {
                   px={4}
                   py={2}
                   width="10vw"
-                  height="7vh"
+                  height="45px"
                   fontSize="sm"
                   textAlign="center"
                   borderBottom={activeLink1 ? "3px solid #03AF9F" : "none"}
@@ -152,7 +153,7 @@ export default function Goals() {
                   px={4}
                   py={2}
                   textAlign="center"
-                  height="7vh"
+                  height="45px"
                   fontSize="sm"
                   borderBottom={activeLink2 ? "3px solid #03AF9F" : "none"}
                   width="15vw"
@@ -166,11 +167,11 @@ export default function Goals() {
               </Box>
             </Box>
           </Flex>
-          <Divider orientation='horizontal' marginTop="-3vh" border="1px solid #ccc"/>
+          <Divider orientation='horizontal' marginTop="-19px" border="1px solid #ccc"/>
           {/* <Tabs /> */}
           {(activeLink1 && endGoal) && <AdminCurrentGoal />}
           {activeLink2 && <AdminUpcomingGoal />}
-           {/* <Flex
+           <Flex
             direction="column"
             align="center"
             justify="center"
@@ -188,7 +189,7 @@ export default function Goals() {
               onClick={onOpen}
             >
               Create Goal
-            </Button> </Flex>  */}
+            </Button> </Flex> 
             <AdminAddGoalForm isOpen={isOpen} onClose={onClose} />
             {/* <Drawer
             size="md"

@@ -29,6 +29,8 @@ import NavItem from './NavItem'
 import logo from '../../assets/Logo.png'
 import Image from 'next/image'
 import LogoIcon from '../../assets/Logo-icon.png'
+import Lefticon from '../../assets/icon-bar-togle.png'
+import Righticon from '../../assets/sidebartoggle.png'
 
 export default function Sidebar() {
     const [navSize, changeNavSize] = useState("large")
@@ -43,9 +45,10 @@ export default function Sidebar() {
             justifyContent="space-between"
             backgroundColor="#0B393E"
             color="white"
+            padding="0 0 0 0"
         >
             <Flex
-                paddingLeft="5%"
+                paddingLeft={navSize == "small" ? "0%" : "6%"}
                 flexDir="column"
                 w="100%"
                 alignItems={navSize == "small" ? "center" : "flex-start"}
@@ -55,7 +58,7 @@ export default function Sidebar() {
                 {
                     navSize == "large" ?
                     <Image className='sidebarlogo' src={logo} alt="Image"  priority={true}/> :
-                    <Image className='sidebarlogo' src={LogoIcon} alt="Image"  priority={true}/>
+                    <Image className='sidebarlogo' style={{height: "3.5rem", marginLeft: "1.5vw"}} src={LogoIcon} alt="Image"  priority={true}/>
 
 
                 }
@@ -65,7 +68,7 @@ export default function Sidebar() {
     _hover={{ background: 'none' }}
     style={{ fontSize: '35px',color: 'white'}}
     // marginLeft={navSize=="large" ? "6vw": ""}
-    icon={navSize == 'large' ? <FaArrowCircleLeft /> : <FaArrowCircleRight />}
+    icon={navSize == 'large' ? <Image src={Lefticon} style={{marginLeft: "0.5vw"}} /> : <Image src={Righticon} style={{ marginLeft: "-1vw"}} />}
     onClick={() => {
         if (navSize == "small")
             changeNavSize("large")
@@ -76,7 +79,7 @@ export default function Sidebar() {
                 </Flex>   
                 <NavItem navSize={navSize} icon={GoGoal} title="Goals" goto="goals" description="This is the description for the dashboard." />
                 <NavItem navSize={navSize} icon={FaUserTie} title="Users" goto="users" active />
-                <NavItem navSize={navSize} icon={BiSolidReport} title="Reports" goto="users"  />
+                <NavItem navSize={navSize} icon={BiSolidReport} title="Reports" goto="reports"  />
                 <NavItem navSize={navSize} icon={IoPawOutline} title="Active Goals" goto="users"  />
             </Flex>
 

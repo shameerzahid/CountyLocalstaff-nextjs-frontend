@@ -19,7 +19,9 @@ export default function NavItem({ icon, title, goto, navSize }) {
           as="a"
           href={goto}
           p={3}
-          marginLeft="0vw"
+          // marginLeft="0vw"
+          paddingTop={3.5}
+          height="58px"
           overflow="hidden"
           borderTopLeftRadius={8}
           borderBottomLeftRadius={8}
@@ -31,8 +33,8 @@ export default function NavItem({ icon, title, goto, navSize }) {
         >
           <MenuButton w="100%">
             <Flex alignItems="center">
-              <Icon as={icon} fontSize="3xl" />
-              <Text className="text" ml={4} display={navSize === 'small' ? 'none' : 'flex'}>
+              <Icon as={icon} fontSize={navSize == "large" ? "3xl": "2xl" } />
+              <Text className="text" fontSize="md" ml={2} textAlign="center" display={navSize === 'small' ? 'none' : 'flex'}>
                 {title}
               </Text>
             </Flex>

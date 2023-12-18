@@ -36,6 +36,8 @@ export default function Users() {
             justify="space-between"
             wrap="wrap"
             p={4}
+            paddingLeft={0}
+            paddingRight={0}
           >
             <Box
                 display={{ base: "block", md: "flex" }}
@@ -50,6 +52,7 @@ export default function Users() {
                 width={{ base: "full", md: "auto" }}
                 alignItems="center"
                 flexGrow={1}
+                fontWeight={550}
                 >
               <Text
                 cursor="pointer"
@@ -58,7 +61,7 @@ export default function Users() {
                 fontSize="sm"
                 textAlign="center"
                 borderBottom={activeLink1 ? "3px solid #03AF9F" : "none"}
-                height="7vh"
+                height="45px"
                 width="10vw"
                 onClick={() => handleLinkClick(1)}
               >
@@ -70,7 +73,7 @@ export default function Users() {
                 py={2}
                 fontSize="sm"
                 textAlign="center"
-                height="7vh"
+                height="45px"
                 borderBottom={activeLink2 ? "3px solid #03AF9F" : "none"}
                 width="10vw"
                 onClick={() => handleLinkClick(2)}
@@ -79,7 +82,7 @@ export default function Users() {
               </Text>
               </Box>
               <Box>
-              <Button fontSize="2.5vh" onClick={onOpen} bg='#03AF9F' color="white" width="7vw" height="6vh" _hover={{ bg: '#0d7a79' }} size="lg" >
+              <Button fontSize="14px" onClick={onOpen} bg='#03AF9F' color="white" width="100px" height="32px" _hover={{ bg: '#0d7a79' }} size="lg" >
                 Add User</Button>
                 <AdminAddUserForm  isOpen={isOpen} onClose={onClose} edit={false}
                 //  initialFocusRef={initialFocusRef} 
@@ -167,7 +170,7 @@ export default function Users() {
                               </Box>
             </Box>
           </Flex>
-          <Divider orientation='horizontal' marginTop="-3vh" border="1px solid #ccc"/>
+          <Divider orientation='horizontal' marginTop="-19px" border="1px solid #ccc"/>
           {activeLink1 && <Details/>}
           {activeLink2 && <UserTable/>}
         </Box>
