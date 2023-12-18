@@ -15,7 +15,7 @@ export default function NavItem({ icon, title, goto, navSize }) {
       <Menu placement="right">
         <Link
           href={`/${goto}`}
-          className="sidebarlink"
+          className={`sidebarlink ${isActive ? "active" : ""}`}
           onClick={() => setIsActive(true)}
         >
           <MenuButton w="100%">

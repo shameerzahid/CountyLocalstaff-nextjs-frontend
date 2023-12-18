@@ -62,7 +62,7 @@ export default function AdminUpcomingGoal() {
                     </Flex>  
                    
                 </Flex>
-              <Flex flexDirection="row" justifyContent="space-between" marginTop="2.5vh" >
+              <Flex flexDirection="row" justifyContent="space-between" marginTop="4vh" >
             <div className="tablecontainer" style={{ height: "59vh", width:"48vw", overflowY: "auto", backgroundColor: "white", borderRadius:"2.5vh", padding: "2vh", border:"1px solid #ccc" }}>
               <Table className="table"  style={{borderCollapse:"separate", borderSpacing:"0 1em"}} variant="striped"  size="md"  bg="white" height={`${numRows * rowHeight}vh`}>
                 <Thead>

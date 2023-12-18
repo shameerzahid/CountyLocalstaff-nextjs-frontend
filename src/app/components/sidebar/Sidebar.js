@@ -82,6 +82,7 @@ export default function Sidebar() {
         <Flex
             pos="sticky"
             h="100vh"
+            className='sidebartop'
             boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
             // borderRadius={navSize == "small" ? "15px" : "30px"}
             w={navSize == "small" ? "80px" : "255px"}
@@ -121,10 +122,13 @@ export default function Sidebar() {
     }}
 />
                 </Flex>   
-                <NavItem navSize={navSize} icon={GoGoal} title="Goals" goto="goals" description="This is the description for the dashboard." />
+                <NavItem navSize={navSize} icon={GoGoal} title="Goals" goto="goals" description="This is the description for the dashboard." /> 
                 <NavItem navSize={navSize} icon={FaUserTie} title="Users" goto="users" active />
                 <NavItem navSize={navSize} icon={BiSolidReport} title="Reports" goto="reports"  />
                 <NavItem navSize={navSize} icon={IoPawOutline} title="Active Goals" goto="users"  />
+           
+
+
 
             </Flex>
 

@@ -44,15 +44,12 @@
     }
   }
 
-  /* .sidebarlink:focus {
-    text-decoration: none;
-    background-color: white;
-    color: #03AF9F;
-  } */
-  
+  /* responsiveness */
 
-   
-  
+  .sidebartop
+  {
+    height: 100vh;
+  }
     /* Handle hover state */
    
   
