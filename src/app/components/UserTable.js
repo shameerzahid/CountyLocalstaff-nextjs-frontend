@@ -80,7 +80,9 @@ export default function UserTable() {
     <div style={{  overflow: "hidden", height: "70vh", backgroundColor: "white", borderRadius:"20px", margin: "25px 0 0 0", paddingLeft: "20px", border: "1px solid #ccc", paddingRight: "20px" }}>
     <div className="tablecontainer" style={{  height: "70vh", overflowY: "auto", backgroundColor: "white" }}>
       <Table className="table"  style={{borderCollapse:"separate", borderSpacing:"0 1em"}} variant="striped"  size="md"  bg="white" height={`${numRows * rowHeight}vh`}>
-        <Thead backgroundColor="white" style={{position:"sticky", top: "0"}}>
+        <Thead backgroundColor="white"
+        //  style={{position:"sticky", top: "0"}}
+         >
           <Tr   style={{height: "45px"}} >
             <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "14px"}}>User</Th>
             <Th style={{borderBottom:"none", padding:"0px 16px", }} fontSize="14px">Email</Th>

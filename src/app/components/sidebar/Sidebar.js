@@ -91,7 +91,7 @@ export default function Sidebar() {
             backgroundColor="#0B393E"
             color="white"
             padding="0 0 0 0"
-            transition={navSize == "small" ? "width 0.3s ease-in-out" : ""}
+            // transition={navSize == "small" ? "width 0.3s ease-in-out" : ""}
         >
             <Flex
                 paddingLeft={navSize == "small" ? "0%" : "0%"}

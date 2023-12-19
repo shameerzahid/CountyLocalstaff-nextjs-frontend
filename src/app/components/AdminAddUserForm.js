@@ -32,8 +32,8 @@ export default function AdminAddUserForm({ isOpen, onClose, name, username, emai
         onClose={onClose}
       >
         <DrawerOverlay />
-        <DrawerContent style={{ borderTopLeftRadius: '1.5rem', borderBottomLeftRadius: '1.5rem', paddingTop: '2rem'}}>
-          <DrawerCloseButton style={{paddingTop: "3rem"}} />
+        <DrawerContent style={{ borderTopLeftRadius: '1.5rem', borderBottomLeftRadius: '1.5rem', paddingTop: '1.5rem'}}>
+          <DrawerCloseButton style={{marginTop: "2rem"}} />
           <DrawerHeader>
             Add User
           </DrawerHeader>
