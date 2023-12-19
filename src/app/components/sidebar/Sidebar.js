@@ -85,21 +85,24 @@ export default function Sidebar() {
             className='sidebartop'
             boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
             // borderRadius={navSize == "small" ? "15px" : "30px"}
-            w={navSize == "small" ? "80px" : "255px"}
+            width={navSize == "small" ? "76px" : "255px"}
             flexDir="column"
             justifyContent="space-between"
             backgroundColor="#0B393E"
             color="white"
             padding="0 0 0 0"
+            transition={navSize == "small" ? "width 0.3s ease-in-out" : ""}
         >
             <Flex
-                paddingLeft={navSize == "small" ? "0%" : "6%"}
+                paddingLeft={navSize == "small" ? "0%" : "0%"}
+                paddingTop="4%"
                 flexDir="column"
                 w="100%"
                 alignItems={navSize == "small" ? "center" : "flex-start"}
                 as="nav"
             >
-                <Flex flexDirection="row" justifyContent="space-between" marginTop="8px" width={navSize=="large" ? "230px": "75px"}>
+                <Flex flexDirection="row"  marginBottom={navSize == "large" ? "10px": "28px"}>
+                <Flex flexDirection="row" justifyContent="center" alignItems="center" width={navSize=="large" ? "230px": "75px"}>
                 {
                     navSize == "large" ?
                     <Image className='sidebarlogo' src={logo} alt="Image"  priority={true}/> :
@@ -107,43 +110,41 @@ export default function Sidebar() {
 
 
                 }
+            
+                </Flex>  
                 <IconButton
     background="none"
     marginTop="25px"
     _hover={{ background: 'none' }}
     style={{ fontSize: '35px',color: 'white'}}
     // marginLeft={navSize=="large" ? "6vw": ""}
-    icon={navSize == 'large' ? <Image src={Lefticon} style={{marginLeft: "20px"}} /> : <Image src={Righticon} style={{ marginLeft: "-10px"}} />}
+    icon={navSize == 'large' ? <Image src={Lefticon} style={{marginLeft: "20px"}} /> : <Image src={Righticon} style={{ marginLeft: "6px"}} />}
     onClick={() => {
         if (navSize == "small")
             changeNavSize("large")
         else
             changeNavSize("small")
     }}
-/>
-                </Flex>   
-                <NavItem navSize={navSize} icon={GoGoal} title="Goals" goto="goals" description="This is the description for the dashboard." /> 
+/>  
+
+                </Flex>
+                <NavItem navSize={navSize} icon={GoGoal} title="Goal" goto="goals" description="This is the description for the dashboard." /> 
                 <NavItem navSize={navSize} icon={FaUserTie} title="Users" goto="users" active />
                 <NavItem navSize={navSize} icon={BiSolidReport} title="Reports" goto="reports"  />
-                <NavItem navSize={navSize} icon={IoPawOutline} title="Active Goals" goto="users"  />
-           
+                <NavItem navSize={navSize} icon={IoPawOutline} title="Active Goals" goto="active-goal"  />
 
 
 
             </Flex>
 
             <Flex
-                paddingLeft="5%"
+                // paddingLeft="5%"
                 flexDir="column"
                 w="100%"
                 alignItems={navSize == "small" ? "center" : "flex-start"}
-                mb={4}
+                mb={3}
             >
-                {/* <Flex mt={4} align="center"> */}
-                    {/* <Flex flexDir="column" ml={4} display={navSize == "small" ? "none" : "flex"}> */}
-                    <NavItem navSize={navSize} icon={VscSignOut} title="Logout" />
-                    {/* </Flex> */}
-                {/* </Flex> */}
+                    <NavItem navSize={navSize} icon={VscSignOut} title="Logout" goto="/"/>
             </Flex>
         </Flex>
     )

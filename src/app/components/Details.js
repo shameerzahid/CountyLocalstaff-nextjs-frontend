@@ -25,19 +25,19 @@ export default function Details() {
 
   return (
     <>
-      <Box margin="20px 20px 0 0" bg="white" height="420px" width="35vw" padding="20px" borderRadius="18px" border="1px solid #ccc" >
+      <Box margin="2rem 20px 0 0" bg="white" height="415px" width="35.2vw" padding="24px" borderRadius="18px" border="1px solid #ccc" >
         {/* <Heading fontSize="2xl" mb="4">User Details</Heading> */}
         <form onSubmit={handleSubmit}>
           <Stack spacing={4}>
             <FormControl id="firstName">
-              <FormLabel>First Name</FormLabel>
+              <FormLabel fontSize="0.8rem">First Name</FormLabel>
               <Input
                 type="text"
                 name="firstName"
                 value={formData.firstName}
                 placeholder="First Name"
                 onChange={handleChange}
-                height="45px"
+                height="49px"
                 borderColor="black"
                 _focus={{
                     boxShadow: '0 0 10px #03AF9F'}}
@@ -45,7 +45,7 @@ export default function Details() {
             </FormControl>
 
             <FormControl id="lastName">
-              <FormLabel>Last Name</FormLabel>
+              <FormLabel fontSize="0.8rem">Last Name</FormLabel>
               <Input
                 type="text"
                 name="lastName"
@@ -60,7 +60,7 @@ export default function Details() {
             </FormControl>
 
             <FormControl id="email">
-              <FormLabel>Email</FormLabel>
+              <FormLabel fontSize="0.8rem">Email</FormLabel>
               <Input
                 type="email"
                 name="email"
@@ -73,10 +73,10 @@ export default function Details() {
                     boxShadow: '0 0 10px rgba(3, 175, 159, 0.5)'}}
               />
             </FormControl>
-            <Button border="1px solid #03AF9F" bg='white' color="#03AF9F" height="45px" _hover={{ bg: '#03AF9F', color: "white" }} size="lg">
+            <Button border="1px solid #03AF9F" bg='white' color="#03AF9F" height="42px" _hover={{ bg: '#03AF9F', color: "white" }} size="lg">
               Change Password
             </Button>
-            <Button bg='#03AF9F' color="white" height="45px" _hover={{ bg: '#0d7a79' }} size="lg">
+            <Button bg='#03AF9F' color="white" height="42px" _hover={{ bg: '#0d7a79' }} size="lg">
               Update
             </Button>
           </Stack>

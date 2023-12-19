@@ -11,9 +11,27 @@ body, html {
   body::-webkit-scrollbar{
     display: none;
   }
-  .tablecontainer::-webkit-scrollbar {
+  /* .tablecontainer::-webkit-scrollbar {
     display: none;
+  } */
+
+
+  .tablecontainer::-webkit-scrollbar {
+    width: 4px;               /* width of the entire scrollbar */
   }
+  
+  .ellipsis:hover{
+    color: #03AF9F;
+    cursor: pointer;
+    background-color: transparent;
+    transform: scale(1.2); /* Adjust the scale factor as needed */
+  }
+  .tablecontainer::-webkit-scrollbar-thumb {
+    background-color: #03AF9F;    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */  }
+
+
+
   .drawercontainer::-webkit-scrollbar {
     display: none;
   }
@@ -47,12 +65,12 @@ body, html {
   }
   .pagelogo
   {
-    margin-top: 7vh;
-    margin-left: 7vw;
+    margin-top: 1rem;
+    margin-left: 1rem;
   }
   .loginlogo
   {
-    width: 16vw;
+    width: 250px;
   }
 /* yourStyles.module.css */
 .loginimg{
@@ -86,7 +104,7 @@ body, html {
     height: 50px !important;
     margin-top: 1.5vh !important;
     margin-bottom: 2vh !important;
-    border-radius: 16px !important;
+    border-radius: 14px !important;
     border: 1px solid #cbd5e0 !important; /* Add border color as needed */
     padding: 0.75rem !important; /* Adjust padding as needed */
     font-size: 1rem !important; /* Adjust font size as needed */
@@ -111,7 +129,8 @@ body, html {
   }
   .container
   {
-    width: 36vw;
+    width: 50vw !important;
+    padding: 3% 15% 10% 16% !important;
     /* margin-top: 5vh; */
   }
   @media only screen and (max-width: 800px) {

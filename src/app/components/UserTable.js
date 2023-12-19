@@ -1,7 +1,7 @@
-import { Table, Thead, Tbody, Tr, Th, Td, Button } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td, Button, IconButton, Icon } from "@chakra-ui/react";
 import { useToken } from '@chakra-ui/react'
 import {  Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, FormLabel, Heading, Input, Select, Stack, Text, useDisclosure } from "@chakra-ui/react";
-
+import { HiOutlineEllipsisVertical } from "react-icons/hi2";
 import AdminAddUserForm from "../components/AdminAddUserForm"
 import { useState } from "react";
 export default function UserTable() {
@@ -14,7 +14,7 @@ export default function UserTable() {
       name: "John Doe",
       username: "john_doe",
       email: "john@example.com",
-      role: 1,
+      role: "super admin",
       status: "Active",
     },
     {
@@ -22,7 +22,7 @@ export default function UserTable() {
       name: "Jan Doe",
       username: "jan_doe",
       email: "jane@example.com",
-      role: 3,
+      role: "admin",
       status: "Inactive",
     },
     {
@@ -30,7 +30,7 @@ export default function UserTable() {
         name: "John Doe",
         username: "john_doe",
         email: "john@example.com",
-        role: 2,
+        role: "user",
         status: "Active",
       },
       {
@@ -38,7 +38,7 @@ export default function UserTable() {
         name: "John Doe",
         username: "john_doe",
         email: "john@example.com",
-        role: 3,
+        role: "super admin",
         status: "Active",
       },
       {
@@ -46,7 +46,7 @@ export default function UserTable() {
         name: "John Doe",
         username: "john_doe",
         email: "john@example.com",
-        role: 2,
+        role: "super admin",
         status: "Active",
       },
       {
@@ -54,7 +54,7 @@ export default function UserTable() {
         name: "John Doe",
         username: "john_doe",
         email: "john@example.com",
-        role: 2,
+        role: "super admin",
         status: "Active",
       },
       {
@@ -62,7 +62,7 @@ export default function UserTable() {
         name: "John Doe",
         username: "john_doe",
         email: "john@example.com",
-        role: 2,
+        role: "super admin",
         status: "Active",
       },
     // Add more users as needed
@@ -76,36 +76,39 @@ export default function UserTable() {
     setSelectedUser(user)
     onOpen();
   }
-  // console.log(selectedUser)
   return (
-    <div className="tablecontainer" style={{ height: "70vh", overflowY: "auto", backgroundColor: "white", borderRadius:"20px", margin: "25px 0 0 0", padding: "20px" }}>
+    <div style={{  overflow: "hidden", height: "70vh", backgroundColor: "white", borderRadius:"20px", margin: "25px 0 0 0", paddingLeft: "20px", border: "1px solid #ccc", paddingRight: "20px" }}>
+    <div className="tablecontainer" style={{  height: "70vh", overflowY: "auto", backgroundColor: "white" }}>
       <Table className="table"  style={{borderCollapse:"separate", borderSpacing:"0 1em"}} variant="striped"  size="md"  bg="white" height={`${numRows * rowHeight}vh`}>
-        <Thead>
-          <Tr >
-            <Th style={{borderBottom:"none", padding:"0px 32px"}}fontSize="15px">User</Th>
-            <Th style={{borderBottom:"none", padding:"0px 32px"}} fontSize="15px">Email</Th>
-            <Th style={{borderBottom:"none", padding:"0px 32px"}} fontSize="15px">Role</Th>
-            <Th style={{borderBottom:"none", padding:"0px 32px"}} fontSize="15px">Status</Th>
-            <Th style={{borderBottom:"none", padding:"0px 32px"}} fontSize="15px">Action</Th>
+        <Thead backgroundColor="white" style={{position:"sticky", top: "0"}}>
+          <Tr   style={{height: "45px"}} >
+            <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "14px"}}>User</Th>
+            <Th style={{borderBottom:"none", padding:"0px 16px", }} fontSize="14px">Email</Th>
+            <Th style={{borderBottom:"none", padding:"0px 16px", }} fontSize="14px">Role</Th>
+            <Th style={{borderBottom:"none", padding:"0px 16px", }} fontSize="14px">Status</Th>
+            <Th style={{borderBottom:"none", padding:"0px 16px", }} fontSize="14px">Action</Th>
           </Tr>
         </Thead>
         <Tbody>
           {users.slice(0, numRows).map((user,index) => (
-            <Tr  key={user.id} style={{ height: "45px", boxShadow: '0px 4px 16px -4px rgba(0, 0, 0, 0.12)', borderRadius:"6px"}}>
-              <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 30px"}}  >{user.username}</Td>
-              <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 30px"}}>{user.email}</Td>
-              <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 30px"}}>{user.role}</Td>
-              <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 30px"}}>{user.status}</Td>
-              <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 30px"}}>
-              <Button fontSize="16px" height="25px" onClick={() => handleEdit(user)} border="1px solid #03AF9F" bg='white' color="#03AF9F"  _hover={{ bg: '#03AF9F', color: "white" }} size="lg">
+            <Tr  key={user.id} style={{ height: "52px", boxShadow: '0px 4px 16px -4px rgba(0, 0, 0, 0.12)', borderRadius:"6px"}}>
+              <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 16px", borderTop: "0.1px solid  #ccc", color: "#2A2A2A"}}  >{user.username}</Td>
+              <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 16px", borderTop: "0.1px  solid #ccc", color: "#2A2A2A"}}>{user.email}</Td>
+              <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 16px", borderTop: "0.1px  solid #ccc", color: "#2A2A2A"}}>{user.role}</Td>
+              <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 16px", borderTop: "0.1px  solid #ccc", color: "#2A2A2A"}}>{user.status}</Td>
+              <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"5px 16px", borderTop: "0.1px  solid #ccc"}}>
+             <Flex alignItems="center"> <Button fontSize="15px" height="27px" onClick={() => handleEdit(user)} border="1px solid #03AF9F" bg='transparent' color="#03AF9F"  _hover={{ bg: '#03AF9F', color: "white" }} size="lg">
               Edit
             </Button>
+            <Icon marginLeft="10px" bg="transparent" fontSize="20px" className="ellipsis" as={HiOutlineEllipsisVertical}/>
+              </Flex>
               </Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
       <AdminAddUserForm  isOpen={isOpen} onClose={onClose} id={selectedUser.id} name={selectedUser.name} username={selectedUser.username} email={selectedUser.email} role={selectedUser.role} edit={true} />
+    </div>
     </div>
   );
 }

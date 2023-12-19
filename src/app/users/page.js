@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import Details from "../components/Details";
 import UserTable from "../components/UserTable";
 import AdminAddUserForm from "../components/AdminAddUserForm"
-
+import './user.css'
 export default function Users() {
   const [activeLink1, setActiveLink1] = useState(true);
   const [activeLink2, setActiveLink2] = useState(false);
@@ -26,16 +26,16 @@ export default function Users() {
 
   return (
     <>
-      <div style={{ backgroundColor: "#F4F9F6", display: "flex", flexDirection: "row" }}>
+      <div className="usertop" style={{ backgroundColor: "#F4F9F6", display: "flex", flexDirection: "row" }}>
         <Sidebar />
-        <Box margin="25px 40px 20px 40px" width="calc(100% - 11vw)">
-          <Heading fontSize="4xl">Users</Heading>
+        <Box margin="25px 40px 0 40px" width="calc(100% - 11vw)">
+          <Heading fontSize="2.4rem">Users</Heading>
           <Flex
             as="nav"
             align="center"
             justify="space-between"
             wrap="wrap"
-            p={4}
+            p={6}
             paddingLeft={0}
             paddingRight={0}
           >
@@ -58,11 +58,11 @@ export default function Users() {
                 cursor="pointer"
                 px={4}
                 py={2}
-                fontSize="sm"
+                fontSize="0.8rem"
                 textAlign="center"
                 borderBottom={activeLink1 ? "3px solid #03AF9F" : "none"}
-                height="45px"
-                width="120px"
+                height="43px"
+                width="110px"
                 onClick={() => handleLinkClick(1)}
               >
                 My Details
@@ -71,106 +71,25 @@ export default function Users() {
                 cursor="pointer"
                 px={4}
                 py={2}
-                fontSize="sm"
+                fontSize="0.8rem"
                 textAlign="center"
-                height="45px"
+                height="43px"
                 borderBottom={activeLink2 ? "3px solid #03AF9F" : "none"}
-                width="120px"
+                width="76px"
                 onClick={() => handleLinkClick(2)}
               >
                 Users
               </Text>
               </Box>
               <Box>
-              <Button fontSize="14px" onClick={onOpen} bg='#03AF9F' color="white" width="100px" height="32px" _hover={{ bg: '#0d7a79' }} size="lg" >
+              <Button fontSize="0.875rem" onClick={onOpen} borderRadius="0.2rem" bg='#03AF9F' color="white" height="36px" _hover={{ bg: '#0d7a79' }} >
                 Add User</Button>
-                <AdminAddUserForm  isOpen={isOpen} onClose={onClose} edit={false}
-                //  initialFocusRef={initialFocusRef} 
-                 />
-      {/* <Drawer size="md"
-        isOpen={isOpen}
-        placement='right'
-        initialFocusRef={firstField}
-        onClose={onClose}
-      >
-        <DrawerOverlay />
-        <DrawerContent style={{ borderTopLeftRadius: '1.5rem', borderBottomLeftRadius: '1.5rem'}}>
-          <DrawerCloseButton />
-          <DrawerHeader borderBottomWidth='1px'>
-            Add User
-          </DrawerHeader>
-
-          <DrawerBody marginTop="5vh">
-            <Stack spacing='24px'>
-              <Box>
-                <FormLabel htmlFor='username'>First Name</FormLabel>
-                <Input
-                type="text"
-                name="firstName"
-                height="7vh"
-                placeholder="Enter First Name"
-                _focus={{
-                    boxShadow: '0 0 10px rgba(3, 175, 159, 0.5)'}}
-              /></Box>
-                <Box>
-                <FormLabel htmlFor='username'>Last Name</FormLabel>
-                <Input
-                type="text"
-                name="lastName"
-                placeholder="Enter last Name"
-                height="7vh"
-                _focus={{
-                    boxShadow: '0 0 10px rgba(3, 175, 159, 0.5)'}}
-              />
-              
-              </Box>
-              <Box>
-                <FormLabel htmlFor='username'>Email</FormLabel>
-                <Input
-                type="text"
-                name="Email"
-                placeholder="Enter Email"
-                height="7vh"
-                _focus={{
-                    boxShadow: '0 0 10px rgba(3, 175, 159, 0.5)'}}
-              />
-              
-              </Box>
-              <Box>
-                <FormLabel htmlFor='username'>Password</FormLabel>
-                <Input
-                type="text"
-                name="Password"
-                placeholder="Enter Password"
-                height="7vh"
-                _focus={{
-                    boxShadow: '0 0 10px rgba(3, 175, 159, 0.5)'}}
-              />
-              
-              </Box>
-              <Box>
-                <FormLabel htmlFor='owner'>Role</FormLabel>
-                <Select id='owner' defaultValue='segun' height="7vh">
-                  <option value='segun'>Super Admin</option>
-                  <option value='kola'>Admin</option>
-                  <option value='kola'>User</option>
-                </Select>
-              </Box>
-              
-              <Button bg='#03AF9F' color="white" _hover={{ bg: '#0d7a79' }} size="lg">
-              Save
-            </Button>
-              
-            </Stack>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
- */}
+                <AdminAddUserForm  isOpen={isOpen} onClose={onClose} edit={false}                 />
 
                               </Box>
             </Box>
           </Flex>
-          <Divider orientation='horizontal' marginTop="-18px" border="1px solid #ccc"/>
+          <Divider orientation='horizontal' marginTop="-26px" border="1px solid #ccc"/>
           {activeLink1 && <Details/>}
           {activeLink2 && <UserTable/>}
         </Box>
