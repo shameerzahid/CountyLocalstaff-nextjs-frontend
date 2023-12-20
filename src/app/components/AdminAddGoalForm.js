@@ -33,7 +33,7 @@ import { useRef } from "react";
 
 import flatpickr from "flatpickr";
 import { GoGoal } from "react-icons/go";
-
+import '../styles/styles.css'
 export default function AdminAddGoalForm({ isOpen, onClose}) {
 
     const users = ["User 1", "User 2", "User 3"];
@@ -94,19 +94,23 @@ export default function AdminAddGoalForm({ isOpen, onClose}) {
  return(
     <div >
     <Drawer
-size="sm"
+ size="menu"
 isOpen={isOpen}
 placement="right"
 // initialFocusRef={firstField}
 onClose={onClose}
 >
   <DrawerOverlay />
-  <DrawerContent style={{ borderTopLeftRadius: '1.5rem', borderBottomLeftRadius: '1.5rem' }}>
-    <DrawerCloseButton />
-    <DrawerHeader borderBottomWidth='1px'>
+  <DrawerContent  style={{
+            borderTopLeftRadius: "1.5rem",
+            borderBottomLeftRadius: "1.5rem",
+            paddingTop: "1.5rem",
+          }}>
+    <DrawerCloseButton style={{ marginTop: "2rem" }}/>
+    <DrawerHeader fontFamily="lato700" fontSize="22px">
       Set Goal Details
     </DrawerHeader>
-    <DrawerBody className="drawercontainer">
+    <DrawerBody marginBottom="3vh"className="drawercontainer">
       <Stack spacing='24px'>
         <Box>
     {/* <FormLabel htmlFor='username'>Email</FormLabel>  */}
@@ -125,6 +129,7 @@ readOnly
  <Flatpickr
         ref={calendarRef}
         placeholder="Please select date"
+        style={{borderRadius: "10px"}}
        className="flatpickr"
         options={options}
         value={[]}
@@ -133,48 +138,50 @@ readOnly
       </Flatpickr></div> </Container>
   </Box>
          <Box>
-    <FormLabel htmlFor='username'>Goal Reward</FormLabel>
+    <FormLabel htmlFor='username' fontFamily="poppinsmed" fontSize="14px">Goal Rewards</FormLabel>
     <Input
     type="text"
     name="Email"
     placeholder="Goal Reward"
-    height="7vh"
+    borderRadius="10px"
+    height="45px"
     _focus={{
         boxShadow: '0 0 10px rgba(3, 175, 159, 0.5)'}}
   />
   
   </Box>
   <Box>
-    <FormLabel htmlFor='username'>Bonus Goal</FormLabel>
+    <FormLabel htmlFor='username' fontFamily="poppinsmed" fontSize="14px">Bonus Goal</FormLabel>
     <Input
     type="number"
     name="Email"
     placeholder="Enter Number"
-    height="7vh"
+    borderRadius="10px"
+    height="45px"
     _focus={{
         boxShadow: '0 0 10px rgba(3, 175, 159, 0.5)'}}
   />
   
   </Box >
-  <Checkbox >Repeat</Checkbox>
+  <Checkbox fontFamily="lato" fontSize="13px">Repeat</Checkbox>
         <Box p={4}>
         <Table size="md"  bg="white">
 <Thead> 
 <Tr backgroundColor="#03AF9F" height="8vh">
-<Th style={{borderBottom:"none", padding:"0px 12px"}} fontSize="2vh" width="5vw">
+<Th style={{borderBottom:"none", padding:"0px 12px"}} fontSize="2vh" width="33.3%">
 <Checkbox isChecked={assignAll} onChange={handleAssignAllChange}>
-  <Text fontSize="11px" width="6vw">Assign All</Text>
+  <Text  width="6vw" fontFamily="poppinsreg" color="#0B393E" fontSize="13px">Assign All</Text>
 </Checkbox>
 </Th>
-<Th style={{borderBottom:"none", padding:"0px 12px"}}fontSize="2vh">Name</Th>
-<Th style={{borderBottom:"none", padding:"0px"}}fontSize="2vh">
+<Th style={{borderBottom:"none", padding:"0px 12px"}}  width="33.3%"  fontFamily="poppinsreg" color="#0B393E" fontSize="13px">Name</Th>
+<Th style={{borderBottom:"none", padding:"0px"}}  width="33.3%" fontFamily="poppinsreg" color="#0B393E" fontSize="13px">
 Goal No{" "}
 <Input
   id="goalNumber"
   type="number"
-  width="3.5vw"
-  border="1px solid black"
-  height="6vh"
+  width="2.5vw"
+  border="1px solid #ced4da"
+  height="5vh"
   backgroundColor="white"
   value={goalNumber}
   onChange={handleGoalNumberChange}
@@ -186,14 +193,14 @@ Goal No{" "}
 <Tbody>
 {users.map((user, index) => (
 <Tr key={index} style={{ height: "8vh",padding:0, borderRadius:"6px"}}>
-<Td  backgroundColor="white"   style={{padding:"5px 30px", borderBottom: "none"}}>
+<Td  backgroundColor="white"  width="33.3%"   style={{padding:"5px 30px", borderBottom: "none"}}>
   <Checkbox isChecked={checkedUsers[user]} onChange={() => handleUserCheckboxChange(user)} />
 </Td>
-<Td  backgroundColor="white"  style={{padding:"0 12px" , borderBottom: "none"}}>
+<Td  backgroundColor="white"  width="33.3%"  style={{padding:"0 12px" , borderBottom: "none"}}>
   <Text>{user}</Text>
 </Td>
-<Td  backgroundColor="white"   style={{padding:"5px 30px" , borderBottom: "none"}}>
-  <Input type="number" bgColor={"white"} height="6vh" padding="0" border="1px solid black" value={goalNumber} width="3.5vw" isReadOnly={assignAll} />
+<Td  backgroundColor="white"  width="33.3%"   style={{padding:"5px 30px" , borderBottom: "none"}}>
+  <Input type="number" bgColor={"white"} height="5vh" fontFamily="poppinsreg" padding="0" border="1px solid #ced4da" value={goalNumber} width="2.5vw" isReadOnly={assignAll} />
 </Td>
 </Tr>
 ))}

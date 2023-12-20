@@ -25,7 +25,7 @@ export default function Details() {
 
   return (
     <>
-      <Box margin="2rem 20px 0 0" bg="white" height="415px" width="35.2vw" padding="24px" borderRadius="18px" border="1px solid #ccc" >
+      <Box margin="2rem 20px 0 0" bg="white" height="415px" width="448px" padding="24px" borderRadius="18px" border="1px solid #ccc" >
         {/* <Heading fontSize="2xl" mb="4">User Details</Heading> */}
         <form onSubmit={handleSubmit}>
           <Stack spacing={4}>

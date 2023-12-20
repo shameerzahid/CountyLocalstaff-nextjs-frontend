@@ -7,6 +7,7 @@ import 'flatpickr/dist/flatpickr.css';
 import {
   Box,
   Button,
+  ChakraProvider,
   Checkbox,
   Container,
   Divider,
@@ -28,6 +29,7 @@ import {
   Th,
   Thead,
   Tr,
+  extendTheme,
   useDisclosure,
 } from "@chakra-ui/react";
 import Sidebar from "../components/sidebar/Sidebar";
@@ -106,6 +108,21 @@ export default function Goals() {
   const openCalendar = () => {
     calendarRef.current.flatpickr.open()
   }
+
+  const Drawer = {
+    sizes: {
+      menu: {
+        dialog: { maxWidth: "31%" }
+      }
+    }
+  };
+  
+  const customTheme = extendTheme({
+    components: {
+      Drawer
+    }
+  });
+
   return (
     <>
       <div style={{ backgroundColor: "#F4F9F6", display: "flex", flexDirection: "row" }}>
@@ -141,7 +158,7 @@ export default function Goals() {
                   py={2}
                   width="150px"
                   height="45px"
-                  fontSize="0.8rem"
+                  fontSize="sm"
                   fontFamily="poppinsmed"
                   textAlign="center"
                   borderBottom={activeLink1 ? "3px solid #03AF9F" : "none"}
@@ -193,7 +210,11 @@ export default function Goals() {
             >
               Create Goal
             </Button> </Flex> 
+            <ChakraProvider theme={customTheme}>
+
             <AdminAddGoalForm isOpen={isOpen} onClose={onClose} />
+            </ChakraProvider>
+
             {/* <Drawer
             size="md"
             isOpen={isOpen}

@@ -40,7 +40,7 @@ body, html {
   .flatpickr
   {
 
-    height: 7vh;
+    height: 45px;
     width: 100%;
     padding: 2.5vh;
     margin: 0;
@@ -51,6 +51,7 @@ body, html {
   }
   .flatpickr:focus
   {
+    border-color: none;
     box-shadow: 0 0 10px rgba(3, 175, 159, 0.5);
 
   }
