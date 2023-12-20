@@ -1,7 +1,7 @@
 "use client"
 import { Box, Button, FormControl, FormLabel, Input, Stack, Heading } from "@chakra-ui/react";
 import { useState } from "react";
-
+import '../styles/styles.css'
 export default function Details() {
   const [formData, setFormData] = useState({
     firstName: "",
@@ -30,12 +30,13 @@ export default function Details() {
         <form onSubmit={handleSubmit}>
           <Stack spacing={4}>
             <FormControl id="firstName">
-              <FormLabel fontSize="0.8rem">First Name</FormLabel>
+              <FormLabel fontSize="0.8rem" fontFamily="poppinsmed">First Name</FormLabel>
               <Input
                 type="text"
                 name="firstName"
                 value={formData.firstName}
                 placeholder="First Name"
+                fontFamily="poppinsmed"
                 onChange={handleChange}
                 height="49px"
                 borderColor="black"
@@ -45,13 +46,14 @@ export default function Details() {
             </FormControl>
 
             <FormControl id="lastName">
-              <FormLabel fontSize="0.8rem">Last Name</FormLabel>
+              <FormLabel fontSize="0.8rem" fontFamily="poppinsmed">Last Name</FormLabel>
               <Input
                 type="text"
                 name="lastName"
                 value={formData.lastName}
                 placeholder="Last Name"
                 onChange={handleChange}
+                fontFamily="poppinsmed"
                 height="45px"
                 borderColor="black"
                 _focus={{
@@ -60,23 +62,24 @@ export default function Details() {
             </FormControl>
 
             <FormControl id="email">
-              <FormLabel fontSize="0.8rem">Email</FormLabel>
+              <FormLabel fontSize="0.8rem" fontFamily="poppinsmed">Email</FormLabel>
               <Input
                 type="email"
                 name="email"
                 value={formData.email}
                 placeholder="Example@gmail.com"
                 onChange={handleChange}
+                fontFamily="poppinsmed"
                 borderColor="black"
                 height="45px"
                 _focus={{
                     boxShadow: '0 0 10px rgba(3, 175, 159, 0.5)'}}
               />
             </FormControl>
-            <Button border="1px solid #03AF9F" bg='white' color="#03AF9F" height="42px" _hover={{ bg: '#03AF9F', color: "white" }} size="lg">
+            <Button border="1px solid #03AF9F" fontFamily="lato700" bg='white' color="#03AF9F" height="42px" _hover={{ bg: '#03AF9F', color: "white" }} size="lg">
               Change Password
             </Button>
-            <Button bg='#03AF9F' color="white" height="42px" _hover={{ bg: '#0d7a79' }} size="lg">
+            <Button bg='#03AF9F' color="white" fontFamily="lato700" height="42px" _hover={{ bg: '#0d7a79' }} size="lg">
               Update
             </Button>
           </Stack>

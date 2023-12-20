@@ -1,6 +1,6 @@
 "use client"
 import { Box, Button, Divider, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Flex, FormLabel, Heading, Input, Select, Stack, Text, useDisclosure } from "@chakra-ui/react";
-import { useState } from "react";
+import '../styles/styles.css'
 // import { useRef } from "react";
 
 export default function AdminAddUserForm({ isOpen, onClose, name, username, email, role, edit,id }) {
@@ -34,18 +34,19 @@ export default function AdminAddUserForm({ isOpen, onClose, name, username, emai
         <DrawerOverlay />
         <DrawerContent style={{ borderTopLeftRadius: '1.5rem', borderBottomLeftRadius: '1.5rem', paddingTop: '1.5rem'}}>
           <DrawerCloseButton style={{marginTop: "2rem"}} />
-          <DrawerHeader>
+          <DrawerHeader fontFamily="lato700" fontSize="1.4rem">
             Add User
           </DrawerHeader>
 
           <DrawerBody  marginBottom="3vh" className="drawercontainer">
             <Stack spacing='24px'>
               <Box>
-                <FormLabel htmlFor='username'>First Name</FormLabel>
+                <FormLabel htmlFor='username' fontFamily="poppinsreg">First Name</FormLabel>
                 <Input
                 type="text"
                 name="firstName"
                 height="50px"
+                fontFamily="poppinsreg"
                 value={name}
                 onChange={(e) => setNewName(e.target.value) }
                 placeholder="Enter First Name"
@@ -53,11 +54,12 @@ export default function AdminAddUserForm({ isOpen, onClose, name, username, emai
                     boxShadow: '0 0 10px rgba(3, 175, 159, 0.5)'}}
               /></Box>
                 <Box>
-                <FormLabel htmlFor='username'>Last Name</FormLabel>
+                <FormLabel htmlFor='username' fontFamily="poppinsreg">Last Name</FormLabel>
                 <Input
                 type="text"
                 name="lastName"
                 value={username}
+                fontFamily="poppinsreg"
                 placeholder="Enter last Name"
                 height="50px"
                 _focus={{
@@ -66,11 +68,12 @@ export default function AdminAddUserForm({ isOpen, onClose, name, username, emai
               
               </Box>
               <Box>
-                <FormLabel htmlFor='username'>Email</FormLabel>
+                <FormLabel htmlFor='username' fontFamily="poppinsreg">Email</FormLabel>
                 <Input
                 type="text"
                 name="Email"
                 value={email}
+                fontFamily="poppinsreg"
                 placeholder="Enter Email"
                 height="50px"
                 _focus={{
@@ -82,11 +85,12 @@ export default function AdminAddUserForm({ isOpen, onClose, name, username, emai
                     !edit &&
                     <Box>
                    
-                    <FormLabel htmlFor='username'>Password</FormLabel>
+                    <FormLabel htmlFor='username' fontFamily="poppinsreg">Password</FormLabel>
                     <Input
                     type="text"
                     name="Password"
                     placeholder="Enter Password"
+                    fontFamily="poppinsreg"
                     height="50px"
                     _focus={{
                         boxShadow: '0 0 10px rgba(3, 175, 159, 0.5)'}}
@@ -95,8 +99,8 @@ export default function AdminAddUserForm({ isOpen, onClose, name, username, emai
                 } 
             
               <Box>
-                <FormLabel htmlFor='owner'>Role</FormLabel>
-                <Select id='owner' defaultValue={role} height="50px">
+                <FormLabel htmlFor='owner' fontFamily="poppinsreg">Role</FormLabel>
+                <Select id='owner' defaultValue={role}  fontFamily="poppinsreg" height="50px">
   <option value={0} disabled>Select Role</option>
   <option value={1}>Super Admin</option>
   <option value={2}>Admin</option>

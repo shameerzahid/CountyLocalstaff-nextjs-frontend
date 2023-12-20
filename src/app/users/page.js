@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import Details from "../components/Details";
 import UserTable from "../components/UserTable";
 import AdminAddUserForm from "../components/AdminAddUserForm"
+import '../styles/styles.css'
 import './user.css'
 export default function Users() {
   const [activeLink1, setActiveLink1] = useState(true);
@@ -29,7 +30,7 @@ export default function Users() {
       <div className="usertop" style={{ backgroundColor: "#F4F9F6", display: "flex", flexDirection: "row" }}>
         <Sidebar />
         <Box margin="25px 40px 0 40px" width="calc(100% - 11vw)">
-          <Heading fontSize="2.4rem">Users</Heading>
+          <Heading fontSize="2.4rem" fontFamily="lato700" color="#0B393E">Users</Heading>
           <Flex
             as="nav"
             align="center"
@@ -62,6 +63,7 @@ export default function Users() {
                 textAlign="center"
                 borderBottom={activeLink1 ? "3px solid #03AF9F" : "none"}
                 height="43px"
+                fontFamily="poppinsmed"
                 width="110px"
                 onClick={() => handleLinkClick(1)}
               >
@@ -74,6 +76,7 @@ export default function Users() {
                 fontSize="0.8rem"
                 textAlign="center"
                 height="43px"
+                fontFamily="poppinsmed"
                 borderBottom={activeLink2 ? "3px solid #03AF9F" : "none"}
                 width="76px"
                 onClick={() => handleLinkClick(2)}

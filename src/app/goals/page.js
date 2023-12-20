@@ -34,6 +34,7 @@ import Sidebar from "../components/sidebar/Sidebar";
 import { useRef } from "react";
 import { GoGoal } from "react-icons/go";
 import AdminCurrentGoal from "../components/AdminCurrentgoal";
+import '../styles/styles.css'
 import AdminUpcomingGoal from "../components/AdminUpcomingGoal";
 
 export default function Goals() {
@@ -110,7 +111,7 @@ export default function Goals() {
       <div style={{ backgroundColor: "#F4F9F6", display: "flex", flexDirection: "row" }}>
         <Sidebar />
         <Box margin="25px 40px 20px 40px" width="calc(100% - 11vw)">
-          <Heading fontSize="4xl">Goals</Heading>
+          <Heading fontSize="2.4rem" fontFamily="lato700" color="#0B393E">Goal</Heading>
           <Flex
             as="nav"
             align="center"
@@ -140,7 +141,8 @@ export default function Goals() {
                   py={2}
                   width="150px"
                   height="45px"
-                  fontSize="sm"
+                  fontSize="0.8rem"
+                  fontFamily="poppinsmed"
                   textAlign="center"
                   borderBottom={activeLink1 ? "3px solid #03AF9F" : "none"}
                   // _hover={{ borderBottom: "2px solid #4CAF50" }}
@@ -154,7 +156,8 @@ export default function Goals() {
                   py={2}
                   textAlign="center"
                   height="45px"
-                  fontSize="sm"
+                  fontSize="0.8rem"
+                  fontFamily="poppinsmed"
                   borderBottom={activeLink2 ? "3px solid #03AF9F" : "none"}
                   width="150px"
                   // _hover={{ borderBottom: "2px solid #4CAF50" }}
