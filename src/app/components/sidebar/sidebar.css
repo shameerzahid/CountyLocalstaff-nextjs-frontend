@@ -1,70 +1,68 @@
 .sidebarlogo{
-    margin-left: 40px;
-    margin-top: 1vh;
-    margin-bottom: 4vh;
-    width: 10rem;
+  margin-left: 40px;
+  margin-top: 1vh;
+  margin-bottom: 4vh;
+  width: 10rem;
+}
+.Image-Hover:hover{
+color: aqua;
+fill: #03AF9F;
 }
 .sidebarlogosmall
 {
-  margin-left: 36px;
-  margin-top: 2vh;
-  /* margin-bottom: 4vh; */
-  /* width: 70px; */
-  height: 60px;
+margin-left: 36px;
+margin-top: 2vh;
+/* margin-bottom: 4vh; */
+/* width: 70px; */
+height: 60px;
 }
 .sidelogo{
-    height: 4vh;
+  height: 4vh;
 }
 .text
 {
-    font-size: 2.5vh;
+  font-size: 2.5vh;
 }
 /* styles.css */
 .active {
-    background-color: white !important;
-    color: #03AF9F;
-  }
-  /* .sidebarlink:hover {
+  background-color: white !important;
+  color: #03AF9F;
+  border-right: 4px solid  #03AF9F;
+}
+/* .sidebarlink:hover {
+  text-decoration: none;
+  background-color: white;
+  color: #03AF9F;
+  /* Include any other hover styles you want */
+/* } */
+.sidebarlink
+{
+  overflow: 'hidden';
+  height: 55px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  &:hover {
     text-decoration: none;
     background-color: white;
+  }
+}
+.hover
+{
+  width: 100%;
+  &:hover {
     color: #03AF9F;
-    /* Include any other hover styles you want */
-  /* } */ 
-  .sidebarlink
-  {
-    overflow: 'hidden';
-    height: 55px;
-   
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-    &:hover {
-      text-decoration: none;
-      background-color: white;
-    }
+    border-right: 4px solid  #03AF9F;
   }
-  .hover
-  {
-    width: 100%;
-    &:hover {
-      color: #03AF9F;
-    }
+}
+/* responsiveness */
+.sidebartop
+{
+  height: 100vh;
+}
+@media screen and (max-width: 770px){
+  .sidebartop {
+    height: 50vh !important;
   }
-
-  /* responsiveness */
-
-  .sidebartop
-  {
-    height: 100vh;
-  }
-  @media screen and (max-width: 770px){
-    .sidebartop {
-      height: 50vh !important;
-    }
-  }
-    /* Handle hover state */
-   
-  
-    /* Apply styles based on isActive */
-
-
-  
+}
+  /* Handle hover state */
+  /* Apply styles based on isActive */
