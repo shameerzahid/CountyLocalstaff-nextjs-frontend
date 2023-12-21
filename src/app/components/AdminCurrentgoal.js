@@ -1,5 +1,5 @@
 "use client"
-import { Table, Thead, Tbody, Tr, Th, Td, Button, Flex, Text, useToken, useDisclosure } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td, Button, Flex, Text, useToken, useDisclosure, Progress } from "@chakra-ui/react";
 import { FaCalendarAlt } from "react-icons/fa";
 import { GoGoal } from "react-icons/go";
 import { GiStairsGoal, GiTrophyCup } from "react-icons/gi";
@@ -39,32 +39,34 @@ export default function AdminCurrentGoal() {
               id: 1,
               name: "John Do22",
               lastupdated: "00-00-0000",
-              progress: "john@example.com",
+              progress: "0% completed",
+              bonus: "0% bonus"
             },
             {
               id: 2,
               name: "John Doe",
               lastupdated: "00-00-0000",
-              progress: "john@example.com",
+              progress: "0% completed",
+              bonus: "0% bonus"
             },
               {
                 id: 1,
                 name: "John Doe",
                 lastupdated: "00-00-0000",
-                progress: "john@example.com",
-              },
+                progress: "0% completed",
+                bonus: "0% bonus"              },
               {
                 id: 1,
                 name: "John Doe",
                 lastupdated: "00-00-0000",
-                progress: "john@example.com",
-              },
+                progress: "0% completed",
+                bonus: "0% bonus"              },
               {
                 id: 1,
                 name: "John Doe",
                 lastupdated: "00-00-0000",
-                progress: "john@example.com",
-              },
+                progress: "0% completed",
+                bonus: "0% bonus"              },
              
             // Add more users as needed
           ];
@@ -140,8 +142,8 @@ export default function AdminCurrentGoal() {
                     <Tr key={user.id} style={{ height: "4.5rem", boxShadow: '0px 4px 16px -4px rgba(0, 0, 0, 0.12)', borderRadius:"6px"}}>
                       <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "20%",fontFamily:"poppinsreg", fontSize: "14px"}} >{user.name}</Td>
                       <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "20%", fontFamily:"poppinsreg", fontSize: "14px"}} >{user.lastupdated}</Td>
-                      <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "45%", fontFamily:"poppinsreg", fontSize: "14px"}} >{user.progress}
-                      
+                      <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "45%", fontFamily:"poppinsreg", fontSize: "14px"}} >{user.progress} + <span style={{color: "#03AF9F"}}>{user.bonus}</span>
+                      <Progress value={0} size='md' />
                       </Td>
                       <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "15%"}} >
                       <Button  fontSize="16px" fontFamily="poppinsmed" height="38px" border="1px solid #03AF9F" borderRadius="0.25rem" lineHeight="24px" fontWeight="400" bg='transparent' color="#03AF9F"  _hover={{ bg: '#03AF9F', color: "white" }}>

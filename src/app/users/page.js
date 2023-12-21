@@ -19,21 +19,20 @@ import {
   Text,
   useDisclosure,
   ChakraProvider,
-  extendTheme
+  extendTheme,
 } from "@chakra-ui/react";
-
 import Sidebar from "../components/sidebar/Sidebar";
 import { useRef, useState } from "react";
 import Details from "../components/Details";
 import UserTable from "../components/UserTable";
 import AdminAddUserForm from "../components/AdminAddUserForm";
+import "../styles/styles.css";
 import "./user.css";
 export default function Users() {
   const [activeLink1, setActiveLink1] = useState(true);
   const [activeLink2, setActiveLink2] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   // const initialFocusRef = useRef();
-
   const handleLinkClick = (index) => {
     if (index === 1) {
       setActiveLink1(true);
@@ -43,21 +42,18 @@ export default function Users() {
       setActiveLink2(true);
     }
   };
-
   const Drawer = {
     sizes: {
       menu: {
-        dialog: { maxWidth: "31%" }
-      }
-    }
+        dialog: { maxWidth: "31%" },
+      },
+    },
   };
-  
   const customTheme = extendTheme({
     components: {
-      Drawer
-    }
+      Drawer,
+    },
   });
-
   return (
     <>
       <div
@@ -70,7 +66,9 @@ export default function Users() {
       >
         <Sidebar />
         <Box margin="25px 40px 0 40px" width="calc(100% - 11vw)">
-          <Heading fontSize="2.4rem">Users</Heading>
+          <Heading fontSize="2.4rem" fontFamily="lato700" color="#0B393E">
+            Users
+          </Heading>
           <Flex
             as="nav"
             align="center"
@@ -103,8 +101,10 @@ export default function Users() {
                   textAlign="center"
                   borderBottom={activeLink1 ? "3px solid #03AF9F" : "none"}
                   height="43px"
+                  fontFamily="poppinsmed"
                   width="110px"
                   onClick={() => handleLinkClick(1)}
+                  zIndex={activeLink1 ? 999 : "auto"}
                 >
                   My Details
                 </Text>
@@ -115,9 +115,11 @@ export default function Users() {
                   fontSize="0.8rem"
                   textAlign="center"
                   height="43px"
+                  fontFamily="poppinsmed"
                   borderBottom={activeLink2 ? "3px solid #03AF9F" : "none"}
                   width="76px"
                   onClick={() => handleLinkClick(2)}
+                  zIndex={activeLink2 ? 999 : "auto"}
                 >
                   Users
                 </Text>
@@ -130,7 +132,7 @@ export default function Users() {
                   bg="#03AF9F"
                   color="white"
                   height="36px"
-                  _hover={{ bg: "#0d7a79" }}
+                  _hover={{ bg: "#0D7A79" }}
                 >
                   Add User
                 </Button>
@@ -146,7 +148,7 @@ export default function Users() {
           </Flex>
           <Divider
             orientation="horizontal"
-            marginTop="-26px"
+            marginTop="-24px"
             border="1px solid #ccc"
           />
           {activeLink1 && <Details />}

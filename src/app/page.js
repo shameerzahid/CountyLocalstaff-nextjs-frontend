@@ -46,7 +46,7 @@ export default function Page() {
 
       </Box>
       <Center>
-      <Button className="button" bg='#03AF9F' color="white"  _hover={{ bg: '#0d7a79' }} size="lg" onClick={() => router.push('/users')} >
+      <Button className="button" bg='#03AF9F' color="white"  _hover={{ bg: '#0d7a79' }} size="lg" onClick={() => router.push('/goals')} >
        <Text fontSize="lato400" fontFamily="poppinsreg">Login</Text> 
         </Button>
       </Center>

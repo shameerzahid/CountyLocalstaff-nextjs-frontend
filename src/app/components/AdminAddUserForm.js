@@ -1,6 +1,6 @@
 "use client";
+import React, { useState } from "react";
 import {
-  ChakraProvider,
   Box,
   Button,
   Divider,
@@ -12,6 +12,10 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
   FormLabel,
   Heading,
   Input,
@@ -19,11 +23,9 @@ import {
   Stack,
   Text,
   useDisclosure,
-  extendTheme,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import "../styles/styles.css";
 // import { useRef } from "react";
-
 export default function AdminAddUserForm({
   isOpen,
   onClose,
@@ -44,12 +46,21 @@ export default function AdminAddUserForm({
   const UpdateUser = () => {
     console.log("User Updated");
   };
-
   const SaveUser = () => {
     if (!id) AddUser();
     else UpdateUser();
   };
-
+  const [isHovered, setIsHovered] = useState(false);
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+  const style = {
+    background: isHovered ? "green " : "yellow",
+    // Add other styles as needed
+  };
   return (
     <div>
       <Drawer
@@ -68,16 +79,21 @@ export default function AdminAddUserForm({
           }}
         >
           <DrawerCloseButton style={{ marginTop: "2rem" }} />
-          <DrawerHeader>Add User</DrawerHeader>
-
+          <DrawerHeader fontFamily="lato700" fontSize="1.4rem">
+            Add User
+          </DrawerHeader>
           <DrawerBody marginBottom="3vh" className="drawercontainer">
             <Stack spacing="24px">
               <Box>
-                <FormLabel htmlFor="username">First Name</FormLabel>
+                <FormLabel htmlFor="username" fontFamily="poppinsreg">
+                  First Name
+                </FormLabel>
                 <Input
                   type="text"
                   name="firstName"
                   height="50px"
+                  style={{ border: "1px solid #979797", borderRadius: "10px" }}
+                  fontFamily="poppinsreg"
                   value={name}
                   onChange={(e) => setNewName(e.target.value)}
                   placeholder="Enter First Name"
@@ -87,12 +103,16 @@ export default function AdminAddUserForm({
                 />
               </Box>
               <Box>
-                <FormLabel htmlFor="username">Last Name</FormLabel>
+                <FormLabel htmlFor="username" fontFamily="poppinsreg">
+                  Last Name
+                </FormLabel>
                 <Input
                   type="text"
                   name="lastName"
                   value={username}
+                  fontFamily="poppinsreg"
                   placeholder="Enter last Name"
+                  style={{ border: "1px solid #979797", borderRadius: "10px" }}
                   height="50px"
                   _focus={{
                     boxShadow: "0 0 10px rgba(3, 175, 159, 0.5)",
@@ -100,13 +120,17 @@ export default function AdminAddUserForm({
                 />
               </Box>
               <Box>
-                <FormLabel htmlFor="username">Email</FormLabel>
+                <FormLabel htmlFor="username" fontFamily="poppinsreg">
+                  Email
+                </FormLabel>
                 <Input
                   type="text"
                   name="Email"
                   value={email}
+                  fontFamily="poppinsreg"
                   placeholder="Enter Email"
                   height="50px"
+                  style={{ border: "1px solid #979797", borderRadius: "10px" }}
                   _focus={{
                     boxShadow: "0 0 10px rgba(3, 175, 159, 0.5)",
                   }}
@@ -114,22 +138,42 @@ export default function AdminAddUserForm({
               </Box>
               {!edit && (
                 <Box>
-                  <FormLabel htmlFor="username">Password</FormLabel>
+                  <FormLabel htmlFor="username" fontFamily="poppinsreg">
+                    Password
+                  </FormLabel>
                   <Input
                     type="text"
                     name="Password"
                     placeholder="Enter Password"
+                    fontFamily="poppinsreg"
                     height="50px"
+                    style={{
+                      border: "1px solid #979797",
+                      borderRadius: "10px",
+                    }}
                     _focus={{
                       boxShadow: "0 0 10px rgba(3, 175, 159, 0.5)",
                     }}
                   />
                 </Box>
               )}
-
               <Box>
-                <FormLabel htmlFor="owner">Role</FormLabel>
-                <Select id="owner" defaultValue={role} height="50px">
+                <FormLabel htmlFor="owner" fontFamily="poppinsreg">
+                  Role
+                </FormLabel>
+                <Select
+                  id="owner"
+                  defaultValue={role}
+                  appearance={"none"}
+                  fontFamily="poppinsreg"
+                  style={{
+                    border: "1px solid #979797",
+                    borderRadius: "10px",
+                  }}
+                  height="50px"
+                  focusBorderColor="#0D7A79" // Set the desired color for the border on focus
+                  focusBorderWidth="2px" // Set the desired border width on focus
+                >
                   <option value={0} disabled>
                     Select Role
                   </option>
@@ -143,12 +187,11 @@ export default function AdminAddUserForm({
                 onClick={() => SaveUser()}
                 bg="#03AF9F"
                 color="white"
-                _hover={{ bg: "#0d7a79" }}
+                _hover={{ bg: "#0D7A79" }}
                 size="lg"
               >
                 Save
               </Button>
-              {/* </Box> */}
             </Stack>
           </DrawerBody>
         </DrawerContent>
