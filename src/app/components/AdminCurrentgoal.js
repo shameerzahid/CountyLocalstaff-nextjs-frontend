@@ -37,14 +37,14 @@ export default function AdminCurrentGoal() {
         const users = [
             {
               id: 1,
-              name: "John Do22",
+              name: "Bob Williams ",
               lastupdated: "00-00-0000",
               progress: "0% completed",
               bonus: "0% bonus"
             },
             {
               id: 2,
-              name: "John Doe",
+              name: "Usertest test",
               lastupdated: "00-00-0000",
               progress: "0% completed",
               bonus: "0% bonus"
@@ -129,20 +129,20 @@ export default function AdminCurrentGoal() {
         <Table className="table" style={{borderCollapse:"separate", borderSpacing:"0 1.2em"}} variant="striped"  size="md"  bg="white" >
         <Thead backgroundColor="white"         >
           <Tr  style={{height: "52px"}} >
-                    <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem", fontFamily:"poppinsreg",color: "#0B393E", width: "20%"}} >Users</Th>
-                    <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem", fontFamily:"poppinsreg",color: "#0B393E", width: "20%"}}>Last Updated</Th>
-                    <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem", fontFamily:"poppinsreg",color: "#0B393E", width: "45%"}}>progress</Th>
-                    <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem", fontFamily:"poppinsreg",color: "#0B393E", width: "15%"}}></Th>
+                    <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem", fontFamily: "poppinsmed",fontWeight: '500',color: "#0B393E", width: "20%"}} >Users</Th>
+                    <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem", fontFamily: "poppinsmed",fontWeight: '500',color: "#0B393E", width: "20%"}}>Last Updated</Th>
+                    <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem",fontFamily: "poppinsmed",fontWeight: '500',color: "#0B393E", width: "45%"}}>progress</Th>
+                    <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem", fontFamily: "poppinsmed",fontWeight: '500',color: "#0B393E", width: "15%"}}></Th>
                   </Tr>
                 </Thead> </Table></div>
-                <div className="tablecontainer" style={{  height: "60vh", overflowY: "auto", backgroundColor: "white" }}>
+                <div className="tablecontainer" style={{  height: "60vh", width: "100%", overflowY: "auto", backgroundColor: "white" }}>
         <Table className="table"  style={{borderCollapse:"separate", width: "100%", borderSpacing:"0 0.6em"}} variant="striped"  size="md"  bg="white" height={`${numRows * rowHeight}vh`}>
                 <Tbody>
                   {users.slice(0, numRows).map((user,index) => (
                     <Tr key={user.id} style={{ height: "4.5rem", boxShadow: '0px 4px 16px -4px rgba(0, 0, 0, 0.12)', borderRadius:"6px"}}>
                       <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "20%",fontFamily:"poppinsreg", fontSize: "14px"}} >{user.name}</Td>
-                      <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "20%", fontFamily:"poppinsreg", fontSize: "14px"}} >{user.lastupdated}</Td>
-                      <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "45%", fontFamily:"poppinsreg", fontSize: "14px"}} >{user.progress} + <span style={{color: "#03AF9F"}}>{user.bonus}</span>
+                      <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 20px", borderTop: "0.1px solid  #ccc", width: "20%", fontFamily:"poppinsreg", fontSize: "14px"}} >{user.lastupdated}</Td>
+                      <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "45%", fontFamily:"poppinsreg", fontSize: "12px"}} >{user.progress} + <span style={{color: "#03AF9F"}}>{user.bonus}</span>
                       <Progress value={0} size='md' />
                       </Td>
                       <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "15%"}} >

@@ -34,42 +34,44 @@ import { useRef } from "react";
 import flatpickr from "flatpickr";
 import { GoGoal } from "react-icons/go";
 import '../styles/styles.css'
+import Image from "next/image";
+import calendersvg from '../../../public/calender.svg'
 export default function AdminAddGoalForm({ isOpen, onClose}) {
 
-    const users = ["User 1", "User 2", "User 3"];
+    const users = ["Bob williams", "dob chef", "User 3", "dob chef"];
   const [assignAll, setAssignAll] = useState(false);
   const [goalNumber, setGoalNumber] = useState("");
   const [checkedUsers, setCheckedUsers] = useState({}); // Store the checked state of individual checkboxes
 
-  const handleAssignAllChange = () => {
-    setAssignAll(!assignAll);
-    // If "Assign All" is checked, mark all users as checked
-    if (!assignAll) {
-      const allCheckedUsers = {};
-      users.forEach((user) => {
-        allCheckedUsers[user] = true;
-      });
-      setCheckedUsers(allCheckedUsers);
-    } else {
-      setCheckedUsers({}); // If "Assign All" is unchecked, uncheck all users
-    }
-  };
+  // const handleAssignAllChange = () => {
+  //   setAssignAll(!assignAll);
+  //   // If "Assign All" is checked, mark all users as checked
+  //   if (!assignAll) {
+  //     const allCheckedUsers = {};
+  //     users.forEach((user) => {
+  //       allCheckedUsers[user] = true;
+  //     });
+  //     setCheckedUsers(allCheckedUsers);
+  //   } else {
+  //     setCheckedUsers({}); // If "Assign All" is unchecked, uncheck all users
+  //   }
+  // };
 
-  const handleUserCheckboxChange = (user) => {
+  // const handleUserCheckboxChange = (user) => {
     // Update the state for the individual checkbox
-    setCheckedUsers((prevCheckedUsers) => ({
-      ...prevCheckedUsers,
-      [user]: !prevCheckedUsers[user],
-    }));
+  //   setCheckedUsers((prevCheckedUsers) => ({
+  //     ...prevCheckedUsers,
+  //     [user]: !prevCheckedUsers[user],
+  //   }));
     
-    // Check if all individual checkboxes are checked and update "Assign All" accordingly
-    const allUsersChecked = users.every((u) => checkedUsers[u]);
-    setAssignAll(allUsersChecked);
-  };
+  //   Check if all individual checkboxes are checked and update "Assign All" accordingly
+  //   const allUsersChecked = users.every((u) => checkedUsers[u]);
+  //   setAssignAll(allUsersChecked);
+  // };
 
-  const handleGoalNumberChange = (event) => {
-    setGoalNumber(event.target.value);
-  };
+  // const handleGoalNumberChange = (event) => {
+  //   setGoalNumber(event.target.value);
+  // };
 
 
 
@@ -91,6 +93,15 @@ export default function AdminAddGoalForm({ isOpen, onClose}) {
   const rowHeight = 3; // Set the desired height for each row in vh
   const numRows = Math.min(Math.floor(70 / rowHeight), users.length); // Calculate the number of rows that fit within 70vh
   const bg = useToken('colors', '#F6F6F6')
+  const CalendarIcon = () => (
+    <Image
+      style={{ marginLeft: "15px" }}
+      src="calender.svg"
+      width={17}
+      height={17}
+      alt="icon"
+    />
+  );
  return(
     <div >
     <Drawer
@@ -117,28 +128,57 @@ onClose={onClose}
     {/* <Button onClick={openCalendar}  bg='#03AF9F' color="white" _hover={{ bg: '#0d7a79' }} size="lg">
   Save
 </Button> */}
-<Container onClick={openCalendar} placeholder="" padding={0} margin={0}>
-<div className="datepicker-container">
-{/* <div className="datepicker-input-container">
-<input
-type="text"
-placeholder="Please select date"
-readOnly
-/>
-</div> */}
- <Flatpickr
-        ref={calendarRef}
-        placeholder="Please select date"
-        style={{borderRadius: "10px"}}
-       className="flatpickr"
-        options={options}
-        value={[]}
-        onChange={(dates) => console.log(dates)}
-      >       
-      </Flatpickr></div> </Container>
+<Container
+                onClick={openCalendar}
+                placeholder="Select Date"
+                style={{ width: "fit-content" }}
+                padding={0}
+                margin={0}
+                borderRadius= "10px"
+
+              >
+                <div
+                  className="datepicker-container"
+                  style={{
+                    // padding: "2px",
+                    position: "relative",
+                    width: "27vw",
+                    height: "45px",
+
+                  }}
+                >
+                  <Image
+                    style={{
+                      marginLeft: "15px",
+                      position: "absolute",
+                      top: "30%",
+                    }}
+                    src="calender.svg"
+                    width={17}
+                    height={17}
+                    alt="icon"
+                  />
+                  <Flatpickr
+                    style={{
+                      border: "1px solid #ccc",
+                      borderRadius: "4px",
+                    }}
+                    ref={calendarRef}
+                    placeholder="Select date"
+                    className="flatpickr"
+                    options={options}
+                    value={[]}
+                    onChange={(dates) => console.log(dates)}
+                  >
+                    <div className="datepicker-container">
+                      <CalendarIcon />
+                    </div>
+                  </Flatpickr>
+                </div>{" "}
+              </Container>
   </Box>
          <Box>
-    <FormLabel htmlFor='username' fontFamily="poppinsmed" fontSize="14px">Goal Rewards</FormLabel>
+    <FormLabel htmlFor='username' fontFamily="poppinsmed" fontSize="14px" color="#000000" >Goal Rewards</FormLabel>
     <Input
     type="text"
     name="Email"
@@ -151,7 +191,7 @@ readOnly
   
   </Box>
   <Box>
-    <FormLabel htmlFor='username' fontFamily="poppinsmed" fontSize="14px">Bonus Goal</FormLabel>
+    <FormLabel htmlFor='username' fontFamily="poppinsmed" fontSize="14px" color="#000000">Bonus Goal</FormLabel>
     <Input
     type="number"
     name="Email"
@@ -163,13 +203,15 @@ readOnly
   />
   
   </Box >
-  <Checkbox fontFamily="lato" fontSize="13px">Repeat</Checkbox>
-        <Box p={4}>
-        <Table size="md"  bg="white">
+  <Checkbox  >
+    <Text fontWeight="500" color="#494949" fontFamily="lato" fontSize="13px">Repeat</Text>
+    </Checkbox>
+        <Box paddingLeft={4} paddingRight={4} paddingTop={0} >
+        <Table size="md"  bg="white"  >
 <Thead> 
 <Tr backgroundColor="#03AF9F" height="8vh">
 <Th style={{borderBottom:"none", padding:"0px 12px"}} fontSize="2vh" width="33.3%">
-<Checkbox isChecked={assignAll} onChange={handleAssignAllChange}>
+<Checkbox>
   <Text  width="6vw" fontFamily="poppinsreg" color="#0B393E" fontSize="13px">Assign All</Text>
 </Checkbox>
 </Th>
@@ -183,8 +225,8 @@ Goal No{" "}
   border="1px solid #ced4da"
   height="5vh"
   backgroundColor="white"
-  value={goalNumber}
-  onChange={handleGoalNumberChange}
+  // value={goalNumber}
+  // onChange={handleGoalNumberChange}
   padding="0"
 />
 </Th>
@@ -200,7 +242,7 @@ Goal No{" "}
   <Text>{user}</Text>
 </Td>
 <Td  backgroundColor="white"  width="33.3%"   style={{padding:"5px 30px" , borderBottom: "none"}}>
-  <Input type="number" bgColor={"white"} height="5vh" fontFamily="poppinsreg" padding="0" border="1px solid #ced4da" value={goalNumber} width="2.5vw" isReadOnly={assignAll} />
+  <Input type="number" bgColor={"white"} height="5vh" fontFamily="poppinsreg" padding="0" border="1px solid #ced4da" width="2.5vw" />
 </Td>
 </Tr>
 ))}

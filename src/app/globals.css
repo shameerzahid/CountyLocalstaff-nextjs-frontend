@@ -20,7 +20,20 @@ body, html {
     width: 4px;               /* width of the entire scrollbar */
 
   }
-  
+  .text-selected:active{
+    box-shadow: 0 0 10px rgba(3, 175, 159, 0.5);
+    border:1px solid #0D7A79 !important;
+  }
+  .text-selected:focus{
+    box-shadow: 0 0 10px rgba(3, 175, 159, 0.5);
+    border:1px solid #0D7A79 !important;
+  }
+  .css-1kfu8nn{
+    width: 0 !important;
+    size: 10px;
+    border: 1px solid #ccc !important;
+    /* height: 200px !important; */
+  }
   .ellipsis:hover{
     color: #03AF9F;
     cursor: pointer;
@@ -37,24 +50,66 @@ body, html {
     display: none;
   }
 
-  .flatpickr
-  {
-
-    height: 45px;
-    width: 100%;
-    padding: 2.5vh;
-    margin: 0;
-    /* padding: 0%; */
-    border: 1px solid #ccc;
-    border-radius: 1vh;
-    /* background-color: red; */
-  }
-  .flatpickr:focus
-  {
-    border-color: none;
-    box-shadow: 0 0 10px rgba(3, 175, 159, 0.5);
-
-  }
+  .active{
+    border-right: none !important;
+    border: none !important;
+    border:1px solid #03AF9F !important;
+    outline: none !important;
+      }
+      .text-select{
+        background-color: white;
+        border: "1px solid #ccc";
+        margin-left: 20px;
+        height: 38px;
+      }
+      .flatpickr
+      {
+    border: "1px solid #ccc";
+        /* height: 45px; */
+        width: 100%;
+        /* padding: 2.5vh; */
+        padding: 8px 10px 8px 47px;
+        margin: 0;
+     border-right: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+      }
+      .flatpickr::placeholder{
+        color: #9E9F9E;
+        font-family: "poppins";
+      }
+      .flatpickr:focus
+      {
+        border-right: none;
+        box-shadow: 0 0 10px rgba(3, 175, 159, 0.5);
+      }
+      .flatpickr:active
+      {
+        border-right: none;
+        box-shadow: 0 0 10px rgba(3, 175, 159, 0.5);
+      }
+      .datepicker-container:active{
+        box-shadow: 0 0 10px rgba(3, 175, 159, 0.5);
+      }
+      .datepicker-container:focus{
+        box-shadow: 0 0 10px rgba(3, 175, 159, 0.5);
+      }
+    .datepicker-container{
+     /* background: white; */
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      /* align-items: center; */
+    }
+    .flatpickr-custom-position {
+      position: absolute;
+      bottom: 0;
+      /* right: 100%;  */
+      transform: translateX(-50%);
+      /* or */
+      /* right: 0; */ /* Right */
+    }
 
   /* table::-webkit-scrollbar {
     display: none;
@@ -176,8 +231,32 @@ body, html {
   .css-3xsu72
   {
     background: #ffcc24 !important;
-    width: 13rem !important;
+    width: 12rem !important;
+    height: 10px !important;
+    margin: auto !important;
     margin-top: 7px;
     border-radius: 10px;
   }
   
+  .Reports{
+    width: 100%;
+    /* background-color: #0B393E; */
+    display: flex ;
+    justify-content: end;
+  }
+  .ReportsSection{
+    width: 83%;
+    /* background-color: #03AF9F; */
+    margin-top: 1rem;
+    padding: 0 9px;
+    display: flex ;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .filter-text{
+    font-size: 1rem;
+    font-weight: 500;
+    transform: translateY(4px);
+    line-height: normal;
+    font-family: "poppinsmed";
+  }

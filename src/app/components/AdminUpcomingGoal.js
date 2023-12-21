@@ -10,20 +10,19 @@ export default function AdminUpcomingGoal() {
             {
               id: 1,
               name: "John Do22",
-              lastupdated: "john_doe",
-              progress: "john@example.com",
+             goalNo: 10
             },
             {
               id: 2,
               name: "John Doe",
-              lastupdated: "john_doe",
-              progress: "john@example.com",
+              goalNo: 10
+
             },
               {
                 id: 1,
                 name: "John Doe",
-                lastupdated: "john_doe",
-                progress: "john@example.com",
+                goalNo: 10
+
               },
              
             // Add more users as needed
@@ -96,10 +95,10 @@ export default function AdminUpcomingGoal() {
         <Table className="table" style={{borderCollapse:"separate", borderSpacing:"0 1.2em"}} variant="striped"  size="md"  bg="white" >
         <Thead backgroundColor="white"         >
           <Tr  style={{height: "52px"}} >
-                    <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem", fontFamily:"poppinsreg",color: "#0B393E", width: "20%"}} >Users</Th>
-                    <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem", fontFamily:"poppinsreg",color: "#0B393E", width: "20%"}}>Last Updated</Th>
-                    <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem", fontFamily:"poppinsreg",color: "#0B393E", width: "45%"}}>progress</Th>
-                    <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem", fontFamily:"poppinsreg",color: "#0B393E", width: "15%"}}></Th>
+                    <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem", fontFamily:"poppinsreg",color: "#0B393E", width: "50%"}} >Users</Th>
+                    {/* <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem", fontFamily:"poppinsreg",color: "#0B393E", width: "20%"}}>Last Updated</Th> */}
+                    <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem",textAlign : "center", fontFamily:"poppinsreg",color: "#0B393E", width: "50%"}}>Goal No</Th>
+                    {/* <Th style={{borderBottom:"none", padding:"0px 16px", fontSize: "0.875rem", fontFamily:"poppinsreg",color: "#0B393E", width: "15%"}}></Th> */}
                   </Tr>
                 </Thead> </Table></div>
                 <div className="tablecontainer" style={{  height: "60vh", overflowY: "auto", backgroundColor: "white" }}>
@@ -107,14 +106,14 @@ export default function AdminUpcomingGoal() {
                 <Tbody>
                   {users.slice(0, numRows).map((user,index) => (
                     <Tr key={user.id} style={{ height: "4.5rem", boxShadow: '0px 4px 16px -4px rgba(0, 0, 0, 0.12)', borderRadius:"6px"}}>
-                      <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "20%",fontFamily:"poppinsreg", fontSize: "14px"}} >{user.name}</Td>
-                      <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "20%", fontFamily:"poppinsreg", fontSize: "14px"}} >{user.lastupdated}</Td>
-                      <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "45%", fontFamily:"poppinsreg", fontSize: "14px"}} >{user.progress}</Td>
-                      <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "15%"}} >
+                      <Td bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "50%",fontFamily:"poppinsreg", fontSize: "14px"}} >{user.name}</Td>
+                      {/* <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "20%", fontFamily:"poppinsreg", fontSize: "14px"}} >{user.lastupdated}</Td> */}
+                      <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "50%", fontFamily:"poppinsreg", fontSize: "14px", textAlign : "center"}} >{user.goalNo}</Td>
+                      {/* <Td  bg={index % 2 === 0 ? `${bg + '!important'}`  : "white"}   style={{padding:"0 16px", borderTop: "0.1px solid  #ccc", width: "15%"}} >
                       <Button  fontSize="16px" fontFamily="poppinsmed" height="38px" border="1px solid #03AF9F" borderRadius="0.25rem" lineHeight="24px" fontWeight="400" bg='transparent' color="#03AF9F"  _hover={{ bg: '#03AF9F', color: "white" }}>
                       Details
                     </Button>
-                      </Td>
+                      </Td> */}
                     </Tr>
                   ))}
                 </Tbody>

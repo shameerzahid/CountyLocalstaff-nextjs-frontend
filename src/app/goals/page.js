@@ -38,16 +38,14 @@ import { GoGoal } from "react-icons/go";
 import AdminCurrentGoal from "../components/AdminCurrentgoal";
 import '../styles/styles.css'
 import AdminUpcomingGoal from "../components/AdminUpcomingGoal";
-
+import NoGoal from '../components/NoGoal'
 export default function Goals() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   
-  const firstField = useRef();
-
   const users = ["User 1", "User 2", "User 3"];
 
   const [assignAll, setAssignAll] = useState(false);
-  const [endGoal, setEndGoal] = useState(true)
+  // const [endGoal, setEndGoal] = useState(false)
   const [goalNumber, setGoalNumber] = useState("");
   const [checkedUsers, setCheckedUsers] = useState({}); // Store the checked state of individual checkboxes
 
@@ -189,27 +187,9 @@ export default function Goals() {
           </Flex>
           <Divider orientation='horizontal' marginTop="-18px" border="1px solid #ccc"/>
           {/* <Tabs /> */}
-          {(activeLink1 && endGoal) && <AdminCurrentGoal />}
+          {(activeLink1) && <AdminCurrentGoal />}
           {activeLink2 && <AdminUpcomingGoal />}
-           <Flex
-            direction="column"
-            align="center"
-            justify="center"
-            h="70vh"
-          >
-            <GoGoal fontSize="7em" color="#03AF9F" />
-            <Heading>No Active Goal</Heading>
-            <Button
-              bg="#03AF9F"
-              color="white"
-              _hover={{ bg: "#0d7a79" }}
-              size="lg"
-              mt={7}
-              width="20vw"
-              onClick={onOpen}
-            >
-              Create Goal
-            </Button> </Flex> 
+          <NoGoal title="No Active Goal" />
             <ChakraProvider theme={customTheme}>
 
             <AdminAddGoalForm isOpen={isOpen} onClose={onClose} />
