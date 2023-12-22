@@ -161,7 +161,7 @@ body, html {
     height: 50px !important;
     margin-top: 1.5vh !important;
     margin-bottom: 2vh !important;
-    border-radius: 14px !important;
+    border-radius: 10px !important;
     border: 1px solid #cbd5e0 !important; /* Add border color as needed */
     padding: 0.75rem !important; /* Adjust padding as needed */
     font-size: 1rem !important; /* Adjust font size as needed */
@@ -186,9 +186,9 @@ body, html {
   }
   .container
   {
-    width: 50vw !important;
-    padding: 3% 15% 10% 16% !important;
-    /* margin-top: 5vh; */
+    width: 34vw !important;
+    /* padding: 45px 90px 50px 90px !important; */
+    margin-top: 45px !important;
   }
   @media only screen and (max-width: 800px) {
     .flexbox{
@@ -237,18 +237,17 @@ body, html {
     margin-top: 7px;
     border-radius: 10px;
   }
-  
   .Reports{
     width: 100%;
     /* background-color: #0B393E; */
     display: flex ;
-    justify-content: end;
+    justify-content: start;
   }
   .ReportsSection{
-    width: 83%;
+    width: 100%;
     /* background-color: #03AF9F; */
     margin-top: 1rem;
-    padding: 0 9px;
+    padding: 0 2px;
     display: flex ;
     justify-content: space-between;
     align-items: center;
@@ -260,7 +259,6 @@ body, html {
     line-height: normal;
     font-family: "poppinsmed";
   }
-
   .flatpickr-goal
   {
 border: "1px solid #ccc";

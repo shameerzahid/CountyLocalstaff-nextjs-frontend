@@ -8,6 +8,8 @@ import {
   Button,
   IconButton,
   Icon,
+  ChakraProvider,
+  extendTheme,
 } from "@chakra-ui/react";
 import { useToken } from "@chakra-ui/react";
 import {
@@ -114,6 +116,18 @@ export default function UserTable() {
     setSelectedUser(user);
     onOpen();
   };
+  const Drawer = {
+    sizes: {
+      menu: {
+        dialog: { maxWidth: "31%" },
+      },
+    },
+  };
+  const customTheme = extendTheme({
+    components: {
+      Drawer,
+    },
+  });
   return (
     <div
       style={{
@@ -378,6 +392,7 @@ export default function UserTable() {
             ))}
           </Tbody>
         </Table>
+        <ChakraProvider theme={customTheme}>
         <AdminAddUserForm
           isOpen={isOpen}
           onClose={onClose}
@@ -388,6 +403,7 @@ export default function UserTable() {
           role={selectedUser.role}
           edit={true}
         />
+        </ChakraProvider>
       </div>{" "}
     </div>
   );

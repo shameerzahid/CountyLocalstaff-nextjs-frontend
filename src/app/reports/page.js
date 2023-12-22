@@ -29,48 +29,46 @@ export default function Reports() {
       id: 1,
       name: "John Do22",
       lastupdated: "00-00-0000",
-      progress: "0% completed",
-      date: "12-20-2023",
+      progress: 0,
+      date: "01-01-2024",
       bonus: "0% bonus",
     },
     {
       id: 2,
       name: "John Doe",
       lastupdated: "00-00-0000",
-      progress: "0% completed",
-      date: "12-20-2023",
+      progress: 25,
+      date: "04-05-2023",
       bonus: "0% bonus",
     },
     {
       id: 1,
       name: "John Doe",
       lastupdated: "00-00-0000",
-      progress: "0% completed",
-      date: "12-20-2023",
+      progress: 70,
+      date: "04-08-2021",
       bonus: "0% bonus",
     },
     {
       id: 1,
       name: "John Doe",
       lastupdated: "00-00-0000",
-      progress: "0% completed",
-      date: "12-20-2023",
+      progress: 50,
+      date: "01-30-2020",
       bonus: "0% bonus",
     },
     {
       id: 1,
       name: "John Doe",
       lastupdated: "00-00-0000",
-      progress: "0% completed",
-      date: "12-20-2023",
+      progress: 100,
+      date: "11-10-2023",
       bonus: "0% bonus",
     },
-
-    // Add more users as needed
   ];
-
+  const [selectedDates, setSelectedDates] = useState([]);
   const options = {
-    minDate: new Date(), // Set minimum date to today
+    // minDate: new Date(), // Set minimum date to today
     mode: "range",
     altInputClass: "hide",
     dateFormat: "m-d-y",
@@ -120,6 +118,44 @@ export default function Reports() {
     setSelectedOption(option);
     setIsOpen(false);
   };
+//filter base on progress
+  const filterUsersByProgress = (users, selectedOption) => {
+    switch (selectedOption) {
+      case "100% and lower":
+        return users.filter((user) => user.progress <= 100);
+      case "70% and lower":
+        return users.filter((user) => user.progress <= 70);
+      case "50% and lower":
+        return users.filter((user) => user.progress <= 50);
+      case "25% and lower":
+        return users.filter((user) => user.progress <= 25);
+      default:
+        return users;
+    }
+  };
+  const filteredUsers = filterUsersByProgress(users, selectedOption);
+
+  //filter base on date 
+  
+  const handleDateChange = (dates) => {
+    setSelectedDates(dates);
+  };
+
+  const filterUsersByDate = (users, selectedDates) => {
+    if (selectedDates.length === 2) {
+      const startDate = new Date(selectedDates[0]);
+      const endDate = new Date(selectedDates[1]);
+      return users.filter(
+        (user) =>
+          new Date(user.date) >= startDate && new Date(user.date) <= endDate
+      );
+    } else {
+      return users;
+    }
+  };
+
+  const filteredUsersByDate = filterUsersByDate(users, selectedDates);
+
   return (
     <>
       <div
@@ -137,22 +173,24 @@ export default function Reports() {
           </Heading>
           <div className="Reports">
             <div className="ReportsSection">
-              <p
+            <div style={{display:'flex',alignItems:'center'}}>
+             <p
                 style={{
-                  padding: "0px 78px 7px 20px",
+                  padding: "0px 0px 7px 0px",
                   fontFamily: "poppins",
                   letterSpacing: ".5px",
                   fontWeight: "600",
-                  color: "#212529",
+                  color: "#0b393e",
                 }}
                 className="filter-text"
               >
                 Filter Goals Date{" "}
               </p>
-              <Container
+           
+            <Container
                 onClick={openCalendar}
                 placeholder="Select Date"
-                style={{ width: "fit-content" }}
+                style={{ width: "fit-content" ,marginLeft:"10px"}}
                 padding={0}
                 margin={0}
               >
@@ -188,8 +226,8 @@ export default function Reports() {
                     placeholder="Select date"
                     className="flatpickr"
                     options={options}
-                    value={[]}
-                    onChange={(dates) => console.log(dates)}
+                    value={selectedDates}
+                    onChange={(dates) => handleDateChange(dates)}
                   >
                     <div className="datepicker-container">
                       <CalendarIcon />
@@ -200,7 +238,7 @@ export default function Reports() {
 
               <Box
                 position="relative"
-                style={{ width: "200px", marginLeft: "0px" }}
+                style={{ width: "250px", marginLeft: "10px" }}
               >
                 <Text
                   onClick={() => setIsOpen(!isOpen)}
@@ -211,7 +249,9 @@ export default function Reports() {
                   style={{
                     border: "1px solid #ccc",
                     display: "flex",
-                    justifyContent: "center",
+                    justifyContent: "start",
+                    padding:"0px 16px",
+                    color: "#03AF9F",
                     alignItems: "center",
                     flexDirection: "row",
                   }}
@@ -219,7 +259,7 @@ export default function Reports() {
                 >
                   {selectedOption ? (
                     <>
-                      <GoalIcon /> <span>{selectedOption}</span>
+                      <GoalIcon /> <span style={{padding:"0px 8px"}}>{selectedOption}</span>
                     </>
                   ) : (
                     <>
@@ -230,6 +270,7 @@ export default function Reports() {
                           fontSize: ".9rem",
                           fontFamily: "poppins",
                           fontWeight: "400",
+                          padding:"0px 8px",
                           marginTop: "2px",
                           marginRight: "8px",
                         }}
@@ -258,6 +299,7 @@ export default function Reports() {
                         style={{
                           padding: "0.25rem 1.5rem",
                           fontFamily: "poppins",
+                          
                           fontSize: "0.9rem",
                           color: "#16181b",
                         }}
@@ -270,16 +312,17 @@ export default function Reports() {
                   </List>
                 )}
               </Box>
+            </div>
               <div>
                 <Button
                   fontSize="14px"
                   fontFamily="poppins"
                   height="38px"
                   border="1px solid #03AF9F"
-                  padding="0.375rem 0.75rem"
+                  padding="0.375rem 0.85rem"
                   borderRadius="0.25rem"
                   lineHeight="21px"
-                  marginLeft="10px"
+                  // marginLeft="10px"
                   fontWeight="400"
                   bg="#03AF9F"
                   color="white"
@@ -293,7 +336,7 @@ export default function Reports() {
                   height="38px"
                   marginLeft="10px"
                   border="1px solid #03AF9F"
-                  padding="0.375rem 0.75rem"
+                  padding="0.375rem 0.8rem"
                   borderRadius="0.2rem"
                   lineHeight="21px"
                   fontWeight="500"
@@ -399,7 +442,7 @@ export default function Reports() {
                 height={`${numRows * rowHeight}vh`}
               >
                 <Tbody>
-                  {users.slice(0, numRows).map((user, index) => (
+                {filteredUsersByDate.slice(0, numRows).map((user, index) => (
                     <Tr
                       key={user.id}
                       style={{
@@ -431,9 +474,9 @@ export default function Reports() {
                           fontSize: "12px",
                         }}
                       >
-                        {user.progress} +{" "}
+                        {user.progress}%Completed +{" "}
                         <span style={{ color: "#03AF9F" }}>{user.bonus}</span>
-                        <Progress value={0} size="md" />
+                        <Progress value={user.progress} size="md" />
                       </Td>
                       <Td
                         bg={index % 2 === 0 ? `${bg + "!important"}` : "white"}

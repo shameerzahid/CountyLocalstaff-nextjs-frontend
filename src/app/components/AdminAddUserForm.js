@@ -70,6 +70,13 @@ export default function AdminAddUserForm({
   ];
   const [selectedOption, setSelectedOption] = useState("");
   const [isOpenn, setIsOpen] = useState(false);
+  const [firstName, setFirstName] = useState(name)
+  const [lastName, setLastName] = useState(username)
+  const [newemail, setNewEmail] = useState(email)
+  const [password, setPassword] = useState("")
+  const [newrole, setNewRole] = ("")
+
+
   const handleOptionClick = (option) => {
     setSelectedOption(option);
     setIsOpen(false);
@@ -107,8 +114,8 @@ export default function AdminAddUserForm({
                   height="50px"
                   style={{ border: "1px solid #979797", borderRadius: "10px" }}
                   fontFamily="poppinsreg"
-                  value={name}
-                  onChange={(e) => setNewName(e.target.value)}
+                  value={firstName}
+                  onChange = {(e) => setFirstName(e.target.value) }
                   placeholder="Enter First Name"
                   _focus={{
                     boxShadow: "0 0 10px rgba(3, 175, 159, 0.5)",
@@ -122,7 +129,8 @@ export default function AdminAddUserForm({
                 <Input
                   type="text"
                   name="lastName"
-                  value={username}
+                  value={lastName}
+                  onChange = {(e) => setLastName(e.target.value) }
                   fontFamily="poppinsreg"
                   placeholder="Enter last Name"
                   style={{ border: "1px solid #979797", borderRadius: "10px" }}
@@ -139,7 +147,8 @@ export default function AdminAddUserForm({
                 <Input
                   type="text"
                   name="Email"
-                  value={email}
+                  value={newemail}
+                  onChange = {(e) => setNewEmail(e.target.value) }
                   fontFamily="poppinsreg"
                   placeholder="Enter Email"
                   height="50px"
@@ -159,6 +168,8 @@ export default function AdminAddUserForm({
                     name="Password"
                     placeholder="Enter Password"
                     fontFamily="poppinsreg"
+                    value={password}
+                    onChange = {(e) => setPassword(e.target.value) }
                     height="50px"
                     style={{
                       border: "1px solid #979797",
