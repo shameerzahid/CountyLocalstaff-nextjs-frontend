@@ -300,42 +300,70 @@ export default function UserTable() {
                     >
                       Edit
                     </Button>
-                    <Menu placement="bottom-end" className="menuItem">
+                    <Menu placement="bottom-end" maxWidth="48px" className="">
                       {({ isOpen }) => (
                         <>
-                          <MenuButton isActive={isOpen}>
-                            <Icon
-                              marginLeft="10px"
-                              bg="transparent"
-                              fontSize="20px"
-                              className="ellipsis"
-                              as={HiOutlineEllipsisVertical}
-                            />
-                          </MenuButton>
+                          <MenuButton
+                            as={IconButton}
+                            _hover={{ bg: "none" }}
+                            _active={{ background: "none" }}
+                            aria-label="Options"
+                            icon={<HiOutlineEllipsisVertical className="ellipsisIcon"/>}
+                            bg="transparent"
+                            fontSize="20px"
+                          />
                           <MenuList
+                            minWidth="150px"
                             style={{
                               backgroundColor: "#F4F9F6",
-
-                              borderRadius: "20px",
+                              border:"1px solid #ccc",
+                              borderRadius: "12px",
                             }}
                           >
                             <MenuItem
                               background={"#F4F9F6"}
-                              pl={4}
+                              pl={2}
+                              style={{
+                                borderRadius: "4px",
+                                width: "130px",
+                                margin: "0 10px",
+                                fontFamily:"Poppins",
+                                color:"black",
+                                padding:"2px 8px"
+                              }}
+                              fontSize={"13px"}
                               _hover={{ background: "#03AF9F" }}
                             >
                               Freeze Account
                             </MenuItem>
                             <MenuItem
                               background={"#F4F9F6"}
-                              pl={4}
+                              style={{
+                                borderRadius: "4px",
+                                width: "130px",
+                                margin: "0 10px",
+                                fontFamily:"Poppins",
+                                color:"black",
+                                padding:"2px 8px"
+                              }}
+                              fontSize={"13px"}
+                              pl={2}
                               _hover={{ background: "#03AF9F" }}
                             >
                               Reset Password
                             </MenuItem>
                             <MenuItem
                               background={"#F4F9F6"}
-                              pl={4}
+                              style={{
+                                borderRadius: "4px",
+                                width: "130px",
+                                margin: "0 10px",
+                                fontFamily:"Poppins",
+                                color:"black",
+                                padding:"2px 8px"
+                              }}
+                              pl={2}
+                              fontSize={"13px"}
                               _hover={{ background: "#03AF9F" }}
                             >
                               Remove Account

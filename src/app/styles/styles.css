@@ -20,3 +20,8 @@
     font-family:  'poppinsmed';
     src: url('../../../public/fonts/Poppins-Medium.ttf');
 }
+.ellipsisIcon:hover{
+    color: #03AF9F;
+    cursor: pointer;
+    transform: scale(1.2); /* Adjust the scale factor as needed */
+  }
