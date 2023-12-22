@@ -74,7 +74,7 @@ export default function Reports() {
     mode: "range",
     altInputClass: "hide",
     dateFormat: "m-d-y",
-    appendTo: document.body, // Append to the body or a specific container
+    // appendTo: document.body, // Append to the body or a specific container
     inline: false,
     // wrap: true,
     maxDate: new Date("01-01-3000"),
