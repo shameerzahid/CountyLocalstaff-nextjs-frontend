@@ -233,7 +233,7 @@ body, html {
     background: #ffcc24 !important;
     width: 12rem !important;
     height: 10px !important;
-    margin: auto !important;
+    /* margin: auto !important; */
     margin-top: 7px;
     border-radius: 10px;
   }
@@ -259,4 +259,18 @@ body, html {
     transform: translateY(4px);
     line-height: normal;
     font-family: "poppinsmed";
+  }
+
+  .flatpickr-goal
+  {
+border: "1px solid #ccc";
+    /* height: 45px; */
+    width: 100%;
+    /* padding: 2.5vh; */
+    padding: 8px 10px 8px 47px;
+    margin: 0;
+ border-right: none;
+display: flex;
+justify-content: center;
+align-items: center;
   }

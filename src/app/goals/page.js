@@ -41,11 +41,11 @@ import AdminUpcomingGoal from "../components/AdminUpcomingGoal";
 import NoGoal from '../components/NoGoal'
 export default function Goals() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
+
   const users = ["User 1", "User 2", "User 3"];
 
   const [assignAll, setAssignAll] = useState(false);
-  // const [endGoal, setEndGoal] = useState(false)
+  const [endGoal, setEndGoal] = useState(false)
   const [goalNumber, setGoalNumber] = useState("");
   const [checkedUsers, setCheckedUsers] = useState({}); // Store the checked state of individual checkboxes
 
@@ -102,7 +102,7 @@ export default function Goals() {
   };
 
   const calendarRef = useRef(null)
-    
+
   const openCalendar = () => {
     calendarRef.current.flatpickr.open()
   }
@@ -114,7 +114,7 @@ export default function Goals() {
       }
     }
   };
-  
+
   const customTheme = extendTheme({
     components: {
       Drawer
@@ -155,13 +155,16 @@ export default function Goals() {
                   px={4}
                   py={2}
                   width="150px"
-                  height="45px"
-                  fontSize="sm"
+                  height="38px"
+                  fontSize="0.8rem"
                   fontFamily="poppinsmed"
+                  color="#0b393e"
                   textAlign="center"
                   borderBottom={activeLink1 ? "3px solid #03AF9F" : "none"}
                   // _hover={{ borderBottom: "2px solid #4CAF50" }}
                   onClick={() => handleLinkClick(1)}
+                  zIndex={activeLink1 ? 999 : "auto"}
+
                 >
                   Current Goal
                 </Text>
@@ -170,13 +173,16 @@ export default function Goals() {
                   px={4}
                   py={2}
                   textAlign="center"
-                  height="45px"
+                  height="38px"
                   fontSize="0.8rem"
+                  color="#0b393e"
                   fontFamily="poppinsmed"
                   borderBottom={activeLink2 ? "3px solid #03AF9F" : "none"}
                   width="150px"
                   // _hover={{ borderBottom: "2px solid #4CAF50" }}
                   onClick={() => handleLinkClick(2)}
+                  zIndex={activeLink2 ? 999 : "auto"}
+
                 >
                   Upcoming Goal
                 </Text>
@@ -185,122 +191,15 @@ export default function Goals() {
               </Box>
             </Box>
           </Flex>
-          <Divider orientation='horizontal' marginTop="-18px" border="1px solid #ccc"/>
+          <Divider orientation='horizontal' marginTop="-16px" border="1px solid #ccc" />
           {/* <Tabs /> */}
           {(activeLink1) && <AdminCurrentGoal />}
           {activeLink2 && <AdminUpcomingGoal />}
           <NoGoal title="No Active Goal" />
-            <ChakraProvider theme={customTheme}>
+          <ChakraProvider theme={customTheme}>
 
             <AdminAddGoalForm isOpen={isOpen} onClose={onClose} />
-            </ChakraProvider>
-
-            {/* <Drawer
-            size="md"
-            isOpen={isOpen}
-            placement="right"
-            initialFocusRef={firstField}
-            onClose={onClose}
-          >
-              <DrawerOverlay />
-              <DrawerContent style={{ borderTopLeftRadius: '1.5rem', borderBottomLeftRadius: '1.5rem' }}>
-                <DrawerCloseButton />
-                <DrawerHeader borderBottomWidth='1px'>
-                  Set Goal Details
-                </DrawerHeader>
-                <DrawerBody>
-                  <Stack spacing='24px'>
-                    <Box>
-                <Button onClick={openCalendar}  bg='#03AF9F' color="white" _hover={{ bg: '#0d7a79' }} size="lg">
-              Save
-            </Button>
-            <Container onClick={openCalendar} placeholder="">
-            <div className="datepicker-container">
-      <div className="datepicker-input-container">
-        <input
-          type="text"
-          placeholder="Please select date"
-          readOnly
-        />
-        <span className="calendar-icon" onClick={() => calendarRef.current.flatpickr.toggle()}>
-          📅
-        </span>
-      </div>
-      <Flatpickr ref={calendarRef} options={options} />
-    </div> </Container>
-              </Box>
-                     <Box>
-                <FormLabel htmlFor='username'>Goal Reward</FormLabel>
-                <Input
-                type="text"
-                name="Email"
-                placeholder="Goal Reward"
-                height="7vh"
-                _focus={{
-                    boxShadow: '0 0 10px rgba(3, 175, 159, 0.5)'}}
-              />
-              
-              </Box>
-              <Box>
-                <FormLabel htmlFor='username'>Bonus Goal</FormLabel>
-                <Input
-                type="number"
-                name="Email"
-                placeholder="Enter Number"
-                height="7vh"
-                _focus={{
-                    boxShadow: '0 0 10px rgba(3, 175, 159, 0.5)'}}
-              />
-              
-              </Box >
-              <Checkbox >Repeat</Checkbox>
-                    <Box p={4}>
-                    <Table variant="simple" overflowY="auto" maxH="300px">
-      <Thead>
-        <Tr backgroundColor="#03AF9F">
-          <Th>
-            <Checkbox isChecked={assignAll} onChange={handleAssignAllChange}>
-              <Text fontSize="11px">Assign All</Text>
-            </Checkbox>
-          </Th>
-          <Th>Name</Th>
-          <Th>
-            Goal No{" "}
-            <Input
-              id="goalNumber"
-              type="number"
-              width="3.5vw"
-              backgroundColor="white"
-              value={goalNumber}
-              onChange={handleGoalNumberChange}
-            />
-          </Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        {users.map((user, index) => (
-          <Tr key={index}>
-            <Td>
-              <Checkbox isChecked={checkedUsers[user]} onChange={() => handleUserCheckboxChange(user)} />
-            </Td>
-            <Td>
-              <Text>{user}</Text>
-            </Td>
-            <Td>
-              <Input type="number" value={goalNumber} width="3.5vw" isReadOnly={assignAll} />
-            </Td>
-          </Tr>
-        ))}
-      </Tbody>
-    </Table>
-                    </Box>
-                    <Button bg='#03AF9F' color="white" _hover={{ bg: '#0d7a79' }} size="lg">
-              Save
-            </Button>
-                  </Stack>
-                </DrawerBody>
-              </DrawerContent>
-            </Drawer>  */}
+          </ChakraProvider>
         </Box>
       </div>
     </>

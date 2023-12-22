@@ -15,7 +15,7 @@ export default function NavItem({ icon, title, goto, navSize, active }) {
         <Link
           href={`/${goto}`}
           className={`hover ${navSize == "large" ? "sidebarlink" : ""} ${
-            active ? "active" : ""
+            active ? "Active" : ""
           }`}
         >
           <MenuButton w="100%">

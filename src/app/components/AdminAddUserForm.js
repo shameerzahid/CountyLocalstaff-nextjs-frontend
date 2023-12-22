@@ -20,6 +20,8 @@ import {
   Heading,
   Input,
   Select,
+  List,
+  ListItem,
   Stack,
   Text,
   useDisclosure,
@@ -60,6 +62,17 @@ export default function AdminAddUserForm({
   const style = {
     background: isHovered ? "green " : "yellow",
     // Add other styles as needed
+  };
+  const optionnns = [
+    "Super Admin",
+    "Admin",
+    "User",
+  ];
+  const [selectedOption, setSelectedOption] = useState("");
+  const [isOpenn, setIsOpen] = useState(false);
+  const handleOptionClick = (option) => {
+    setSelectedOption(option);
+    setIsOpen(false);
   };
   return (
     <div>
@@ -161,7 +174,7 @@ export default function AdminAddUserForm({
                 <FormLabel htmlFor="owner" fontFamily="poppinsreg">
                   Role
                 </FormLabel>
-                <Select
+                {/* <Select
                   id="owner"
                   defaultValue={role}
                   appearance={"none"}
@@ -180,7 +193,85 @@ export default function AdminAddUserForm({
                   <option value={1}>Super Admin</option>
                   <option value={2}>Admin</option>
                   <option value={3}>User</option>
-                </Select>
+                </Select> */}
+                <Box
+                position="relative"
+              >
+                <Text
+                  onClick={() => setIsOpen(!isOpenn)}
+                  cursor="pointer"
+                  fontFamily="poppinsreg"
+                  // padding={2}
+                  placeholder="Select User Type"
+                  className="text-selected"
+                  style={{
+                    border: "1px solid #979797",
+                    height:"50px",
+                    display: "flex",
+                    paddingLeft:"16px",
+                    fontFamily:"poppinsmed",
+                    justifyContent: "start",
+                    alignItems: "center",
+                    width:"full",
+                    flexDirection: "row",
+                  }}
+                  borderRadius="10px"
+                  _focus={{
+                    boxShadow: "0 0 10px rgba(3, 175, 159, 0.5)",
+                  }}
+                >
+                  {selectedOption ? (
+                    <>
+                     <span>{selectedOption}</span>
+                    </>
+                  ) : (
+                    <>
+                      {" "}
+                      <span
+                        style={{
+                          color: "#718096",
+                          fontSize: "16px",
+                          fontFamily:"poppinsreg",
+                          fontWeight: "400",
+                          marginTop: "2px",
+                          marginRight: "8px",
+                        }}
+                      >
+                        Select an option
+                      </span>{" "}
+                    </>
+                  )}
+                </Text>
+                {isOpenn && (
+                  <List
+                    position="absolute"
+                    top="100%"
+                    left={0}
+                    mt={0.5}
+                    zIndex={1}
+                    width="100%"
+                    style={{ border: "1px solid #ccc", padding: "0.5rem 0" }}
+                    borderRadius="md"
+                    backgroundColor="white"
+                  >
+                    {optionnns.map((option) => (
+                      <ListItem
+                        key={option}
+                        style={{
+                          padding: "0.25rem 1.5rem",
+                          fontFamily: "poppins",
+                          fontSize: "0.9rem",
+                          color: "#16181B",
+                        }}
+                        _hover={{ backgroundColor: "#039E90" }}
+                        onClick={() => handleOptionClick(option)}
+                      >
+                        {option}
+                      </ListItem>
+                    ))}
+                  </List>
+                )}
+              </Box>
               </Box>
               {/* <Box> */}
               <Button
