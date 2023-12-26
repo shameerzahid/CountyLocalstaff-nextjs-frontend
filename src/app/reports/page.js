@@ -15,11 +15,8 @@ import {
   Th,
   Td,
   Button,
-  Flex,
   Text,
-  Select,
   useToken,
-  useDisclosure,
   Progress,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
@@ -68,18 +65,13 @@ export default function Reports() {
   ];
   const [selectedDates, setSelectedDates] = useState([]);
   const options = {
-    // minDate: new Date(), // Set minimum date to today
     mode: "range",
     altInputClass: "hide",
     dateFormat: "m-d-y",
-    // appendTo: document.body, // Append to the body or a specific container
     inline: false,
-    // wrap: true,
     maxDate: new Date("01-01-3000"),
   };
-
   const calendarRef = useRef(null);
-
   const openCalendar = () => {
     calendarRef.current.flatpickr.open();
   };
@@ -104,7 +96,6 @@ export default function Reports() {
   const rowHeight = 3; // Set the desired height for each row in vh
   const numRows = Math.min(Math.floor(70 / rowHeight), users.length); // Calculate the number of rows that fit within 70vh
   const bg = useToken("colors", "#F6F6F6");
-
   const optionnns = [
     "100% and lower",
     "70% and lower",
@@ -118,7 +109,7 @@ export default function Reports() {
     setSelectedOption(option);
     setIsOpen(false);
   };
-//filter base on progress
+  //filter base on progress
   const filterUsersByProgress = (users, selectedOption) => {
     switch (selectedOption) {
       case "100% and lower":
@@ -133,10 +124,7 @@ export default function Reports() {
         return users;
     }
   };
-  const filteredUsers = filterUsersByProgress(users, selectedOption);
-
-  //filter base on date 
-  
+  //filter base on date
   const handleDateChange = (dates) => {
     setSelectedDates(dates);
   };
@@ -153,8 +141,15 @@ export default function Reports() {
       return users;
     }
   };
-
-  const filteredUsersByDate = filterUsersByDate(users, selectedDates);
+  const filterUsers = (users, selectedDates, selectedOption) => {
+    const usersFilteredByDate = filterUsersByDate(users, selectedDates);
+    return filterUsersByProgress(usersFilteredByDate, selectedOption);
+  };
+  const filteredUsersCombined = filterUsers(
+    users,
+    selectedDates,
+    selectedOption
+  );
 
   return (
     <>
@@ -173,146 +168,143 @@ export default function Reports() {
           </Heading>
           <div className="Reports">
             <div className="ReportsSection">
-            <div style={{display:'flex',alignItems:'center'}}>
-             <p
-                style={{
-                  padding: "0px 0px 7px 0px",
-                  fontFamily: "poppins",
-                  letterSpacing: ".5px",
-                  fontWeight: "600",
-                  color: "#0b393e",
-                }}
-                className="filter-text"
-              >
-                Filter Goals Date{" "}
-              </p>
-           
-            <Container
-                onClick={openCalendar}
-                placeholder="Select Date"
-                style={{ width: "fit-content" ,marginLeft:"10px"}}
-                padding={0}
-                margin={0}
-              >
-                <div
-                  className="datepicker-container"
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <p
                   style={{
-                    // padding: "2px",
-
-                    position: "relative",
-                    width: "250px",
-                    height: "38px",
+                    padding: "0px 0px 7px 0px",
+                    fontFamily: "poppins",
+                    letterSpacing: ".5px",
+                    fontWeight: "600",
+                    color: "#0b393e",
                   }}
+                  className="filter-text"
                 >
-                  <Image
+                  Filter Goals Date{" "}
+                </p>
+                <Container
+                  onClick={openCalendar}
+                  placeholder="Select Date"
+                  style={{ width: "fit-content", marginLeft: "10px" }}
+                  padding={0}
+                  margin={0}
+                >
+                  <div
+                    className="datepicker-container"
                     style={{
-                      marginLeft: "15px",
-                      position: "absolute",
-                      top: "30%",
+                      position: "relative",
+                      width: "250px",
+                      height: "38px",
                     }}
-                    src="calender.svg"
-                    width={17}
-                    height={17}
-                    alt="icon"
-                  />
+                  >
+                    <Image
+                      style={{
+                        marginLeft: "15px",
+                        position: "absolute",
+                        top: "30%",
+                      }}
+                      src="calender.svg"
+                      width={17}
+                      height={17}
+                      alt="icon"
+                    />
+                    <Flatpickr
+                      style={{
+                        border: "1px solid #ccc",
 
-                  <Flatpickr
+                        borderRadius: "4px",
+                      }}
+                      ref={calendarRef}
+                      placeholder="Select date"
+                      className="flatpickr"
+                      options={options}
+                      value={selectedDates}
+                      onChange={(dates) => handleDateChange(dates)}
+                    >
+                      <div className="datepicker-container">
+                        <CalendarIcon />
+                      </div>
+                    </Flatpickr>
+                  </div>{" "}
+                </Container>
+                <Box
+                  position="relative"
+                  style={{ width: "250px", marginLeft: "10px" }}
+                >
+                  <Text
+                    onClick={() => setIsOpen(!isOpen)}
+                    cursor="pointer"
+                    placeholder="Select an option"
+                    className="text-select"
                     style={{
                       border: "1px solid #ccc",
-
-                      borderRadius: "4px",
+                      display: "flex",
+                      justifyContent: "start",
+                      padding: "0px 16px",
+                      color: "#03AF9F",
+                      alignItems: "center",
+                      flexDirection: "row",
                     }}
-                    ref={calendarRef}
-                    placeholder="Select date"
-                    className="flatpickr"
-                    options={options}
-                    value={selectedDates}
-                    onChange={(dates) => handleDateChange(dates)}
-                  >
-                    <div className="datepicker-container">
-                      <CalendarIcon />
-                    </div>
-                  </Flatpickr>
-                </div>{" "}
-              </Container>
-
-              <Box
-                position="relative"
-                style={{ width: "250px", marginLeft: "10px" }}
-              >
-                <Text
-                  onClick={() => setIsOpen(!isOpen)}
-                  cursor="pointer"
-                  // padding={2}
-                  placeholder="Select an option"
-                  className="text-select"
-                  style={{
-                    border: "1px solid #ccc",
-                    display: "flex",
-                    justifyContent: "start",
-                    padding:"0px 16px",
-                    color: "#03AF9F",
-                    alignItems: "center",
-                    flexDirection: "row",
-                  }}
-                  borderRadius="md"
-                >
-                  {selectedOption ? (
-                    <>
-                      <GoalIcon /> <span style={{padding:"0px 8px"}}>{selectedOption}</span>
-                    </>
-                  ) : (
-                    <>
-                      <GoalIcon />{" "}
-                      <span
-                        style={{
-                          color: "#039D8F",
-                          fontSize: ".9rem",
-                          fontFamily: "poppins",
-                          fontWeight: "400",
-                          padding:"0px 8px",
-                          marginTop: "2px",
-                          marginRight: "8px",
-                        }}
-                      >
-                        Select an option
-                      </span>{" "}
-                    </>
-                  )}
-                </Text>
-                {isOpen && (
-                  <List
-                    position="absolute"
-                    top="100%"
-                    left={0}
-                    ml={5}
-                    mt={0.5}
-                    zIndex={1}
-                    width="90%"
-                    style={{ border: "1px solid #ccc", padding: "0.5rem 0" }}
                     borderRadius="md"
-                    backgroundColor="white"
                   >
-                    {optionnns.map((option) => (
-                      <ListItem
-                        key={option}
-                        style={{
-                          padding: "0.25rem 1.5rem",
-                          fontFamily: "poppins",
-                          
-                          fontSize: "0.9rem",
-                          color: "#16181b",
-                        }}
-                        _hover={{ backgroundColor: "#039E90" }}
-                        onClick={() => handleOptionClick(option)}
-                      >
-                        {option}
-                      </ListItem>
-                    ))}
-                  </List>
-                )}
-              </Box>
-            </div>
+                    {selectedOption ? (
+                      <>
+                        <GoalIcon />{" "}
+                        <span style={{ padding: "0px 8px" }}>
+                          {selectedOption}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <GoalIcon />{" "}
+                        <span
+                          style={{
+                            color: "#039D8F",
+                            fontSize: ".9rem",
+                            fontFamily: "poppins",
+                            fontWeight: "400",
+                            padding: "0px 8px",
+                            marginTop: "2px",
+                            marginRight: "8px",
+                          }}
+                        >
+                          Select an option
+                        </span>{" "}
+                      </>
+                    )}
+                  </Text>
+                  {isOpen && (
+                    <List
+                      position="absolute"
+                      top="100%"
+                      left={0}
+                      ml={5}
+                      mt={0.5}
+                      zIndex={1}
+                      width="90%"
+                      style={{ border: "1px solid #ccc", padding: "0.5rem 0" }}
+                      borderRadius="md"
+                      backgroundColor="white"
+                    >
+                      {optionnns.map((option) => (
+                        <ListItem
+                          key={option}
+                          style={{
+                            padding: "0.25rem 1.5rem",
+                            fontFamily: "poppins",
+
+                            fontSize: "0.9rem",
+                            color: "#16181b",
+                          }}
+                          _hover={{ backgroundColor: "#039E90" }}
+                          onClick={() => handleOptionClick(option)}
+                        >
+                          {option}
+                        </ListItem>
+                      ))}
+                    </List>
+                  )}
+                </Box>
+              </div>
               <div>
                 <Button
                   fontSize="14px"
@@ -322,7 +314,6 @@ export default function Reports() {
                   padding="0.375rem 0.85rem"
                   borderRadius="0.25rem"
                   lineHeight="21px"
-                  // marginLeft="10px"
                   fontWeight="400"
                   bg="#03AF9F"
                   color="white"
@@ -442,68 +433,76 @@ export default function Reports() {
                 height={`${numRows * rowHeight}vh`}
               >
                 <Tbody>
-                {filteredUsersByDate.slice(0, numRows).map((user, index) => (
-                    <Tr
-                      key={user.id}
-                      style={{
-                        height: "4.5rem",
-                        boxShadow: "0px 4px 16px -4px rgba(0, 0, 0, 0.12)",
-                        borderRadius: "6px",
-                      }}
-                    >
-                      <Td
-                        bg={index % 2 === 0 ? `${bg + "!important"}` : "white"}
+                  {filteredUsersCombined
+                    .slice(0, numRows)
+                    .map((user, index) => (
+                      <Tr
+                        key={user.id}
                         style={{
-                          padding: "0 16px",
-                          borderTop: "0.1px solid  #ccc",
-                          width: "27%",
-                          fontFamily: "poppinsreg",
-                          fontSize: "14px",
+                          height: "4.5rem",
+                          boxShadow: "0px 4px 16px -4px rgba(0, 0, 0, 0.12)",
+                          borderRadius: "6px",
                         }}
                       >
-                        {user.date}
-                      </Td>
-
-                      <Td
-                        bg={index % 2 === 0 ? `${bg + "!important"}` : "white"}
-                        style={{
-                          padding: "0 16px",
-                          borderTop: "0.1px solid  #ccc",
-                          width: "45%",
-                          fontFamily: "poppinsreg",
-                          fontSize: "12px",
-                        }}
-                      >
-                        {user.progress}%Completed +{" "}
-                        <span style={{ color: "#03AF9F" }}>{user.bonus}</span>
-                        <Progress value={user.progress} size="md" />
-                      </Td>
-                      <Td
-                        bg={index % 2 === 0 ? `${bg + "!important"}` : "white"}
-                        style={{
-                          padding: "0 16px",
-                          borderTop: "0.1px solid  #ccc",
-                          width: "18%",
-                        }}
-                      >
-                        <Button
-                          fontSize="16px"
-                          fontFamily="poppinsmed"
-                          height="38px"
-                          border="1px solid #03AF9F"
-                          padding="0.375rem 0.75rem"
-                          borderRadius="0.25rem"
-                          lineHeight="24px"
-                          fontWeight="400"
-                          bg="transparent"
-                          color="#03AF9F"
-                          _hover={{ bg: "#03AF9F", color: "white" }}
+                        <Td
+                          bg={
+                            index % 2 === 0 ? `${bg + "!important"}` : "white"
+                          }
+                          style={{
+                            padding: "0 16px",
+                            borderTop: "0.1px solid  #ccc",
+                            width: "27%",
+                            fontFamily: "poppinsreg",
+                            fontSize: "14px",
+                          }}
                         >
-                          Details
-                        </Button>
-                      </Td>
-                    </Tr>
-                  ))}
+                          {user.date}
+                        </Td>
+
+                        <Td
+                          bg={
+                            index % 2 === 0 ? `${bg + "!important"}` : "white"
+                          }
+                          style={{
+                            padding: "0 16px",
+                            borderTop: "0.1px solid  #ccc",
+                            width: "45%",
+                            fontFamily: "poppinsreg",
+                            fontSize: "12px",
+                          }}
+                        >
+                          {user.progress}%Completed +{" "}
+                          <span style={{ color: "#03AF9F" }}>{user.bonus}</span>
+                          <Progress value={user.progress} size="md" />
+                        </Td>
+                        <Td
+                          bg={
+                            index % 2 === 0 ? `${bg + "!important"}` : "white"
+                          }
+                          style={{
+                            padding: "0 16px",
+                            borderTop: "0.1px solid  #ccc",
+                            width: "18%",
+                          }}
+                        >
+                          <Button
+                            fontSize="16px"
+                            fontFamily="poppinsmed"
+                            height="38px"
+                            border="1px solid #03AF9F"
+                            padding="0.375rem 0.75rem"
+                            borderRadius="0.25rem"
+                            lineHeight="24px"
+                            fontWeight="400"
+                            bg="transparent"
+                            color="#03AF9F"
+                            _hover={{ bg: "#03AF9F", color: "white" }}
+                          >
+                            Details
+                          </Button>
+                        </Td>
+                      </Tr>
+                    ))}
                 </Tbody>
               </Table>
             </div>{" "}

@@ -1,10 +1,22 @@
 import React from "react";
 import { Flex, Text, Icon, Menu, MenuButton } from "@chakra-ui/react";
 import Link from "next/link";
-
+import { useDispatch } from "react-redux";
+import { deleteToken } from "../../redux/authSlice";
+import { deleteUserId } from "../../redux/userIdSlice";
 export default function NavItem({ icon, title, goto, navSize, active }) {
+  const dispatch = useDispatch();
+  
+  const Logout = () => {
+    if(title == "Logout")
+    {
+      dispatch(deleteToken())
+      dispatch(deleteUserId())
+    }
+  }
   return (
     <Flex
+    onClick={Logout}
       flexDir="column"
       w="100%"
       paddingLeft={navSize == "large" ? "8%" : ""}

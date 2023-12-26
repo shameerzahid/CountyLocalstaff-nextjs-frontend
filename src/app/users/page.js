@@ -140,7 +140,12 @@ export default function Users() {
                   <AdminAddUserForm
                     isOpen={isOpen}
                     onClose={onClose}
+                    fName=""
+                    lName=""
+                    pemail=""
+                    prole=""
                     edit={false}
+                    id=""
                   />
                 </ChakraProvider>
               </Box>

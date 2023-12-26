@@ -5,6 +5,9 @@ import loginimg from './assets/loginimage.webp'
 import logo from './assets/transparent-logo.png'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useDispatch } from 'react-redux';
+import { setToken } from './redux/authSlice';
+import { setUserId } from './redux/userIdSlice'
 import './styles/styles.css'
 import { useState } from 'react'
 import UserEndPoint from './constants/apiruls.js'
@@ -13,6 +16,7 @@ export default function Page() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const toast = useToast()
+  const dispatch = useDispatch();
   const HandleSignIn = async (e) => {
     e.preventDefault();
     if(!email)
@@ -47,8 +51,9 @@ export default function Page() {
           isClosable: true,
         })
         }
+        console.log(UserEndPoint)
         try {
-          const data = await fetch('http://localhost:5000/users/login',{
+          const data = await fetch(`${UserEndPoint}/login`,{
       method : "POST",
       headers: {
         "Content-type" : "application/json"
@@ -71,8 +76,10 @@ export default function Page() {
         duration: 2000,
         isClosable: true,
       })
-      localStorage.setItem("loginToken", res.token)
+      await dispatch(setToken(res.token));
+      await dispatch(setUserId( res.User._id));
       router.push('/goals')
+      // console.log(res.User._id)
     }
     else
     {

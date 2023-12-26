@@ -7,30 +7,118 @@ import {
   Input,
   Stack,
   Heading,
+  useToast,
+  extendTheme,
+  ChakraProvider,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/styles.css";
+import { useSelector } from 'react-redux';
+import { selectToken } from '../redux/authSlice';
+import { selectUserId } from '../redux/userIdSlice';
+import AdminAddUserForm from "./AdminAddUserForm";
+import UserEndPoint from '../constants/apiruls'
 export default function Details() {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    newPassword: "",
+  const [firstName, setFirstName] = useState("");
+const [lastName, setLastName] = useState("");
+const [email, setEmail] = useState("");
+const token = useSelector(selectToken);
+const userId = useSelector(selectUserId);
+const toast = useToast()
+const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    const UserDetails = async() => {
+      try {
+        
+        const data =  await fetch(`${UserEndPoint}/${userId}`,{
+          method : "GET",
+          headers: {
+            "Content-type" : "application/json",
+            Authorization: `Bearer ${token}`
+          }
+        })
+        const res = await data.json()
+        setFirstName(res.firstName)
+        setLastName(res.lastName)
+        setEmail(res.email)
+        
+      } catch (error) {
+        console.log(error)
+      }
+    }
+   UserDetails()
+  }, [])
+
+  const ChangePassword = () => {
+    onOpen();
+  };
+  const Drawer = {
+    sizes: {
+      menu: {
+        dialog: { maxWidth: "31%" },
+      },
+    },
+  };
+  const customTheme = extendTheme({
+    components: {
+      Drawer,
+    },
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  const updateUser = async() => {
+    try {
 
-  const handleSubmit = () => {
-    // Handle form submission logic here
-    console.log("Form submitted:", formData);
-  };
 
+
+      const data = await fetch(`${UserEndPoint}/${userId}`,{
+        method : "PUT",
+        headers: {
+          "Content-type" : "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body : JSON.stringify( {
+          firstName,
+          lastName,
+          email,
+        })
+      })
+      const res = await data.json();
+      const status = await data.status;
+      setFirstName(res.firstName)
+      setLastName(res.lastName)
+      setEmail(res.email)
+      console.log(res, status)
+      if(status == 200)
+      {
+        toast({
+          title: 'Success',
+          position: "bottom-right",
+          status: 'success',
+          duration: 2000,
+          isClosable: true,
+        })
+      }
+      else
+      {
+        toast({
+          title: 'Invalid',
+          position: "bottom-right",
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        }) 
+      }
+    } catch (error) {
+      toast({
+        title: error,
+        position: "bottom-right",
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      })
+  }}
   return (
     <>
       <Box
@@ -43,7 +131,7 @@ export default function Details() {
         border="1px solid #ccc"
       >
         {/* <Heading fontSize="2xl" mb="4">User Details</Heading> */}
-        <form onSubmit={handleSubmit}>
+        <form>
           <Stack spacing={4}>
             <FormControl id="firstName">
               <FormLabel fontSize="0.8rem" fontFamily="poppinsmed">
@@ -52,10 +140,10 @@ export default function Details() {
               <Input
                 type="text"
                 name="firstName"
-                value={formData.firstName}
+                value={firstName}
                 placeholder="First Name"
                 fontFamily="poppinsmed"
-                onChange={handleChange}
+                onChange={(e) => setFirstName(e.target.value)}
                 height="49px"
                 borderColor="#CBCBCB"
                 _focus={{
@@ -71,9 +159,9 @@ export default function Details() {
               <Input
                 type="text"
                 name="lastName"
-                value={formData.lastName}
+                value={lastName}
                 placeholder="Last Name"
-                onChange={handleChange}
+                onChange={(e) => setLastName(e.target.value)}
                 fontFamily="poppinsmed"
                 height="45px"
                 borderColor="#CBCBCB"
@@ -90,9 +178,9 @@ export default function Details() {
               <Input
                 type="email"
                 name="email"
-                value={formData.email}
+                value={email}
                 placeholder="Example@gmail.com"
-                onChange={handleChange}
+                onChange={(e) => setEmail(e.target.value)}
                 fontFamily="poppinsmed"
                 borderColor="#CBCBCB"
                 height="45px"
@@ -109,6 +197,7 @@ export default function Details() {
               height="42px"
               _hover={{ bg: "#03AF9F", color: "white" }}
               size="lg"
+              onClick={ChangePassword}
             >
               Change Password
             </Button>
@@ -119,10 +208,18 @@ export default function Details() {
               height="42px"
               _hover={{ bg: "#0d7a79" }}
               size="lg"
+              onClick={updateUser}
             >
               Update
             </Button>
           </Stack>
+          <ChakraProvider theme={customTheme}>
+        <AdminAddUserForm
+          isOpen={isOpen}
+          onClose={onClose}
+          changepassword ={true}
+        />
+        </ChakraProvider>
         </form>
       </Box>
     </>

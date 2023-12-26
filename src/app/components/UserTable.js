@@ -1,3 +1,4 @@
+"use client"
 import {
   Table,
   Thead,
@@ -32,7 +33,7 @@ import {
 } from "@chakra-ui/react";
 import { HiOutlineEllipsisVertical } from "react-icons/hi2";
 import AdminAddUserForm from "../components/AdminAddUserForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Menu,
   MenuButton,
@@ -44,69 +45,17 @@ import {
   MenuDivider,
 } from "@chakra-ui/react";
 import "../styles/styles.css";
+import { useSelector } from "react-redux";
+import { selectToken } from "../redux/authSlice";
+import UserEndPoint from '../constants/apiruls'
+
 export default function UserTable() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const token = useSelector(selectToken);
+  const [users, setUsers] = useState([])
 
   // Dummy data for illustration purposes
-  const users = [
-    {
-      id: 1,
-      name: "John Doe doeee",
-      username: "AdminTest Admin",
-      email: "john@example.com",
-      role: "super admin",
-      status: "Active",
-    },
-    {
-      id: 2,
-      name: "Jan Doe",
-      username: "jan_doe",
-      email: "jane@example.com",
-      role: "admin",
-      status: "Inactive",
-    },
-    {
-      id: 3,
-      name: "John Doe",
-      username: "john_doe",
-      email: "john@example.com",
-      role: "user",
-      status: "Active",
-    },
-    {
-      id: 88,
-      name: "John Doe",
-      username: "john_doe",
-      email: "john@example.com",
-      role: "super admin",
-      status: "Active",
-    },
-    {
-      id: 4,
-      name: "John Doe",
-      username: "john_doe",
-      email: "john@example.com",
-      role: "super admin",
-      status: "Active",
-    },
-    {
-      id: 5,
-      name: "John Doe",
-      username: "john_doe",
-      email: "john@example.com",
-      role: "super admin",
-      status: "Active",
-    },
-    {
-      id: 6,
-      name: "John Doe",
-      username: "john_doe",
-      email: "john@example.com",
-      role: "super admin",
-      status: "Active",
-    },
-    // Add more users as needed
-  ];
+  
 
   const rowHeight = 3; // Set the desired height for each row in vh
   const numRows = Math.min(Math.floor(70 / rowHeight), users.length); // Calculate the number of rows that fit within 70vh
@@ -114,6 +63,7 @@ export default function UserTable() {
   const [selectedUser, setSelectedUser] = useState("");
   const handleEdit = (user) => {
     setSelectedUser(user);
+    console.log(selectedUser)
     onOpen();
   };
   const Drawer = {
@@ -128,6 +78,27 @@ export default function UserTable() {
       Drawer,
     },
   });
+
+  useEffect(() => {
+    const getAllUsers =async () => {
+      try {
+            
+        const data =  await fetch(`${UserEndPoint}`,{
+          method : "GET",
+          headers: {
+            "Content-type" : "application/json",
+            Authorization: `Bearer ${token}`
+          }
+        })
+        const Users = await data.json()
+        setUsers(Users)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getAllUsers()
+     
+  }, [])
   return (
     <div
       style={{
@@ -230,7 +201,7 @@ export default function UserTable() {
           height={`${numRows * rowHeight}vh`}
         >
           <Tbody>
-            {users.slice(0, numRows).map((user, index) => (
+            {users.map((user, index) => (
               <Tr
                 key={user.id}
                 style={{
@@ -250,7 +221,7 @@ export default function UserTable() {
                     fontSize: "0.875rem",
                   }}
                 >
-                  {user.username}
+                  {user.firstName}{" "}{user.lastName}
                 </Td>
                 <Td
                   bg={index % 2 === 0 ? `${bg + "!important"}` : "white"}
@@ -276,7 +247,8 @@ export default function UserTable() {
                     fontSize: "0.875rem",
                   }}
                 >
-                  {user.role}
+                  { user.role === 1 ? "Super Admin" : user.role === 2 ? "Admin" : user.role === 3 ? "User" : ""
+                  }
                 </Td>
                 <Td
                   bg={index % 2 === 0 ? `${bg + "!important"}` : "white"}
@@ -289,7 +261,7 @@ export default function UserTable() {
                     fontSize: "0.875rem",
                   }}
                 >
-                  {user.status}
+                  {user.status ? "Active" : "Freeze"}
                 </Td>
                 <Td
                   bg={index % 2 === 0 ? `${bg + "!important"}` : "white"}
@@ -396,12 +368,14 @@ export default function UserTable() {
         <AdminAddUserForm
           isOpen={isOpen}
           onClose={onClose}
+          user= {selectedUser}
           id={selectedUser.id}
-          name={selectedUser.name}
-          username={selectedUser.username}
-          email={selectedUser.email}
-          role={selectedUser.role}
+          fName={selectedUser.firstName}
+          lName={selectedUser.lastName}
+          pemail={selectedUser.email}
+          prole={selectedUser.role}
           edit={true}
+          changepassword ={false}
         />
         </ChakraProvider>
       </div>{" "}

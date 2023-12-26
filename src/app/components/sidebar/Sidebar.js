@@ -179,6 +179,7 @@ export default function Sidebar() {
       >
         <NavItem
           navSize={navSize}
+          onClick = {() => console.log("logout")}
           icon={() => (
             <svg
               width="22"
