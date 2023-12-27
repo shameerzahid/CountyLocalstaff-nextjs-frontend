@@ -11,6 +11,7 @@ import { setUserId } from './redux/userIdSlice'
 import './styles/styles.css'
 import { useState } from 'react'
 import UserEndPoint from './constants/apiruls.js'
+import { setRole } from './redux/roleSlice'
 export default function Page() {
   const router = useRouter()
   const [email, setEmail] = useState("")
@@ -78,6 +79,7 @@ export default function Page() {
       })
       await dispatch(setToken(res.token));
       await dispatch(setUserId( res.User._id));
+      await dispatch(setRole(res.User.role));
       router.push('/goals')
       // console.log(res.User._id)
     }

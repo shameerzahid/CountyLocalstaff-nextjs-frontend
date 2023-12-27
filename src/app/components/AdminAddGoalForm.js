@@ -30,27 +30,28 @@ import {
 import { useRef } from "react";
 import "../styles/styles.css";
 import Image from "next/image";
+import UserEndPoint from "../constants/apiruls";
+import { selectToken } from "../redux/authSlice";
+import { useSelector } from "react-redux";
 export default function AdminAddGoalForm({ isOpen, onClose }) {
-  const users = ["Bob williams", "dob chef", "User 3", "new"];
-  const [goalNumbers, setGoalNumbers] = useState(
-    users.reduce((acc, user) => {
-      acc[user] = "";
-      return acc;
-    }, {})
-  );
+  const [users, setUsers] = useState([])
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [reward, setReward] = useState("");
+  const [bonus, setBonus] = useState(0);
+  const [repeat, setRepeat] = useState(false);
+  const [selectedDates, setSelectedDates] = useState([]);
+  const token = useSelector(selectToken);
   const [selectAll, setSelectAll] = useState(false);
-  const [checkedUsers, setCheckedUsers] = useState(
-    users.reduce((acc, user) => {
-      acc[user] = false;
-      return acc;
-    }, {})
-  ); // Store the checked state of individual checkboxes
+  const [goalNumbers, setGoalNumbers] = useState({});
+  const [checkedUsers, setCheckedUsers] = useState({});
 
   const options = {
     minDate: new Date(), // Set minimum date to today
     mode: "range",
     altInputClass: "hide",
-    dateFormat: "M d Y",
+    dateFormat: "Y-m-d",
+    inline: false,
     maxDate: new Date("01-01-3000"),
   };
   const calendarRef = useRef(null);
@@ -60,6 +61,8 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
   const rowHeight = 3; // Set the desired height for each row in vh
   const numRows = Math.min(Math.floor(70 / rowHeight), users.length); // Calculate the number of rows that fit within 70vh
   const bg = useToken("colors", "#F6F6F6");
+
+
   const CalendarIcon = () => (
     <Image
       style={{ marginLeft: "15px" }}
@@ -87,20 +90,75 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
         ...prevCheckedUsers,
         [user]: !prevCheckedUsers[user],
       };
-
+  
       // Check if all individual checkboxes are checked and update "Select All" accordingly
       const allUsersChecked = users.every((u) => updatedCheckedUsers[u]);
       setSelectAll(allUsersChecked);
-
+  
       return updatedCheckedUsers;
     });
   };
+  
   const handleGoalNumberChange = (user, value) => {
     setGoalNumbers((prevGoalNumbers) => ({
       ...prevGoalNumbers,
       [user]: value,
     }));
   };
+  
+
+
+  useEffect(() => {
+    const getAllUsers = async () => {
+      try {
+
+        const data = await fetch(`${UserEndPoint}`, {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`
+          }
+        })
+        const Users = await data.json()
+        const filteredUsers = Users.filter(user => user.role === 3);
+        setUsers(filteredUsers);
+        const initialGoalNumbers = filteredUsers.reduce((acc, user) => {
+          acc[user.id] = ""; // Assuming user.id is unique, adjust accordingly
+          return acc;
+        }, {});
+        setGoalNumbers(initialGoalNumbers);
+
+        const initialCheckedUsers = filteredUsers.reduce((acc, user) => {
+          acc[user.id] = false; // Assuming user.id is unique, adjust accordingly
+          return acc;
+        }, {});
+        setCheckedUsers(initialCheckedUsers);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getAllUsers()
+
+  }, [])
+  const handleDateChange = (dates) => {
+    setSelectedDates(dates);
+  };
+  useEffect(() => {
+    if (selectedDates.length === 2) {
+      setStartDate(selectedDates[0].toISOString().split('T')[0])
+      setEndDate(selectedDates[1].toISOString().split('T')[0])
+      }
+  }, [selectedDates])
+    const CreateNewGoal = async () => {
+      console.log(selectedDates)
+      
+      console.log(startDate,endDate,bonus, repeat,reward)
+      // console.log(typeof startDate)
+      // e.preventDefault();
+    }
+  
+
+
   return (
     <div>
       <Drawer size="menu" isOpen={isOpen} placement="right" onClose={onClose}>
@@ -154,8 +212,8 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                       placeholder="Select date"
                       className="flatpickr-goal"
                       options={options}
-                      value={[]}
-                      onChange={(dates) => console.log(dates)}
+                      value={selectedDates}
+                      onChange={(dates) => handleDateChange(dates)}
                     >
                       <div className="datepicker-container">
                         <CalendarIcon />
@@ -180,6 +238,8 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                   placeholder="Goal Reward"
                   style={{ border: "1px solid #ced4da" }}
                   borderRadius="10px"
+                  value={reward}
+                  onChange={(e) => setReward(e.target.value)}
                   height="45px"
                   _focus={{
                     boxShadow: "0 0 10px rgba(3, 175, 159, 0.5)",
@@ -201,6 +261,8 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                   placeholder="Enter Number"
                   borderRadius="10px"
                   height="45px"
+                  value={bonus}
+                  onChange={(e) => setBonus(e.target.value)}
                   _focus={{
                     boxShadow: "0 0 10px rgba(3, 175, 159, 0.5)",
                   }}
@@ -214,7 +276,9 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                 borderColor="#03AF9F"
                 outlineColor="#03AF9F" // S // Set the color scheme to green
                 iconColor="#03AF9F"
-                style={{ margin: "22px 0px 16px 0px" }}
+                isChecked={repeat}
+                onChange={() => setRepeat(!repeat)}
+                                style={{ margin: "22px 0px 16px 0px" }}
               >
                 <Text
                   fontWeight="600"
@@ -257,7 +321,7 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                           borderColor="white"
                           ml={1}
                           borderRadius="4px"
-                          bg="white" 
+                          bg="white"
                           outlineColor="#03AF9F" // S // Set the color scheme to green
                           iconColor="#03AF9F"
                         />
@@ -304,9 +368,9 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {users.map((user, index) => (
+                    {users.map((user) => (
                       <Tr
-                        key={index}
+                        key={user._id}
                         style={{
                           height: "8vh",
                           padding: 0,
@@ -335,7 +399,8 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                           width="33.3%"
                           style={{ padding: "0 12px", borderBottom: "none" }}
                         >
-                          <Text>{user}</Text>
+                          <Text>
+                            {`${user.firstName} ${user.lastName}`}</Text>
                         </Td>
                         <Td
                           backgroundColor="white"
@@ -367,8 +432,9 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                 color="white"
                 _hover={{ bg: "#0d7a79" }}
                 size="lg"
+                onClick={CreateNewGoal}
               >
-                Save
+                Submit
               </Button>
             </Stack>
           </DrawerBody>

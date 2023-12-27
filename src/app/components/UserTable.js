@@ -11,6 +11,7 @@ import {
   Icon,
   ChakraProvider,
   extendTheme,
+  useToast,
 } from "@chakra-ui/react";
 import { useToken } from "@chakra-ui/react";
 import {
@@ -48,14 +49,19 @@ import "../styles/styles.css";
 import { useSelector } from "react-redux";
 import { selectToken } from "../redux/authSlice";
 import UserEndPoint from '../constants/apiruls'
+import { selectRole } from "../redux/roleSlice";
 
 export default function UserTable() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const token = useSelector(selectToken);
+  const currentRole = useSelector(selectRole);
+
   const [users, setUsers] = useState([])
+  const [status, setStatus] = useState(true)
+  const toast = useToast()
 
   // Dummy data for illustration purposes
-  
+
 
   const rowHeight = 3; // Set the desired height for each row in vh
   const numRows = Math.min(Math.floor(70 / rowHeight), users.length); // Calculate the number of rows that fit within 70vh
@@ -80,25 +86,123 @@ export default function UserTable() {
   });
 
   useEffect(() => {
-    const getAllUsers =async () => {
+    const getAllUsers = async () => {
       try {
-            
-        const data =  await fetch(`${UserEndPoint}`,{
-          method : "GET",
+
+        const data = await fetch(`${UserEndPoint}`, {
+          method: "GET",
           headers: {
-            "Content-type" : "application/json",
+            "Content-type": "application/json",
             Authorization: `Bearer ${token}`
           }
         })
         const Users = await data.json()
         setUsers(Users)
+        console.log(users)
       } catch (error) {
         console.log(error)
       }
     }
     getAllUsers()
-     
-  }, [])
+
+  }, [status])
+  if (users.length === 0) {
+    return <div>Loading...</div>;
+  }
+
+  const freezeToggle = async (id, newStatus) => {
+    try {
+      // Immediately update the local state
+      setStatus((prevStatus) => !prevStatus);
+      const data = await fetch(`${UserEndPoint}/status/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          status: !newStatus,
+        }),
+      });
+
+      const res = await data.json();
+      const status = await data.status;
+      console.log(res, status);
+
+      if (status === 200) {
+        // Use the updated state directly here
+        toast({
+          title: 'Success status updated',
+          position: "bottom-right",
+          status: 'success',
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        // Use the updated state directly here
+        toast({
+          title: 'Invalid',
+          position: "bottom-right",
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      // Use the updated state directly here
+      toast({
+        title: error.message || 'Error updating status',
+        position: "bottom-right",
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
+  const ResetPassword = async(id, status) => {
+    try {
+      const data = await fetch(`${UserEndPoint}/reset-password/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const res = await data.json();
+      const status = await data.status;
+      console.log(res, status);
+
+      if (status === 200) {
+        // Use the updated state directly here
+        toast({
+          title: 'Password updated',
+          position: "bottom-right",
+          status: 'success',
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        // Use the updated state directly here
+        toast({
+          title: 'Invalid',
+          position: "bottom-right",
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      // Use the updated state directly here
+      toast({
+        title: error.message || 'Error updating status',
+        position: "bottom-right",
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  }
+
   return (
     <div
       style={{
@@ -247,7 +351,7 @@ export default function UserTable() {
                     fontSize: "0.875rem",
                   }}
                 >
-                  { user.role === 1 ? "Super Admin" : user.role === 2 ? "Admin" : user.role === 3 ? "User" : ""
+                  {user.role === 1 ? "Super Admin" : user.role === 2 ? "Admin" : user.role === 3 ? "User" : ""
                   }
                 </Td>
                 <Td
@@ -273,91 +377,100 @@ export default function UserTable() {
                 >
                   <Flex alignItems="center">
                     {" "}
-                    <Button
-                      fontFamily="lato700"
-                      fontSize="15px"
-                      height="27px"
-                      onClick={() => handleEdit(user)}
-                      border="1px solid #03AF9F"
-                      bg="transparent"
-                      color="#03AF9F"
-                      _hover={{ bg: "#03AF9F", color: "white" }}
-                      size="lg"
-                    >
-                      Edit
-                    </Button>
-                    <Menu placement="bottom-end" maxWidth="48px" className="">
-                      {({ isOpen }) => (
+                    {
+                      currentRole < user.role ? (
                         <>
-                          <MenuButton
-                            as={IconButton}
-                            _hover={{ bg: "none" }}
-                            _active={{ background: "none" }}
-                            aria-label="Options"
-                            icon={<HiOutlineEllipsisVertical className="ellipsisIcon"/>}
+                          <Button
+                            fontFamily="lato700"
+                            fontSize="15px"
+                            height="27px"
+                            onClick={() => handleEdit(user)}
+                            border="1px solid #03AF9F"
                             bg="transparent"
-                            fontSize="20px"
-                          />
-                          <MenuList
-                            minWidth="150px"
-                            style={{
-                              backgroundColor: "#F4F9F6",
-                              border:"1px solid #ccc",
-                              borderRadius: "12px",
-                            }}
+                            color="#03AF9F"
+                            _hover={{ bg: "#03AF9F", color: "white" }}
+                            size="lg"
                           >
-                            <MenuItem
-                              background={"#F4F9F6"}
-                              pl={2}
-                              style={{
-                                borderRadius: "4px",
-                                width: "130px",
-                                margin: "0 10px",
-                                fontFamily:"Poppins",
-                                color:"black",
-                                padding:"2px 8px"
-                              }}
-                              fontSize={"13px"}
-                              _hover={{ background: "#03AF9F" }}
-                            >
-                              Freeze Account
-                            </MenuItem>
-                            <MenuItem
-                              background={"#F4F9F6"}
-                              style={{
-                                borderRadius: "4px",
-                                width: "130px",
-                                margin: "0 10px",
-                                fontFamily:"Poppins",
-                                color:"black",
-                                padding:"2px 8px"
-                              }}
-                              fontSize={"13px"}
-                              pl={2}
-                              _hover={{ background: "#03AF9F" }}
-                            >
-                              Reset Password
-                            </MenuItem>
-                            <MenuItem
-                              background={"#F4F9F6"}
-                              style={{
-                                borderRadius: "4px",
-                                width: "130px",
-                                margin: "0 10px",
-                                fontFamily:"Poppins",
-                                color:"black",
-                                padding:"2px 8px"
-                              }}
-                              pl={2}
-                              fontSize={"13px"}
-                              _hover={{ background: "#03AF9F" }}
-                            >
-                              Remove Account
-                            </MenuItem>
-                          </MenuList>
+                            Edit
+                          </Button>
+                          <Menu placement="bottom-end" maxWidth="48px" className="">
+                            {({ isOpen }) => (
+                              <>
+                                <MenuButton
+                                  as={IconButton}
+                                  _hover={{ bg: "none" }}
+                                  _active={{ background: "none" }}
+                                  aria-label="Options"
+                                  icon={<HiOutlineEllipsisVertical className="ellipsisIcon" />}
+                                  bg="transparent"
+                                  fontSize="20px"
+                                />
+                                <MenuList
+                                  minWidth="150px"
+                                  style={{
+                                    backgroundColor: "#F4F9F6",
+                                    border: "1px solid #ccc",
+                                    borderRadius: "12px",
+                                  }}
+                                >
+                                  <MenuItem
+                                    background="#F4F9F6"
+                                    pl={2}
+                                    style={{
+                                      borderRadius: "4px",
+                                      width: "130px",
+                                      margin: "0 10px",
+                                      fontFamily: "Poppins",
+                                      color: "black",
+                                      padding: "2px 8px",
+                                    }}
+                                    fontSize="13px"
+                                    _hover={{ background: "#03AF9F" }}
+                                    onClick={() => freezeToggle(user._id, user.status)}
+                                  >
+                                    {user.status ? "Freeze Account" : "Activate Account"}
+                                  </MenuItem>
+                                  <MenuItem
+                                    background="#F4F9F6"
+                                    style={{
+                                      borderRadius: "4px",
+                                      width: "130px",
+                                      margin: "0 10px",
+                                      fontFamily: "Poppins",
+                                      color: "black",
+                                      padding: "2px 8px",
+                                    }}
+                                    fontSize="13px"
+                                    pl={2}
+                                    _hover={{ background: "#03AF9F" }}
+                                    onClick={() => ResetPassword(user._id, user.status)}
+                                  >
+                                    Reset Password
+                                  </MenuItem>
+                                  <MenuItem
+                                    background="#F4F9F6"
+                                    style={{
+                                      borderRadius: "4px",
+                                      width: "130px",
+                                      margin: "0 10px",
+                                      fontFamily: "Poppins",
+                                      color: "black",
+                                      padding: "2px 8px",
+                                    }}
+                                    pl={2}
+                                    fontSize="13px"
+                                    _hover={{ background: "#03AF9F" }}
+                                  >
+                                    Remove Account
+                                  </MenuItem>
+                                </MenuList>
+                              </>
+                            )}
+                          </Menu>
                         </>
+                      ) : (
+                        " "
                       )}
-                    </Menu>
                   </Flex>
                 </Td>
               </Tr>
@@ -365,18 +478,18 @@ export default function UserTable() {
           </Tbody>
         </Table>
         <ChakraProvider theme={customTheme}>
-        <AdminAddUserForm
-          isOpen={isOpen}
-          onClose={onClose}
-          user= {selectedUser}
-          id={selectedUser.id}
-          fName={selectedUser.firstName}
-          lName={selectedUser.lastName}
-          pemail={selectedUser.email}
-          prole={selectedUser.role}
-          edit={true}
-          changepassword ={false}
-        />
+          <AdminAddUserForm
+            isOpen={isOpen}
+            onClose={onClose}
+            user={selectedUser}
+            id={selectedUser.id}
+            fName={selectedUser.firstName}
+            lName={selectedUser.lastName}
+            pemail={selectedUser.email}
+            prole={selectedUser.role}
+            edit={true}
+            changepassword={false}
+          />
         </ChakraProvider>
       </div>{" "}
     </div>

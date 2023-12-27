@@ -4,6 +4,8 @@ import "../styles/styles.css";
 import Sidebar from "../components/sidebar/Sidebar";
 import Flatpickr from "react-flatpickr";
 import Image from "next/image";
+// import SuccessMsg from "../components/Popup/SuccessMsg";
+// import Error from "../components/Popup/Error";
 import "flatpickr/dist/flatpickr.css";
 import {
   Table,
@@ -150,11 +152,15 @@ export default function Reports() {
     selectedDates,
     selectedOption
   );
+  const handleReset = () => {
+    setSelectedDates("");
+    setSelectedOption(""); // Set the default option
+  };
 
   return (
     <>
       <div
-        className="usertop"
+        className="usertop bg-red "
         style={{
           backgroundColor: "#F4F9F6",
           display: "flex",
@@ -162,13 +168,14 @@ export default function Reports() {
         }}
       >
         <Sidebar />
-        <Box margin="25px 40px 0 40px" width="calc(100% - 11vw)">
+
+        <Box  className="md:mx-10  mx-5 mt-6 " width="calc(100% - 11vw)">
           <Heading fontSize="2.4rem" fontFamily="lato700" color="#0B393E">
             Reports
           </Heading>
           <div className="Reports">
-            <div className="ReportsSection">
-              <div style={{ display: "flex", alignItems: "center" }}>
+            <div className="ReportsSection ">
+              <div className="md:flex md:items-center md:w-fit w-[100%] ">
                 <p
                   style={{
                     padding: "0px 0px 7px 0px",
@@ -177,23 +184,23 @@ export default function Reports() {
                     fontWeight: "600",
                     color: "#0b393e",
                   }}
-                  className="filter-text"
+                  className="filter-text md:mr-[10px] lg:hidden  llg:block mr-0"
                 >
                   Filter Goals Date{" "}
                 </p>
-                <Container
+                <Box
                   onClick={openCalendar}
+                  className=" md:w-fit w-[100%]"
                   placeholder="Select Date"
-                  style={{ width: "fit-content", marginLeft: "10px" }}
                   padding={0}
                   margin={0}
+                 
                 >
                   <div
-                    className="datepicker-container"
+                    className="datepicker-container md:w-[250px] h-[38px] w-[100%] md:h-[38px]"
                     style={{
                       position: "relative",
-                      width: "250px",
-                      height: "38px",
+                     
                     }}
                   >
                     <Image
@@ -225,10 +232,11 @@ export default function Reports() {
                       </div>
                     </Flatpickr>
                   </div>{" "}
-                </Container>
+                </Box>
                 <Box
                   position="relative"
-                  style={{ width: "250px", marginLeft: "10px" }}
+                  className="md:mt-0 md:w-[250px] md:h-[38px] w-[100%] mt-2 md:ml-[10px] ml-0"
+                 
                 >
                   <Text
                     onClick={() => setIsOpen(!isOpen)}
@@ -305,7 +313,7 @@ export default function Reports() {
                   )}
                 </Box>
               </div>
-              <div>
+              <div className="mt-2 lg:mt-0">
                 <Button
                   fontSize="14px"
                   fontFamily="poppins"
@@ -334,6 +342,7 @@ export default function Reports() {
                   bg="transparent"
                   color="#03AF9F"
                   _hover={{ bg: "#03AF9F", color: "white" }}
+                  onClick={handleReset}
                 >
                   Reset
                 </Button>
@@ -353,65 +362,83 @@ export default function Reports() {
               paddingRight: "18px",
             }}
           >
-            <div
-              className="tablecontainer"
-              style={{
-                height: "59px",
-                width: "100%",
-                overflowY: "hidden",
-                backgroundColor: "white",
-              }}
-            >
-              <Table
-                className="table"
-                style={{ borderCollapse: "separate", borderSpacing: "0 1.2em" }}
-                variant="striped"
-                size="md"
-                bg="white"
+            {filteredUsersCombined.length === 0 ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "20px",
+                  fontSize: "1.1rem",
+                  color: "#555",
+                }}
               >
-                <Thead backgroundColor="white">
-                  <Tr style={{ height: "52px" }}>
-                    <Th
-                      style={{
-                        borderBottom: "none",
-                        padding: "0px 16px",
-                        fontSize: "0.875rem",
-                        fontWeight: "500",
-                        fontFamily: "poppinsmed",
-                        color: "#0B393E",
-                        width: "25.7%",
-                      }}
-                    >
-                      END GOAL DATE
-                    </Th>
+                No Result Found
+              </div>
+            ) : (
+              <>
+                <div
+                  className="tablecontainer"
+                  style={{
+                    height: "59px",
+                    width: "100%",
+                    overflowY: "hidden",
+                    backgroundColor: "white",
+                  }}
+                >
+                  <Table
+                    className="table"
+                    style={{
+                      borderCollapse: "separate",
+                      borderSpacing: "0 1.2em",
+                    }}
+                    variant="striped"
+                    size="md"
+                    bg="white"
+                  >
+                    <Thead backgroundColor="white">
+                      <Tr style={{ height: "52px" }}>
+                        <Th
+                          style={{
+                            borderBottom: "none",
+                            padding: "0px 16px",
+                            fontSize: "0.875rem",
+                            fontWeight: "500",
+                            fontFamily: "poppinsmed",
+                            color: "#0B393E",
+                            width: "25.7%",
+                          }}
+                        >
+                          END GOAL DATE
+                        </Th>
 
-                    <Th
-                      style={{
-                        borderBottom: "none",
-                        padding: "0px 16px",
-                        fontSize: "0.875rem",
-                        fontWeight: "500",
-                        fontFamily: "poppinsmed",
-                        color: "#0B393E",
-                        width: "45%",
-                      }}
-                    >
-                      progress
-                    </Th>
-                    <Th
-                      style={{
-                        borderBottom: "none",
-                        padding: "0px 16px",
-                        fontSize: "0.875rem",
-                        fontFamily: "poppinsreg",
-                        color: "#0B393E",
-                        width: "15%",
-                      }}
-                    ></Th>
-                  </Tr>
-                </Thead>{" "}
-              </Table>
-            </div>
+                        <Th
+                          style={{
+                            borderBottom: "none",
+                            padding: "0px 16px",
+                            fontSize: "0.875rem",
+                            fontWeight: "500",
+                            fontFamily: "poppinsmed",
+                            color: "#0B393E",
+                            width: "45%",
+                          }}
+                        >
+                          progress
+                        </Th>
+                        <Th
+                          style={{
+                            borderBottom: "none",
+                            padding: "0px 16px",
+                            fontSize: "0.875rem",
+                            fontFamily: "poppinsreg",
+                            color: "#0B393E",
+                            width: "15%",
+                          }}
+                        ></Th>
+                      </Tr>
+                    </Thead>{" "}
+                  </Table>
+                </div>
+              </>
+            )}
             <div
               className="tablecontainer"
               style={{

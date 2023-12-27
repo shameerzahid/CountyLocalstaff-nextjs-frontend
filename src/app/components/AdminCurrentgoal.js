@@ -39,7 +39,7 @@ export default function AdminCurrentGoal() {
       // initiate drawing the chart
       chart.draw();
     });
-  })
+  },[])
 
   const users = [
     {

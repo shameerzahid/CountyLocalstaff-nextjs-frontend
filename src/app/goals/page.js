@@ -33,55 +33,26 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import Sidebar from "../components/sidebar/Sidebar";
-import { useRef } from "react";
-import { GoGoal } from "react-icons/go";
 import AdminCurrentGoal from "../components/AdminCurrentgoal";
 import '../styles/styles.css'
 import AdminUpcomingGoal from "../components/AdminUpcomingGoal";
 import NoGoal from '../components/NoGoal'
+import GoalEndPoint from '../constants/goalurls'
+import { useSelector } from "react-redux";
+import { selectToken } from "../redux/authSlice";
 export default function Goals() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const users = ["User 1", "User 2", "User 3"];
 
-  const [assignAll, setAssignAll] = useState(false);
-  const [endGoal, setEndGoal] = useState(false)
-  const [goalNumber, setGoalNumber] = useState("");
-  const [checkedUsers, setCheckedUsers] = useState({}); // Store the checked state of individual checkboxes
 
-  const handleAssignAllChange = () => {
-    setAssignAll(!assignAll);
-    // If "Assign All" is checked, mark all users as checked
-    if (!assignAll) {
-      const allCheckedUsers = {};
-      users.forEach((user) => {
-        allCheckedUsers[user] = true;
-      });
-      setCheckedUsers(allCheckedUsers);
-    } else {
-      setCheckedUsers({}); // If "Assign All" is unchecked, uncheck all users
-    }
-  };
 
-  const handleUserCheckboxChange = (user) => {
-    // Update the state for the individual checkbox
-    setCheckedUsers((prevCheckedUsers) => ({
-      ...prevCheckedUsers,
-      [user]: !prevCheckedUsers[user],
-    }));
-
-    // Check if all individual checkboxes are checked and update "Assign All" accordingly
-    const allUsersChecked = users.every((u) => checkedUsers[u]);
-    setAssignAll(allUsersChecked);
-  };
-
-  const handleGoalNumberChange = (event) => {
-    setGoalNumber(event.target.value);
-  };
 
 
   const [activeLink1, setActiveLink1] = useState(true);
   const [activeLink2, setActiveLink2] = useState(false);
+  const [goals, setGoals] = useState([])
+  const token = useSelector(selectToken);
+
   const handleLinkClick = (index) => {
     if (index === 1) {
       setActiveLink1(true);
@@ -91,21 +62,6 @@ export default function Goals() {
       setActiveLink2(true);
     }
   };
-
-
-  const options = {
-    minDate: new Date(), // Set minimum date to today
-    mode: 'range',
-    altInputClass: 'hide',
-    dateFormat: 'M d Y',
-    maxDate: new Date('01-01-3000'),
-  };
-
-  const calendarRef = useRef(null)
-
-  const openCalendar = () => {
-    calendarRef.current.flatpickr.open()
-  }
 
   const Drawer = {
     sizes: {
@@ -121,6 +77,27 @@ export default function Goals() {
     }
   });
 
+
+  useEffect(() => {
+    const getAllGoals = async () => {
+      try {
+
+        const data = await fetch(`${GoalEndPoint}`, {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`
+          }
+        })
+        const Goals = await data.json()
+        setGoals(false)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getAllGoals()
+
+  }, [])
   return (
     <>
       <div style={{ backgroundColor: "#F4F9F6", display: "flex", flexDirection: "row" }}>
@@ -193,9 +170,23 @@ export default function Goals() {
           </Flex>
           <Divider orientation='horizontal' marginTop="-16px" border="1px solid #ccc" />
           {/* <Tabs /> */}
-          {(activeLink1) && <AdminCurrentGoal />}
-          {activeLink2 && <AdminUpcomingGoal />}
-          <NoGoal title="No Active Goal" />
+          {
+            goals ? (
+              activeLink1 ? (
+                <AdminCurrentGoal />
+              ) : activeLink2 ? (
+                <AdminUpcomingGoal />
+              ) : (
+                <NoGoal title="No Active Goal" />
+              )
+            ) : (
+              <NoGoal title="No Active Goal" />
+            )
+          }
+
+
+
+
           <ChakraProvider theme={customTheme}>
 
             <AdminAddGoalForm isOpen={isOpen} onClose={onClose} />
