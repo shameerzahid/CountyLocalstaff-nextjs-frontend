@@ -1,3 +1,3 @@
-const GoalEndPoint = "http://county-backend.vercel.app//goals";
+const GoalEndPoint = "https://county-backend.vercel.app/goals";
 
 export default GoalEndPoint;

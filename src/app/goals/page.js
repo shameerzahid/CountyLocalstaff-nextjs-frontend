@@ -90,7 +90,7 @@ export default function Goals() {
           }
         })
         const Goals = await data.json()
-        setGoals(true)
+        setGoals(false)
       } catch (error) {
         console.log(error)
       }
