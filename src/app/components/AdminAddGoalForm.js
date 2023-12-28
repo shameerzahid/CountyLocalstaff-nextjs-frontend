@@ -72,33 +72,27 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
       alt="icon"
     />
   );
-  const handleSelectAllChange = () => {
-    const updatedCheckedUsers = {};
-    const newSelectAll = !selectAll;
-
+  //ALL THE CHECKBOXES LOGIC IS HERE
+  const handleAssignAllChange = () => {
+    const newCheckedUsers = {};
     users.forEach((user) => {
-      updatedCheckedUsers[user] = newSelectAll;
+      newCheckedUsers[user._id] = !selectAll;
     });
-
-    setCheckedUsers(updatedCheckedUsers);
-    setSelectAll(newSelectAll);
+    setCheckedUsers(newCheckedUsers);
+    setSelectAll(!selectAll);
   };
-
-  const handleUserCheckboxChange = (user) => {
-    setCheckedUsers((prevCheckedUsers) => {
-      const updatedCheckedUsers = {
-        ...prevCheckedUsers,
-        [user]: !prevCheckedUsers[user],
-      };
-  
-      // Check if all individual checkboxes are checked and update "Select All" accordingly
-      const allUsersChecked = users.every((u) => updatedCheckedUsers[u]);
-      setSelectAll(allUsersChecked);
-  
-      return updatedCheckedUsers;
-    });
+  const handleUserCheckboxChange = (userId) => {
+    setCheckedUsers((prevCheckedUsers) => ({
+      ...prevCheckedUsers,
+      [userId]: !prevCheckedUsers[userId],
+    }));
   };
-  
+  const areAllUsersSelected = () => {
+    return Object.values(checkedUsers).every((isSelected) => isSelected);
+  };
+  useEffect(() => {
+    setSelectAll(areAllUsersSelected());
+  }, [checkedUsers]);
   const handleGoalNumberChange = (user, value) => {
     setGoalNumbers((prevGoalNumbers) => ({
       ...prevGoalNumbers,
@@ -316,7 +310,7 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                         </Text>
                         <Checkbox
                           isChecked={selectAll}
-                          onChange={handleSelectAllChange}
+                          onChange={handleAssignAllChange}
                           colorScheme="#0D7A79"
                           borderColor="white"
                           ml={1}
@@ -383,8 +377,8 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                           style={{ padding: "5px 30px", borderBottom: "none" }}
                         >
                           <Checkbox
-                            isChecked={checkedUsers[user]}
-                            onChange={() => handleUserCheckboxChange(user)}
+                            isChecked={checkedUsers[user._id]}
+                            onChange={() => handleUserCheckboxChange(user._id)}
                             colorScheme="#0D7A79"
                             padding="8px" // Set the color scheme to green
                             iconColor="#03AF9F"

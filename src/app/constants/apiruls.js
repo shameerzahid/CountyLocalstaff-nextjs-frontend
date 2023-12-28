@@ -1,3 +1,3 @@
- const UserEndPoint = "http://localhost:5000/users";
+ const UserEndPoint = "https://county-backend.vercel.app/users";
 
  export default UserEndPoint;

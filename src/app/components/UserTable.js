@@ -84,28 +84,29 @@ export default function UserTable() {
       Drawer,
     },
   });
+  const getAllUsers = async () => {
+    try {
 
-  useEffect(() => {
-    const getAllUsers = async () => {
-      try {
-
-        const data = await fetch(`${UserEndPoint}`, {
-          method: "GET",
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${token}`
-          }
-        })
-        const Users = await data.json()
-        setUsers(Users)
-        console.log(users)
-      } catch (error) {
-        console.log(error)
-      }
+      const data = await fetch(`${UserEndPoint}`, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      })
+      const Users = await data.json()
+      setUsers(Users)
+      console.log(users)
+    } catch (error) {
+      console.log(error)
     }
+  }
+  useEffect(() => {
+   
     getAllUsers()
 
   }, [status])
+
   if (users.length === 0) {
     return <div>Loading...</div>;
   }
@@ -128,8 +129,8 @@ export default function UserTable() {
       const res = await data.json();
       const status = await data.status;
       console.log(res, status);
-
       if (status === 200) {
+        getAllUsers()
         // Use the updated state directly here
         toast({
           title: 'Success status updated',
@@ -202,7 +203,49 @@ export default function UserTable() {
       });
     }
   }
+  const RemoveAccount = async(id) => {
+    try {
+      const data = await fetch(`${UserEndPoint}/soft-delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const res = await data.json();
+      const status = await data.status;
+      console.log(res, status);
 
+      if (status === 200) {
+        getAllUsers()
+        toast({
+          title: 'Account Removed',
+          position: "bottom-right",
+          status: 'success',
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        // Use the updated state directly here
+        toast({
+          title: 'Invalid',
+          position: "bottom-right",
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      // Use the updated state directly here
+      toast({
+        title: error.message || 'Error updating status',
+        position: "bottom-right",
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  }
   return (
     <div
       style={{
@@ -460,6 +503,7 @@ export default function UserTable() {
                                     pl={2}
                                     fontSize="13px"
                                     _hover={{ background: "#03AF9F" }}
+                                    onClick={() => RemoveAccount(user._id)}
                                   >
                                     Remove Account
                                   </MenuItem>
