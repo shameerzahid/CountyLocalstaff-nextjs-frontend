@@ -65,7 +65,7 @@ export default function Users() {
         }}
       >
         <Sidebar />
-        <Box margin="25px 40px 0 40px" width="calc(100% - 11vw)">
+        <Box className="md:mx-10 mt-6 mx-5" width="calc(100% - 11vw)">
           <Heading fontSize="2.4rem" fontFamily="lato700" color="#0B393E">
             Users
           </Heading>
@@ -79,7 +79,7 @@ export default function Users() {
             paddingRight={0}
           >
             <Box
-              display={{ base: "block", md: "flex" }}
+              display={{ base: "flex", md: "flex" }}
               width="70vw"
               justifyContent="space-between"
               // width={{ base: "full", md: "auto" }}
@@ -87,8 +87,8 @@ export default function Users() {
               flexGrow={1}
             >
               <Box
-                display={{ base: "block", md: "flex" }}
-                width={{ base: "full", md: "auto" }}
+                display={{ base: "flex", md: "flex" }}
+                width={{ base: "auto", md: "auto" }}
                 alignItems="center"
                 flexGrow={1}
                 fontWeight={550}
@@ -140,12 +140,7 @@ export default function Users() {
                   <AdminAddUserForm
                     isOpen={isOpen}
                     onClose={onClose}
-                    fName=""
-                    lName=""
-                    pemail=""
-                    prole=""
                     edit={false}
-                    id=""
                   />
                 </ChakraProvider>
               </Box>

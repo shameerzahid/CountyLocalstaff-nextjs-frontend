@@ -127,7 +127,9 @@ export default function Page() {
   <Flex flexDirection="column" >
   <Center>
     <h1 className='heading' style={{fontFamily: 'lato700'}}>Login</h1>
-  </Center>      <Text paddingTop="5vh" color="#666" fontFamily="poppinsreg" paddingBottom="3vh" fontSize="1.1rem">To Login to your account, please enter your Email and Password below to start</Text>
+  </Center>      <Text
+   paddingTop="5vh"
+    color="#666" fontFamily="poppinsreg" paddingBottom="3vh" fontSize="1.1rem">To Login to your account, please enter your Email and Password below to start</Text>
       <Text as='b' fontSize="md"  fontFamily="poppinsreg">Email</Text>
       <Input placeholder='Enter Your Email' fontFamily="poppinsreg"  className="input" value={email} onChange={(e) => setEmail(e.target.value)} isRequired />
       <Text as='b' fontSize="md" fontFamily="poppinsreg" >Password</Text>

@@ -59,9 +59,9 @@ height: 60px;
 {
   height: 100vh;
 }
-@media screen and (max-width: 770px){
+@media screen and (max-width: 1024px){
   .sidebartop {
-    height: 50vh !important;
+    display: none !important;
   }
 }
   /* Handle hover state */

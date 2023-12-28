@@ -83,7 +83,8 @@ export default function Goals() {
           }
         })
         const Goals = await data.json()
-        setGoals(Goals)
+          setGoals(Goals)
+         
       } catch (error) {
         console.log(error)
       }
@@ -164,18 +165,19 @@ export default function Goals() {
           <Divider orientation='horizontal' marginTop="-16px" border="1px solid #ccc" />
           {/* <Tabs /> */}
           {
-            goals ? (
-              activeLink1 ? (
-                <AdminCurrentGoal />
-              ) : activeLink2 ? (
-                <AdminUpcomingGoal />
-              ) : (
-                <NoGoal title="No Active Goal" />
-              )
-            ) : (
-              <NoGoal title="No Active Goal" />
-            )
-          }
+  !goals.error ? (
+    activeLink1 ? (
+      <AdminCurrentGoal />
+    ) : activeLink2 ? (
+      <AdminUpcomingGoal />
+    ) : (
+      <NoGoal title={activeLink1 ? "No Active Goal" : "No Upcoming Goal"} />
+    )
+  ) : (
+    <NoGoal title="No Goals" />
+  )
+}
+
 
 
 

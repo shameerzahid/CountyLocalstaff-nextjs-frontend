@@ -72,11 +72,11 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
   };
 
   const options = {
-    minDate: new Date(), // Set minimum date to today
+    minDate: "today", // Set minimum date to today
     mode: "range",
     altInputClass: "hide",
     dateFormat: "Y-m-d",
-    inline: false,
+    // inline: false,
     maxDate: new Date("01-01-3000"),
   };
   const calendarRef = useRef(null);

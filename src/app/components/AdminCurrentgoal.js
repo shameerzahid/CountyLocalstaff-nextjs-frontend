@@ -20,53 +20,15 @@ export default function AdminCurrentGoal() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const token = useSelector(selectToken);
   const [goals, setGoals] = useState([])
-  const [user, setUser] = useState([])
+  const [users, setUsers] = useState([])
   const [startDate, setStartDate] = useState("")
   const [endDate, setEndDate] = useState("")
   const [loading, setLoading] = useState(true);
+  const [percentage, setPercentage] = useState([])
   const [chartInitialized, setChartInitialized] = useState(false);
   const router = useRouter();
 
-
-  const users = [
-    {
-      id: 1,
-      name: "Bob Williams ",
-      lastupdated: "00-00-0000",
-      progress: "0% completed",
-      bonus: "0% bonus"
-    },
-    {
-      id: 2,
-      name: "Usertest test",
-      lastupdated: "00-00-0000",
-      progress: "0% completed",
-      bonus: "0% bonus"
-    },
-    {
-      id: 1,
-      name: "John Doe",
-      lastupdated: "00-00-0000",
-      progress: "0% completed",
-      bonus: "0% bonus"
-    },
-    {
-      id: 1,
-      name: "John Doe",
-      lastupdated: "00-00-0000",
-      progress: "0% completed",
-      bonus: "0% bonus"
-    },
-    {
-      id: 1,
-      name: "John Doe",
-      lastupdated: "00-00-0000",
-      progress: "0% completed",
-      bonus: "0% bonus"
-    },
-
-    // Add more users as needed
-  ];
+  
   const rowHeight = 3; // Set the desired height for each row in vh
   const numRows = Math.min(Math.floor(70 / rowHeight), users.length); // Calculate the number of rows that fit within 70vh
   const bg = useToken('colors', '#F6F6F6')
@@ -85,10 +47,12 @@ useEffect(() => {
         }
       })
       const data = await res.json()
-      console.log(data)
+      console.log("Data : ",data)
       setGoals(data)
-      setStartDate(data[0].startDate)
-      setEndDate(data[0].endDate)
+      setUsers(data.users)
+      console.log(data.users)
+      setStartDate(data.startDate)
+      setEndDate(data.endDate)
       setLoading(false);
     } catch (error) {
       console.log(error)
@@ -97,34 +61,57 @@ useEffect(() => {
   }
   GetCurrentGoals()
 }, [])
+
 useEffect(() => {
-  if(loading)
-  {
-  anychart.onDocumentReady(function () {
+  const GetGoalStats = async () => {
+    try {
+        
+      const data =  await fetch(`${GoalEndPoint}/stats/${goals._id}`,{
+        method : "GET",
+        headers: {
+          "Content-type" : "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      })
+      const res = await data.json()
+      setPercentage(res)
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  GetGoalStats()
+}, [goals])
+useEffect(() => {
+  const initializeChart = async () => {
+    // Ensure anychart library is loaded
+    if (anychart.onDocumentReady) {
+      anychart.onDocumentReady(() => {
+        // create data
+        var data = [
+          { x: "Completed", value: percentage.completed_percentage},
+          { x: "Bonus", value: percentage.bonus_percentage},
+          { x: "Incomplete", value: percentage.incompleted_percentage },
+        ];
 
-    // create data
-    var data = [
-      { x: "Completed", value: 1 },
-      { x: "Bonus", value: 2 },
-      { x: "Incomplete", value: 3 },
-    ];
+        // create a chart and set the data
+        var chart = anychart.pie(data);
 
-    // create a chart and set the data
-    var chart = anychart.pie(data);
+        // set the container id
+        chart.container("container");
+        chart.palette(["#03AF9F", "#FFCE21", "#DCFF07"]);
 
-    // set the chart title
-    // chart.title("Team Overview");
+        // initiate drawing the chart
+        chart.draw();
+        setChartInitialized(true);
+      });
+    }
+  };
 
-    // set the container id
-    chart.container("container");
-    chart.palette(["#03AF9F", "#FFCE21", "#DCFF07"])
-    // initiate drawing the chart
-    chart.draw();
-    setChartInitialized(true);
-  });  }
-},[])
+  initializeChart();
+}, [goals]);
 
-if (loading) {
+if (loading || !chartInitialized) {
   return <div>Loading...</div>;
 }
 
@@ -136,66 +123,35 @@ if (loading) {
         <Image style={{ marginLeft: '0.25rem', width: '1rem', height: '1rem' }} src={calender} />
         {/* <FaCalendarAlt style={{ marginLeft: '0.25rem' }} color="#03AF9F" /> */}
         <Text marginLeft="0.5rem" color="#212529">Active Goal from</Text>
-        <Text width="14rem" marginLeft="1.5rem" color="#212529">{startDate}
-          {/* {new Date(startDate).toISOString().split('T')[0]} to {new Date(endDate).toISOString().split('T')[0]} */}
+        <Text width="14rem" marginLeft="1.5rem" color="#212529">
+          {new Date(startDate).toISOString().split('T')[0]} to {new Date(endDate).toISOString().split('T')[0]}
           </Text>
         <Image style={{ marginLeft: '3rem', width: '1rem', height: '1rem' }} src={goal} />
         {/* <GoGoal style={{ marginLeft: "3rem" }} color="#03AF9F" /> */}
         <Text marginLeft="0.5rem" color="#212529">Goal Number</Text>
         <Text marginLeft="1.5rem" color="#212529">
-          {/* { goals[0].users[0].goalNumber} */}
+          { goals.users[0].goalNumber}
           </Text>
-        {/* {
-          goals[0].repeat &&
+        {
+          goals.repeat &&
           <Text marginLeft="3rem" paddingTop="5px" color="#03AF9F" backgroundColor="#03af9e18" borderRadius="20px" fontWeight="500" height="34px" width="70px" textAlign="center">Repeat</Text>
 
-        } */}
+        }
       </Flex>
       <Flex flexDirection="row" alignItems="center" fontSize="1rem" fontWeight="500" marginLeft="0.5rem" marginTop="0.7rem" paddingLeft="15px" paddingRight="15px" >
       <Image style={{ marginLeft: '0.25rem', width: '1rem', height: '1rem' }} src={trophy} />
         {/* <GiTrophyCup style={{ marginLeft: '0.25rem' }} color="#03AF9F" /> */}
         <Text marginLeft="0.5rem">Goal Reward</Text>
         <Text width="14rem" marginLeft="3.5rem">
-          {/* {goals[0].reward}  */}
+          {goals.reward} 
           </Text>
         <Image style={{ marginLeft: '3rem', width: '1rem', height: '1rem' }} src={stats} />
         {/* <GiStairsGoal style={{ marginLeft: "2.8rem" }} color="#03AF9F" /> */}
         <Text marginLeft="0.5rem">Bonus Goal</Text>
         <Text marginLeft="2.4rem">
-          {/* {goals[0].bonus}  */}
+          {goals.bonus} 
           </Text>
       </Flex>
-      {/* <Flex flexDirection="row" justifyContent="space-between" width="65vw"> */}
-      {/* <Flex flexDirection="row" alignItems="center" width="650px" fontSize="16px" fontWeight="500" marginTop="22px" marginLeft="40px">
-                    <Flex flexDirection="row" alignItems="center" width="560px">
-                   <Flex  alignItems="center" width="250px"> <FaCalendarAlt color="#03AF9F" />
-                    <Text marginLeft="5px">Active Goal from</Text> </Flex>
-                    <Text>12-20-2023 to 12-22-2023</Text>
-                    </Flex>
-                    <Flex flexDirection="row" alignItems="center" width="250px" marginLeft="20px">
-                   <Flex justifyContent="center" alignItems="center" width="200px"> 
-                                       <GoGoal color="#03AF9F" />
-                    <Text marginLeft="5px">Goal Number</Text> </Flex>
-                    <Text>10</Text>
-                    </Flex>  
-                    
-
-                </Flex> */}
-      {/* <Text  margin="20px 20px auto auto" paddingTop="5px" color="#03AF9F" backgroundColor="#03af9e18" borderRadius="20px" fontWeight="500" height="36px" width="70px" textAlign="center">Repeat</Text> </Flex>
-                <Flex flexDirection="row" alignItems="center" width="650px" fontSize="16px" fontWeight="500" marginTop="22px" marginLeft="40px">
-                    <Flex flexDirection="row" alignItems="center" width="560px">
-                   <Flex  alignItems="center" width="250px"> <GiTrophyCup color="#03AF9F" />
-                    <Text marginLeft="5px">Goal Reward</Text> </Flex>
-                    <Text>anything</Text>
-                    </Flex>
-                    <Flex flexDirection="row" alignItems="center" width="250px" marginLeft="20px">
-                   <Flex justifyContent="center" alignItems="center" width="200px"> 
-                                       <GiStairsGoal color="#03AF9F" />
-                    <Text marginLeft="5px">Bonus Goal</Text> </Flex>
-                    <Text>10</Text>
-                    </Flex>  
-                   
-                </Flex> */}
       <Flex flexDirection="row" justifyContent="space-between" marginTop="1rem" >
         <div style={{ overflow: "hidden", height: "59vh", width: "66.5%", backgroundColor: "white", borderRadius: "20px", margin: "0 0 0 0", paddingLeft: "20px", border: "1px solid #ccc", paddingRight: "20px" }}>
           <div className="tablecontainer" style={{ height: "59px", width: "100%", overflowY: "hidden", backgroundColor: "white" }}>
@@ -213,10 +169,10 @@ if (loading) {
               <Tbody>
                 {users.slice(0, numRows).map((user, index) => (
                   <Tr key={user.id} style={{ height: "4.5rem", boxShadow: '0px 4px 16px -4px rgba(0, 0, 0, 0.12)', borderRadius: "6px" }}>
-                    <Td bg={index % 2 === 0 ? `${bg + '!important'}` : "white"} style={{ padding: "0 16px", borderTop: "0.1px solid  #ccc", width: "20%", fontFamily: "poppinsreg", fontSize: "14px" }} >{user.name}</Td>
-                    <Td bg={index % 2 === 0 ? `${bg + '!important'}` : "white"} style={{ padding: "0 20px", borderTop: "0.1px solid  #ccc", width: "20%", fontFamily: "poppinsreg", fontSize: "14px" }} >{user.lastupdated}</Td>
-                    <Td bg={index % 2 === 0 ? `${bg + '!important'}` : "white"} style={{ padding: "0 16px", borderTop: "0.1px solid  #ccc", width: "45%", fontFamily: "poppinsreg", fontSize: "12px" }} >{user.progress} + <span style={{ color: "#03AF9F" }}>{user.bonus}</span>
-                      <Progress value={0} size='md' />
+                    <Td bg={index % 2 === 0 ? `${bg + '!important'}` : "white"} style={{ padding: "0 16px", borderTop: "0.1px solid  #ccc", width: "20%", fontFamily: "poppinsreg", fontSize: "14px" }} >{`${user.firstName} ${user.lastName}`}</Td>
+                    <Td bg={index % 2 === 0 ? `${bg + '!important'}` : "white"} style={{ padding: "0 20px", borderTop: "0.1px solid  #ccc", width: "20%", fontFamily: "poppinsreg", fontSize: "14px" }} >{user.lastUpdated == null ? "00-00-00000" : new Date(user.lastUpdated).toISOString().split('T')[0]  }</Td>
+                    <Td bg={index % 2 === 0 ? `${bg + '!important'}` : "white"} style={{ padding: "0 16px", borderTop: "0.1px solid  #ccc", width: "45%", fontFamily: "poppinsreg", fontSize: "12px" }} >{user.complete_percentage}% completed + <span style={{ color: "#03AF9F" }}>{user.bonus}% Bonus</span>
+                      <Progress value={user.complete_percentage} size='md' />
                     </Td>
                     <Td bg={index % 2 === 0 ? `${bg + '!important'}` : "white"} style={{ padding: "0 16px", borderTop: "0.1px solid  #ccc", width: "15%" }} >
                       <Button onClick={handleDetails} fontSize="16px" fontFamily="poppinsmed" height="38px" border="1px solid #03AF9F" borderRadius="0.25rem" lineHeight="24px" fontWeight="400" bg='transparent' color="#03AF9F" _hover={{ bg: '#03AF9F', color: "white" }}>

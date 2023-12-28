@@ -96,7 +96,6 @@ export default function UserTable() {
       })
       const Users = await data.json()
       setUsers(Users)
-      console.log(users)
     } catch (error) {
       console.log(error)
     }
@@ -104,8 +103,9 @@ export default function UserTable() {
   useEffect(() => {
    
     getAllUsers()
+    console.log("All Users",users)
 
-  }, [status])
+  }, [])
 
   if (users.length === 0) {
     return <div>Loading...</div>;
@@ -533,6 +533,8 @@ export default function UserTable() {
             prole={selectedUser.role}
             edit={true}
             changepassword={false}
+            getUpdatedUsers = {() => getAllUsers()}
+            getNewUsers = {() => getAllUsers()}
           />
         </ChakraProvider>
       </div>{" "}

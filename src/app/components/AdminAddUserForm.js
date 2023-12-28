@@ -42,7 +42,9 @@ export default function AdminAddUserForm({
   prole,
   edit,
   id,
-  changepassword
+  changepassword,
+  getUpdatedUsers,
+  getNewUsers
 }) {
   
   const [selectedOption, setSelectedOption] = useState("");
@@ -66,12 +68,12 @@ const [confirmPassword, setConfirmPassword] = useState("")
     setEmail(pemail || "");
     setRole(prole || 0)
   }, [fName, lName, pemail]);
- console.log(firstName, lastName, email, role)
- console.log(fName, lName, pemail, id)
-  
+ console.log(firstName, lastName, email, role)  
   const SaveUser = (e) => {
-    if (id == "") AddUser(e);
-    else UpdateUser(e);
+    if (id) 
+    UpdateUser(e);
+    else 
+    AddUser(e);
   };
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = () => {
@@ -125,6 +127,7 @@ const [confirmPassword, setConfirmPassword] = useState("")
       console.log(res, status)
       if(status == 200)
       {
+        getUpdatedUsers()
         toast({
           title: 'Success',
           position: "bottom-right",
@@ -183,15 +186,17 @@ const [confirmPassword, setConfirmPassword] = useState("")
       const res = await data.json();
       const status = await data.status;
       console.log(res, status)
+      
       if (status == 201) {
         toast({
-          title: 'Signup Success',
-          description: "Logged In",
+          title: 'User Created',
+          description: "Success",
           position: "bottom-right",
           status: 'success',
           duration: 2000,
           isClosable: true,
         })
+        getUpdatedUsers()
       }
       else {
         toast({
@@ -205,8 +210,8 @@ const [confirmPassword, setConfirmPassword] = useState("")
       }
     } catch (error) {
       toast({
-        title: 'Invalid Signup',
-        description: "catch error",
+        title: error.message ,
+        description: error.message,
         position: "bottom-right",
         status: 'error',
         duration: 2000,
@@ -284,7 +289,7 @@ const [confirmPassword, setConfirmPassword] = useState("")
         >
           <DrawerCloseButton style={{ marginTop: "2rem" }} />
           <DrawerHeader fontFamily="lato700" fontSize="1.4rem">
-            Add User
+           {id ? "Edit User": "Add User"} 
           </DrawerHeader>
           <DrawerBody marginBottom="3vh" className="drawercontainer">
             {

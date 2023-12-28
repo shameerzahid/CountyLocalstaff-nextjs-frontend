@@ -49,7 +49,7 @@ const { isOpen, onOpen, onClose } = useDisclosure();
       }
     }
    UserDetails()
-  }, [])
+  }, [userId])
 
   const ChangePassword = () => {
     onOpen();
@@ -124,8 +124,7 @@ const { isOpen, onOpen, onClose } = useDisclosure();
       <Box
         margin="2rem 20px 0 0"
         bg="white"
-        height="415px"
-        width="448px"
+        className="lg:w-[448px] lg:h-[415px] w-full "
         padding="24px"
         borderRadius="18px"
         border="1px solid #ccc"

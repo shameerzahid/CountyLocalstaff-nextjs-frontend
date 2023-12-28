@@ -10,6 +10,7 @@ body, html {
     font-family: 'Dancing Script', 'Helvetica Neue', cursive;
     box-sizing: border-box;
     overflow-y: hidden;
+    /* background-color: ; */
   }
   body::-webkit-scrollbar{
     display: none;
@@ -190,7 +191,7 @@ body, html {
   .container
   {
     width: 50vw !important;
-    padding: 3% 15% 10% 16% !important;
+    padding: 45px 30px 30px 50px!important;
     /* margin-top: 5vh; */
   }
   @media only screen and (max-width: 800px) {
