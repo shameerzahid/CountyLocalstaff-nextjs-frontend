@@ -67,7 +67,7 @@ const [confirmPassword, setConfirmPassword] = useState("")
     setRole(prole || 0)
   }, [fName, lName, pemail]);
  console.log(firstName, lastName, email, role)
- console.log(fName, lName, pemail, prole)
+ console.log(fName, lName, pemail, id)
   
   const SaveUser = (e) => {
     if (id == "") AddUser(e);
@@ -104,7 +104,7 @@ const [confirmPassword, setConfirmPassword] = useState("")
   };
   const UpdateUser = async () => {
     try {
-      const data = await fetch(`${UserEndPoint}/${userId}`,{
+      const data = await fetch(`${UserEndPoint}/${id}`,{
         method : "PUT",
         headers: {
           "Content-type" : "application/json",
@@ -154,7 +154,6 @@ const [confirmPassword, setConfirmPassword] = useState("")
   }
   };
   const AddUser = async (e) => {
-console.log("Add user")
     // e.preventDefault();
     if (!firstName || !lastName || !email || !password || !role) {
       toast({

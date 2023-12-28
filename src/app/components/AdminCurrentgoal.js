@@ -77,7 +77,7 @@ useEffect(() => {
   const GetCurrentGoals = async () => {
     try {
 
-      const res = await fetch(`${GoalEndPoint}`, {
+      const res = await fetch(`${GoalEndPoint}/active-goals`, {
         method: "GET",
         headers: {
           "Content-type": "application/json",
@@ -136,26 +136,34 @@ if (loading) {
         <Image style={{ marginLeft: '0.25rem', width: '1rem', height: '1rem' }} src={calender} />
         {/* <FaCalendarAlt style={{ marginLeft: '0.25rem' }} color="#03AF9F" /> */}
         <Text marginLeft="0.5rem" color="#212529">Active Goal from</Text>
-        <Text width="14rem" marginLeft="1.5rem" color="#212529">{new Date(startDate).toISOString().split('T')[0]} to {new Date(endDate).toISOString().split('T')[0]}</Text>
+        <Text width="14rem" marginLeft="1.5rem" color="#212529">{startDate}
+          {/* {new Date(startDate).toISOString().split('T')[0]} to {new Date(endDate).toISOString().split('T')[0]} */}
+          </Text>
         <Image style={{ marginLeft: '3rem', width: '1rem', height: '1rem' }} src={goal} />
         {/* <GoGoal style={{ marginLeft: "3rem" }} color="#03AF9F" /> */}
         <Text marginLeft="0.5rem" color="#212529">Goal Number</Text>
-        <Text marginLeft="1.5rem" color="#212529">{ goals[0].users[0].goalNumber}</Text>
-        {
+        <Text marginLeft="1.5rem" color="#212529">
+          {/* { goals[0].users[0].goalNumber} */}
+          </Text>
+        {/* {
           goals[0].repeat &&
           <Text marginLeft="3rem" paddingTop="5px" color="#03AF9F" backgroundColor="#03af9e18" borderRadius="20px" fontWeight="500" height="34px" width="70px" textAlign="center">Repeat</Text>
 
-        }
+        } */}
       </Flex>
       <Flex flexDirection="row" alignItems="center" fontSize="1rem" fontWeight="500" marginLeft="0.5rem" marginTop="0.7rem" paddingLeft="15px" paddingRight="15px" >
       <Image style={{ marginLeft: '0.25rem', width: '1rem', height: '1rem' }} src={trophy} />
         {/* <GiTrophyCup style={{ marginLeft: '0.25rem' }} color="#03AF9F" /> */}
         <Text marginLeft="0.5rem">Goal Reward</Text>
-        <Text width="14rem" marginLeft="3.5rem">{goals[0].reward} </Text>
+        <Text width="14rem" marginLeft="3.5rem">
+          {/* {goals[0].reward}  */}
+          </Text>
         <Image style={{ marginLeft: '3rem', width: '1rem', height: '1rem' }} src={stats} />
         {/* <GiStairsGoal style={{ marginLeft: "2.8rem" }} color="#03AF9F" /> */}
         <Text marginLeft="0.5rem">Bonus Goal</Text>
-        <Text marginLeft="2.4rem">{goals[0].bonus} </Text>
+        <Text marginLeft="2.4rem">
+          {/* {goals[0].bonus}  */}
+          </Text>
       </Flex>
       {/* <Flex flexDirection="row" justifyContent="space-between" width="65vw"> */}
       {/* <Flex flexDirection="row" alignItems="center" width="650px" fontSize="16px" fontWeight="500" marginTop="22px" marginLeft="40px">

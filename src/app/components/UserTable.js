@@ -526,7 +526,7 @@ export default function UserTable() {
             isOpen={isOpen}
             onClose={onClose}
             user={selectedUser}
-            id={selectedUser.id}
+            id={selectedUser._id}
             fName={selectedUser.firstName}
             lName={selectedUser.lastName}
             pemail={selectedUser.email}

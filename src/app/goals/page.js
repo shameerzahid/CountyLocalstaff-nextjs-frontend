@@ -42,17 +42,10 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../redux/authSlice";
 export default function Goals() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-
-
-
-
-
   const [activeLink1, setActiveLink1] = useState(true);
   const [activeLink2, setActiveLink2] = useState(false);
   const [goals, setGoals] = useState([])
   const token = useSelector(selectToken);
-
   const handleLinkClick = (index) => {
     if (index === 1) {
       setActiveLink1(true);
@@ -82,7 +75,7 @@ export default function Goals() {
     const getAllGoals = async () => {
       try {
 
-        const data = await fetch(`${GoalEndPoint}`, {
+        const data = await fetch(`${GoalEndPoint}/active-goals`, {
           method: "GET",
           headers: {
             "Content-type": "application/json",
@@ -90,7 +83,7 @@ export default function Goals() {
           }
         })
         const Goals = await data.json()
-        setGoals(false)
+        setGoals(Goals)
       } catch (error) {
         console.log(error)
       }

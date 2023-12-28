@@ -22,6 +22,7 @@ import {
   Th,
   Thead,
   Tr,
+  useToast,
   useToken,
 } from "@chakra-ui/react";
 import { useRef } from "react";
@@ -30,6 +31,7 @@ import Image from "next/image";
 import UserEndPoint from "../constants/apiruls";
 import { selectToken } from "../redux/authSlice";
 import { useSelector } from "react-redux";
+import GoalEndPoint from "../constants/goalurls";
 export default function AdminAddGoalForm({ isOpen, onClose }) {
   const [users, setUsers] = useState([]);
   const [startDate, setStartDate] = useState(null);
@@ -41,7 +43,11 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
   const token = useSelector(selectToken);
   const [selectAll, setSelectAll] = useState(false);
   const [checkedUsers, setCheckedUsers] = useState({});
+  const [status, setStatus] = useState(true)
+  const [user, setUser] = useState([]);
   const [defaultGoalNumber, setDefaultGoalNumber] = useState("");
+  const toast = useToast()
+
   // Set initial values for goalNumbers
   useEffect(() => {
     const initialGoalNumbers = {};
@@ -148,18 +154,107 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
   };
 
   useEffect(() => {
-    console.log("Default Goal Number:", defaultGoalNumber);
     if (selectedDates.length === 2) {
       setStartDate(selectedDates[0].toISOString().split("T")[0]);
       setEndDate(selectedDates[1].toISOString().split("T")[0]);
     }
   }, [selectedDates, defaultGoalNumber]);
-  const CreateNewGoal = async () => {
-    console.log(selectedDates);
-    console.log("Goal Numbers:", goalNumbers);
-    console.log(startDate, endDate, bonus, repeat, reward, checkedUsers, goalNumbers);
-  };
 
+
+  //   const CreateNewGoal = async () => {
+  //   console.log(selectedDates);
+  //   console.log("Goal Numbers:", goalNumbers);
+    
+  //   console.log(startDate, endDate, bonus, repeat, reward, checkedUsers, goalNumbers);
+  //   const selectedUsers = Object.entries(checkedUsers)
+  //     .filter(([userId, isChecked]) => isChecked)
+  //     .map(([userId]) => ({
+  //       userId,
+  //       goalNumber: goalNumbers[userId],
+  //     }));
+  //     setUser(selectedUsers)
+
+  // };
+  const CreateNewGoal = async () => {
+    // Filter users with checkedUsers being true and map to a new array with id and goalNumber
+    const selectedUsers = Object.entries(checkedUsers)
+      .filter(([userId, isChecked]) => isChecked)
+      .map(([userId]) => ({
+        userId,
+        goalNumber: goalNumbers[userId],
+      }));
+  
+    console.log("Selected Users:", selectedUsers);
+  
+    // Log the selected users for testing purposes
+  
+    if (!startDate || !endDate || !bonus || !reward) {
+      toast({
+        title: 'Fill all the fields',
+        description: 'Field is empty',
+        position: 'bottom-right',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+      return; // Exit the function if validation fails
+    }
+  
+    try {
+      const data = await fetch(`${GoalEndPoint}/create`, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          startDate,
+          endDate,
+          reward,
+          bonus,
+          repeat,
+          status,
+          user: selectedUsers,
+        }),
+      });
+  
+      const res = await data.json();
+      const stats = await data.status;
+  
+      console.log('Response:', res);
+      console.log('Status:', stats);
+  
+      if (stats === 201) {
+        toast({
+          title: 'Signup Success',
+          description: 'Logged In',
+          position: 'bottom-right',
+          status: 'success',
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: 'Invalid Signup',
+          description: 'Error',
+          position: 'bottom-right',
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: error.message || 'An error occurred',
+        position: 'bottom-right',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
+  
   return (
     <div>
       <Drawer size="menu" isOpen={isOpen} placement="right" onClose={onClose}>
