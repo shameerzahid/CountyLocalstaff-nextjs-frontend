@@ -164,19 +164,9 @@ export default function Goals() {
           </Flex>
           <Divider orientation='horizontal' marginTop="-16px" border="1px solid #ccc" />
           {/* <Tabs /> */}
-          {
-  !goals.error ? (
-    activeLink1 ? (
-      <AdminCurrentGoal />
-    ) : activeLink2 ? (
-      <AdminUpcomingGoal />
-    ) : (
-      <NoGoal title={activeLink1 ? "No Active Goal" : "No Upcoming Goal"} />
-    )
-  ) : (
-    <NoGoal title="No Goals" />
-  )
-}
+          
+    {activeLink1 && <AdminCurrentGoal/>}
+          {activeLink2 && <AdminUpcomingGoal/>}
 
 
 

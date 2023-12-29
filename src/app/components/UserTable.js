@@ -8,28 +8,13 @@ import {
   Td,
   Button,
   IconButton,
-  Icon,
   ChakraProvider,
   extendTheme,
   useToast,
 } from "@chakra-ui/react";
 import { useToken } from "@chakra-ui/react";
 import {
-  Divider,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
   Flex,
-  FormLabel,
-  Heading,
-  Input,
-  Select,
-  Stack,
-  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { HiOutlineEllipsisVertical } from "react-icons/hi2";
@@ -40,32 +25,23 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
 } from "@chakra-ui/react";
 import "../styles/styles.css";
 import { useSelector } from "react-redux";
 import { selectToken } from "../redux/authSlice";
 import UserEndPoint from '../constants/apiruls'
 import { selectRole } from "../redux/roleSlice";
-
+import { useDispatch,} from 'react-redux';
+import { selectUserTable, setUsers } from '../redux/userTableSlice';
 export default function UserTable() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const token = useSelector(selectToken);
   const currentRole = useSelector(selectRole);
-
-  const [users, setUsers] = useState([])
   const [status, setStatus] = useState(true)
   const toast = useToast()
+  const dispatch = useDispatch()
 
-  // Dummy data for illustration purposes
-
-
-  const rowHeight = 3; // Set the desired height for each row in vh
-  const numRows = Math.min(Math.floor(70 / rowHeight), users.length); // Calculate the number of rows that fit within 70vh
-  const bg = useToken("colors", "#F6F6F6");
+  
   const [selectedUser, setSelectedUser] = useState("");
   const handleEdit = (user) => {
     setSelectedUser(user);
@@ -86,24 +62,27 @@ export default function UserTable() {
   });
   const getAllUsers = async () => {
     try {
-
       const data = await fetch(`${UserEndPoint}`, {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
-      })
-      const Users = await data.json()
-      setUsers(Users)
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      const users = await data.json();
+  
+      // Update Redux state
+      dispatch(setUsers(users));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
+  const { users } = useSelector(selectUserTable);
   useEffect(() => {
-   
+
     getAllUsers()
-    console.log("All Users",users)
+    console.log("All Users", users)
 
   }, [])
 
@@ -160,7 +139,7 @@ export default function UserTable() {
       });
     }
   };
-  const ResetPassword = async(id, status) => {
+  const ResetPassword = async (id, status) => {
     try {
       const data = await fetch(`${UserEndPoint}/reset-password/${id}`, {
         method: "PUT",
@@ -203,7 +182,7 @@ export default function UserTable() {
       });
     }
   }
-  const RemoveAccount = async(id) => {
+  const RemoveAccount = async (id) => {
     try {
       const data = await fetch(`${UserEndPoint}/soft-delete/${id}`, {
         method: "DELETE",
@@ -246,6 +225,9 @@ export default function UserTable() {
       });
     }
   }
+  const rowHeight = 3; // Set the desired height for each row in vh
+  const numRows = Math.min(Math.floor(70 / rowHeight), users.length); // Calculate the number of rows that fit within 70vh
+  const bg = useToken("colors", "#F6F6F6");
   return (
     <div
       style={{
@@ -533,8 +515,8 @@ export default function UserTable() {
             prole={selectedUser.role}
             edit={true}
             changepassword={false}
-            getUpdatedUsers = {() => getAllUsers()}
-            getNewUsers = {() => getAllUsers()}
+            getUpdatedUsers={() => getAllUsers()}
+            getNewUsers={() => getAllUsers()}
           />
         </ChakraProvider>
       </div>{" "}

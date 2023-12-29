@@ -1,5 +1,5 @@
 "use client"
-import { Table, Thead, Tbody, Tr, Th, Td, Button, Flex, Text, useToken, useDisclosure, Progress } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td, Button, Flex, Text, useToken, useDisclosure, Progress, useToast } from "@chakra-ui/react";
 import { FaCalendarAlt } from "react-icons/fa";
 import { GoGoal } from "react-icons/go";
 import { GiStairsGoal, GiTrophyCup } from "react-icons/gi";
@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import GoalEndPoint from "../constants/goalurls";
 import { useSelector } from "react-redux";
 import { selectToken } from "../redux/authSlice";
+import NoGoal from "./NoGoal";
 export default function AdminCurrentGoal() {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,18 +26,16 @@ export default function AdminCurrentGoal() {
   const [endDate, setEndDate] = useState("")
   const [loading, setLoading] = useState(true);
   const [percentage, setPercentage] = useState([])
+  const [activeGoal , setActiveGoal] = useState(true)
   const [chartInitialized, setChartInitialized] = useState(false);
   const router = useRouter();
-
-  
+  const toast = useToast()
   const rowHeight = 3; // Set the desired height for each row in vh
-  const numRows = Math.min(Math.floor(70 / rowHeight), users.length); // Calculate the number of rows that fit within 70vh
   const bg = useToken('colors', '#F6F6F6')
    const handleDetails = () => {
     router.push('/user-goal')
    }
-useEffect(() => {
-  const GetCurrentGoals = async () => {
+    const GetCurrentGoals = async () => {
     try {
 
       const res = await fetch(`${GoalEndPoint}/active-goals`, {
@@ -47,6 +46,9 @@ useEffect(() => {
         }
       })
       const data = await res.json()
+      const stat = await res.status
+      if(stat != 200)
+      setActiveGoal(false)
       console.log("Data : ",data)
       setGoals(data)
       setUsers(data.users)
@@ -59,6 +61,8 @@ useEffect(() => {
       setLoading(false);
     }
   }
+useEffect(() => {
+ 
   GetCurrentGoals()
 }, [])
 
@@ -111,14 +115,58 @@ useEffect(() => {
   initializeChart();
 }, [goals]);
 
+const EndGoal = async() => {
+  try {
+    const data = await fetch(`${GoalEndPoint}/end-goal/${goals._id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const res = await data.json();
+    const status = await data.status;
+    GetCurrentGoals()
+    console.log(res, status);
+    if (status === 200) {
+      toast({
+        title: 'Goal Removed',
+        position: "bottom-right",
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+    } else {
+      // Use the updated state directly here
+      toast({
+        title: 'Cannot Delete',
+        position: "bottom-right",
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  } catch (error) {
+    // Use the updated state directly here
+    toast({
+      title: error.message || 'Error updating status',
+      position: "bottom-right",
+      status: 'error',
+      duration: 2000,
+      isClosable: true,
+    });
+  }
+}
+// const numRows = Math.min(Math.floor(70 / rowHeight), users.length); // Calculate the number of rows that fit within 70vh
+
 if (loading || !chartInitialized) {
   return <div>Loading...</div>;
 }
-
-
-
   return (
-    <div style={{ padding: "0 2.5rem", marginTop: "1rem" }}>
+    <>
+    {
+      activeGoal ?
+<div style={{ padding: "0 2.5rem", marginTop: "1rem" }}>
       <Flex flexDirection="row" alignItems="center" fontSize="1rem" fontWeight="500" marginLeft="0.5rem" paddingLeft="15px" paddingRight="15px" >
         <Image style={{ marginLeft: '0.25rem', width: '1rem', height: '1rem' }} src={calender} />
         {/* <FaCalendarAlt style={{ marginLeft: '0.25rem' }} color="#03AF9F" /> */}
@@ -165,9 +213,11 @@ if (loading || !chartInitialized) {
                 </Tr>
               </Thead> </Table></div>
           <div className="tablecontainer" style={{ height: "50vh", width: "100%", overflowY: "auto", backgroundColor: "white" }}>
-            <Table className="table" paddingBottom="10px" style={{ borderCollapse: "separate", width: "100%", borderSpacing: "0 0.6em" }} variant="striped" size="md" bg="white" height={`${numRows * rowHeight}vh`}>
+            <Table className="table" paddingBottom="10px" style={{ borderCollapse: "separate", width: "100%", borderSpacing: "0 0.6em" }} variant="striped" size="md" bg="white" 
+            // height={`${numRows * rowHeight}vh`}
+            >
               <Tbody>
-                {users.slice(0, numRows).map((user, index) => (
+                {users.map((user, index) => (
                   <Tr key={user.id} style={{ height: "4.5rem", boxShadow: '0px 4px 16px -4px rgba(0, 0, 0, 0.12)', borderRadius: "6px" }}>
                     <Td bg={index % 2 === 0 ? `${bg + '!important'}` : "white"} style={{ padding: "0 16px", borderTop: "0.1px solid  #ccc", width: "20%", fontFamily: "poppinsreg", fontSize: "14px" }} >{`${user.firstName} ${user.lastName}`}</Td>
                     <Td bg={index % 2 === 0 ? `${bg + '!important'}` : "white"} style={{ padding: "0 20px", borderTop: "0.1px solid  #ccc", width: "20%", fontFamily: "poppinsreg", fontSize: "14px" }} >{user.lastUpdated == null ? "00-00-00000" : new Date(user.lastUpdated).toISOString().split('T')[0]  }</Td>
@@ -191,11 +241,13 @@ if (loading || !chartInitialized) {
             <Button fontSize="15px" fontWeight="400" borderRadius="0.25rem" height="38px" width="45%" border="1px solid #03AF9F" marginRight="10px" bg='transparent' color="#03AF9F" _hover={{ bg: '#03AF9F', color: "white" }}>
               Edit Goal
             </Button>
-            <Button fontSize="15px" fontWeight="400" borderRadius="0.25rem" height="38px" width="45%" bg='#03AF9F' color="white" _hover={{ bg: '#0d7a79' }}>
+            <Button fontSize="15px" fontWeight="400" borderRadius="0.25rem" height="38px" width="45%" bg='#03AF9F' color="white" _hover={{ bg: '#0d7a79' }} onClick={() => EndGoal()}>
               End Goal
             </Button>   </Flex>
         </Flex>
       </Flex>
-    </div>
+    </div> : <NoGoal title="No Current Goal" />
+    }
+     </>
   );
 }

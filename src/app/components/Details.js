@@ -19,37 +19,42 @@ import { selectToken } from '../redux/authSlice';
 import { selectUserId } from '../redux/userIdSlice';
 import AdminAddUserForm from "./AdminAddUserForm";
 import UserEndPoint from '../constants/apiruls'
+import { useDispatch } from 'react-redux';
+import { selectUser, setFirstName, setLastName, setEmail } from '../redux/userDetailsSlice';
 export default function Details() {
-  const [firstName, setFirstName] = useState("");
-const [lastName, setLastName] = useState("");
-const [email, setEmail] = useState("");
+//   const [firstName, setFirstName] = useState("");
+// const [lastName, setLastName] = useState("");
+// const [email, setEmail] = useState("");
 const token = useSelector(selectToken);
 const userId = useSelector(selectUserId);
 const toast = useToast()
+const dispatch = useDispatch()
 const { isOpen, onOpen, onClose } = useDisclosure();
+const UserDetails = async () => {
+  try {
+    const data = await fetch(`${UserEndPoint}/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const res = await data.json();
 
+    // Update Redux state
+    dispatch(setFirstName(res.firstName));
+    dispatch(setLastName(res.lastName));
+    dispatch(setEmail(res.email));
+
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
+};
+const { firstName, lastName, email } = useSelector(selectUser);
   useEffect(() => {
-    const UserDetails = async() => {
-      try {
-        
-        const data =  await fetch(`${UserEndPoint}/${userId}`,{
-          method : "GET",
-          headers: {
-            "Content-type" : "application/json",
-            Authorization: `Bearer ${token}`
-          }
-        })
-        const res = await data.json()
-        setFirstName(res.firstName)
-        setLastName(res.lastName)
-        setEmail(res.email)
-        
-      } catch (error) {
-        console.log(error)
-      }
-    }
    UserDetails()
-  }, [userId])
+  }, [])
 
   const ChangePassword = () => {
     onOpen();
@@ -69,9 +74,6 @@ const { isOpen, onOpen, onClose } = useDisclosure();
 
   const updateUser = async() => {
     try {
-
-
-
       const data = await fetch(`${UserEndPoint}/${userId}`,{
         method : "PUT",
         headers: {
@@ -86,12 +88,13 @@ const { isOpen, onOpen, onClose } = useDisclosure();
       })
       const res = await data.json();
       const status = await data.status;
-      setFirstName(res.firstName)
-      setLastName(res.lastName)
-      setEmail(res.email)
+      dispatch(setFirstName(res.firstName));
+      dispatch(setLastName(res.lastName));
+      dispatch(setEmail(res.email));
       console.log(res, status)
       if(status == 200)
       {
+        UserDetails()
         toast({
           title: 'Success',
           position: "bottom-right",
@@ -142,7 +145,7 @@ const { isOpen, onOpen, onClose } = useDisclosure();
                 value={firstName}
                 placeholder="First Name"
                 fontFamily="poppinsmed"
-                onChange={(e) => setFirstName(e.target.value)}
+                onChange={(e) => dispatch(setFirstName(e.target.value))}
                 height="49px"
                 borderColor="#CBCBCB"
                 _focus={{
@@ -160,7 +163,7 @@ const { isOpen, onOpen, onClose } = useDisclosure();
                 name="lastName"
                 value={lastName}
                 placeholder="Last Name"
-                onChange={(e) => setLastName(e.target.value)}
+                onChange={(e) =>  dispatch(setLastName(e.target.value))}
                 fontFamily="poppinsmed"
                 height="45px"
                 borderColor="#CBCBCB"
@@ -179,7 +182,7 @@ const { isOpen, onOpen, onClose } = useDisclosure();
                 name="email"
                 value={email}
                 placeholder="Example@gmail.com"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => dispatch(setEmail(e.target.value))}
                 fontFamily="poppinsmed"
                 borderColor="#CBCBCB"
                 height="45px"
