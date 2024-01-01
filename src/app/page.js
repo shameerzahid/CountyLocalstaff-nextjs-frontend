@@ -135,7 +135,11 @@ export default function Page() {
       <Text as='b' fontSize="md" fontFamily="poppinsreg" >Password</Text>
       <Input type='password' placeholder='Enter Your Password' fontFamily="poppinsreg"  className="input" value={password} onChange={(e) => setPassword(e.target.value)} isRequired/>
       <Box className='forget' >
-      <Checkbox fontSize="18px" fontFamily="poppinsreg" colorScheme='green' defaultChecked>
+      <Checkbox colorScheme="#0D7A79"
+                borderRadius="4px"
+                borderColor="#03AF9F"
+                outlineColor="#03AF9F" // S // Set the color scheme to green
+                iconColor="#03AF9F" fontSize="18px" fontFamily="poppinsreg"  defaultChecked>
     Remember me
   </Checkbox>
       <Link color='#0B393E' fontFamily="poppinsmed" href='#' fontSize="md">
