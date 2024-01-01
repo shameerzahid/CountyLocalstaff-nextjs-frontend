@@ -6,6 +6,9 @@ import roleReducer from './roleSlice';
 import adminCurrentGoalReducer from './currentGoalSlice'
 import { userSlice } from './userDetailsSlice';
 import { userTableSlice } from './userTableSlice';
+import admingoaluseridReducer from './adminGoalUserIdSlice';
+import adminOverviewReducer from './adminOverviewSlice';
+import adminUpcomingGoalReducer from './upcomingGoalSlice';
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -14,5 +17,8 @@ export const store = configureStore({
     user: userSlice.reducer,
     userTable: userTableSlice.reducer,
     adminCurrentGoal: adminCurrentGoalReducer,
-  },
+    admingoaluserid: admingoaluseridReducer,
+    adminOverview: adminOverviewReducer,
+    adminUpcomingGoal: adminUpcomingGoalReducer,
+      },
 });

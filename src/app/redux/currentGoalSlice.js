@@ -1,36 +1,32 @@
-// adminCurrentGoalSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
-// Define the initial state
-const initialState = [];
+const initialState = {
+  goal: null,
+  isActive: false,
+  goalCreated: false,
+};
 
-// Create the slice
-const adminCurrentGoalSlice = createSlice({
+const admincurrentgoalsSlice = createSlice({
   name: 'adminCurrentGoal',
   initialState,
   reducers: {
-    addGoal: (state, action) => {
-      // Add a new goal to the array
-      state.push(action.payload);
+    setGoal: (state, action) => {
+      state.goal = action.payload;
+      state.isActive = true;
+      state.goalCreated = true;
+    },
+    removeGoal: (state) => {
+      state.goal = null;
+      state.isActive = false;
+    },
+    toggleGoalCreated: (state) => {
+      state.goalCreated = !state.goalCreated;
     },
     updateGoal: (state, action) => {
-      // Update an existing goal in the array
-      const { _id, updatedGoal } = action.payload;
-      const index = state.findIndex((goal) => goal._id === _id);
-      if (index !== -1) {
-        state[index] = updatedGoal;
-      }
-    },
-    removeGoal: (state, action) => {
-      // Remove a goal from the array by ID
-      const goalId = action.payload;
-      return state.filter((goal) => goal._id !== goalId);
+      state.goalCreated = !state.goalCreated; // Toggle the value
     },
   },
 });
 
-// Export the actions
-export const { addGoal, updateGoal, removeGoal } = adminCurrentGoalSlice.actions;
-
-// Export the reducer
-export default adminCurrentGoalSlice.reducer;
+export const { setGoal, removeGoal, toggleGoalCreated, updateGoal } = admincurrentgoalsSlice.actions;
+export default admincurrentgoalsSlice.reducer;

@@ -18,7 +18,6 @@ const authSlice = createSlice({
   reducers: {
     setToken: (state, action) => {
       state.token = action.payload;
-      // Save the token to cookies
       Cookies.set('authToken', action.payload);
     },
     deleteToken: (state) => {

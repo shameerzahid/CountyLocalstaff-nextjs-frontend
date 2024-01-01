@@ -31,8 +31,9 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../redux/authSlice";
 import UserEndPoint from '../constants/apiruls'
 import { selectRole } from "../redux/roleSlice";
-import { useDispatch,} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { selectUserTable, setUsers } from '../redux/userTableSlice';
+import { removeUser } from '../redux/userTableSlice';
 export default function UserTable() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const token = useSelector(selectToken);
@@ -41,7 +42,7 @@ export default function UserTable() {
   const toast = useToast()
   const dispatch = useDispatch()
 
-  
+
   const [selectedUser, setSelectedUser] = useState("");
   const handleEdit = (user) => {
     setSelectedUser(user);
@@ -69,10 +70,8 @@ export default function UserTable() {
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       const users = await data.json();
-  
-      // Update Redux state
       dispatch(setUsers(users));
     } catch (error) {
       console.log(error);
@@ -84,7 +83,7 @@ export default function UserTable() {
     getAllUsers()
     console.log("All Users", users)
 
-  }, [])
+  }, [users])
 
   if (users.length === 0) {
     return <div>Loading...</div>;
@@ -183,6 +182,7 @@ export default function UserTable() {
     }
   }
   const RemoveAccount = async (id) => {
+  
     try {
       const data = await fetch(`${UserEndPoint}/soft-delete/${id}`, {
         method: "DELETE",
@@ -191,12 +191,13 @@ export default function UserTable() {
           Authorization: `Bearer ${token}`,
         },
       });
-      const res = await data.json();
-      const status = await data.status;
-      console.log(res, status);
-
+  
+      const status = data.status;
+  
       if (status === 200) {
-        getAllUsers()
+        // Remove the user from the Redux store
+        dispatch(removeUser(id));
+  
         toast({
           title: 'Account Removed',
           position: "bottom-right",
@@ -205,9 +206,10 @@ export default function UserTable() {
           isClosable: true,
         });
       } else {
-        // Use the updated state directly here
+        const error = await data.json();
+  
         toast({
-          title: 'Invalid',
+          title: error.message,
           position: "bottom-right",
           status: 'error',
           duration: 2000,
@@ -215,7 +217,6 @@ export default function UserTable() {
         });
       }
     } catch (error) {
-      // Use the updated state directly here
       toast({
         title: error.message || 'Error updating status',
         position: "bottom-right",
@@ -224,7 +225,7 @@ export default function UserTable() {
         isClosable: true,
       });
     }
-  }
+  };
   const rowHeight = 3; // Set the desired height for each row in vh
   const numRows = Math.min(Math.floor(70 / rowHeight), users.length); // Calculate the number of rows that fit within 70vh
   const bg = useToken("colors", "#F6F6F6");
@@ -418,7 +419,7 @@ export default function UserTable() {
                           >
                             Edit
                           </Button>
-                          <Menu placement="bottom-end" maxWidth="48px" className="">
+                          <Menu def placement="bottom-end" maxWidth="48px" className="">
                             {({ isOpen }) => (
                               <>
                                 <MenuButton

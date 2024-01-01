@@ -23,7 +23,7 @@ export default function Sidebar() {
     <Flex
       pos="sticky"
       h="100vh"
-      className="sidebartop"
+      className="sidebartop lg:block hidden bg-black"
       boxShadow="0 4px 12px 0 rgba(0, 0, 0, 0.05)"
       width={navSize == "small" ? "76px" : "255px"}
       flexDir="column"
@@ -179,7 +179,6 @@ export default function Sidebar() {
       >
         <NavItem
           navSize={navSize}
-          onClick = {() => console.log("logout")}
           icon={() => (
             <svg
               width="22"

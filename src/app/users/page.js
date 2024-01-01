@@ -82,7 +82,6 @@ export default function Users() {
               display={{ base: "flex", md: "flex" }}
               width="70vw"
               justifyContent="space-between"
-              // width={{ base: "full", md: "auto" }}
               alignItems="center"
               flexGrow={1}
             >

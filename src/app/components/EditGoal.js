@@ -30,21 +30,15 @@ import "../styles/styles.css";
 import Image from "next/image";
 import UserEndPoint from "../constants/apiruls";
 import { selectToken } from "../redux/authSlice";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import GoalEndPoint from "../constants/goalurls";
-import { useDispatch } from 'react-redux';
-import { setGoal, toggleGoalCreated } from '../redux/currentGoalSlice';
-import { useRouter } from "next/navigation";
-import moment from 'moment-timezone';
+import adminCurrentGoalReducer from '../redux/currentGoalSlice';
+import { updateGoal } from '../redux/currentGoalSlice'; // Update the path
 
-export default function AdminAddGoalForm({ isOpen, onClose }) {
+export default function AdminAddGoalForm({ isOpen, onClose, current }) {
   const [users, setUsers] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [reward, setReward] = useState("");
-  const [bonus, setBonus] = useState(0);
-  const [repeat, setRepeat] = useState(false);
-  const [selectedDates, setSelectedDates] = useState([]);
   const token = useSelector(selectToken);
   const [selectAll, setSelectAll] = useState(false);
   const [checkedUsers, setCheckedUsers] = useState({});
@@ -52,9 +46,27 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
   const [user, setUser] = useState([]);
   const [defaultGoalNumber, setDefaultGoalNumber] = useState("");
   const toast = useToast()
-  const pakistanTimeZone = 'Asia/Karachi';
-  const dispatch = useDispatch();
-  // Set initial values for goalNumbers
+  // const goals = useSelector((state) => state.adminCurrentGoal.goal);
+  // const upcomingGoal = useSelector((state) => state.adminUpcomingGoal.adminUpcomingGoal);
+ const goals = useSelector((state) => (current ? state.adminCurrentGoal.goal : state.adminUpcomingGoal.adminUpcomingGoal));
+ console.log(current)
+  const [reward, setReward] = useState(goals.reward);
+  const [bonus, setBonus] = useState(goals.bonus);
+  const [repeat, setRepeat] = useState(goals.repeat);
+  console.log(goals.startDate, goals.endDate);
+  console.log("curretn goal :",goals,"upcming : ",)
+  const [selectedDates, setSelectedDates] = useState([]);
+  const dispatch = useDispatch()
+  const parseDateString = (dateString) => new Date(dateString);
+
+  // Set initial selected dates when goals change
+  useEffect(() => {
+    if (goals) {
+      const initialDates = [parseDateString(goals.startDate), parseDateString(goals.endDate)];
+      setSelectedDates(initialDates);
+    }
+  }, [goals]);
+
   useEffect(() => {
     const initialGoalNumbers = {};
     users.forEach((user) => {
@@ -62,33 +74,43 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
     });
     setGoalNumbers(initialGoalNumbers);
   }, [defaultGoalNumber, users]);
-  const initialGoalNumber = ""; // Set your default value here
-  const [goalNumbers, setGoalNumbers] = useState(() => {
-    const initialGoalNumbers = {};
-    users.forEach((user) => {
-      initialGoalNumbers[user._id] = initialGoalNumber;
-    });
-    return initialGoalNumbers;
-  });
-  const handleGoalNumberChange = (user, value) => {
-    setGoalNumbers((prevGoalNumbers) => ({
-      ...prevGoalNumbers,
-      [user._id]: value,
-    }));
-  };
+  
+ // Set your default value here
+// const initialGoalNumber = "";
+
+// // Set initial goal numbers based on the users array
+// const initialGoalNumbers = users.reduce((acc, user) => {
+//   acc[user._id] = initialGoalNumber;
+//   return acc;
+// }, {});
+
+// // Initialize the state with the initial goal numbers
+// const [goalNumbers, setGoalNumbers] = useState(initialGoalNumbers);
+// Set your default value here
+const initialGoalNumber = "";
+
+// Set initial goal numbers based on the users array
+const initialGoalNumbers = users.reduce((acc, user) => {
+  acc[user._id] = initialGoalNumber;
+  return acc;
+}, {});
+
+// Initialize the state with the initial goal numbers
+const [goalNumbers, setGoalNumbers] = useState(initialGoalNumbers);
+  // const handleGoalNumberChange = (user, value) => {
+  //   setGoalNumbers((prevGoalNumbers) => ({
+  //     ...prevGoalNumbers,
+  //     [user._id]: value,
+  //   }));
+  // };
 
   const options = {
     minDate: "today", // Set minimum date to today
     mode: "range",
     altInputClass: "hide",
-    dateFormat: "Y-M-D",
-    locale: null,
-    formatDate: (date, format, locale) => {
-        // locale can also be used
-        var formatDate = moment.tz(date, 'Etc/UTC+5')
-        return formatDate.format(format);
-    },
-      maxDate: new Date("01-01-3000"),
+    dateFormat: "Z",
+    // inline: false,
+    maxDate: new Date("01-01-3000"),
   };
   const calendarRef = useRef(null);
   const openCalendar = () => {
@@ -97,7 +119,6 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
   const rowHeight = 3; // Set the desired height for each row in vh
   const numRows = Math.min(Math.floor(70 / rowHeight), users.length); // Calculate the number of rows that fit within 70vh
   const bg = useToken("colors", "#F6F6F6");
-  const router = useRouter()
   const CalendarIcon = () => (
     <Image
       style={{ marginLeft: "15px" }}
@@ -109,20 +130,137 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
   );
 
   //ALL THE CHECKBOXES LOGIC IS HERE
+  // const handleAssignAllChange = () => {
+  //   const newCheckedUsers = {};
+  //   users.forEach((user) => {
+  //     newCheckedUsers[user._id] = !selectAll;
+  //   });
+  //   setCheckedUsers(newCheckedUsers);
+  
+  //   setUsers((prevUsers) =>
+  //     prevUsers.map((user) => ({
+  //       ...user,
+  //       isChecked: !selectAll,
+  //     }))
+  //   );
+  
+  //   setSelectAll(!selectAll);
+  // };
+  
+  // const handleUserCheckboxChange = (userId) => {
+  //   setUsers((prevUsers) => {
+  //     return prevUsers.map((user) => {
+  //       if (user._id === userId) {
+  //         return { ...user, isChecked: !user.isChecked };
+  //       }
+  //       return user;
+  //     });
+  //   });
+  // };
+  
+  // const handleGoalNumberChange = (user, value) => {
+  //   setGoalNumbers((prevGoalNumbers) => ({
+  //     ...prevGoalNumbers,
+  //     [user._id]: value,
+  //   }));
+  
+  //   setUsers((prevUsers) =>
+  //     prevUsers.map((prevUser) =>
+  //       prevUser._id === user._id ? { ...prevUser, goalNumber: value } : prevUser
+  //     )
+  //   );
+  // };
+  
+  // const handleGoalNumberChange = (user, value) => {
+  //   setGoalNumbers((prevGoalNumbers) => ({
+  //     ...prevGoalNumbers,
+  //     [user._id]: value,
+  //   }));
+  
+  //   setUsers((prevUsers) =>
+  //     prevUsers.map((prevUser) =>
+  //       prevUser._id === user._id ? { ...prevUser, goalNumber: value } : prevUser
+  //     )
+  //   );
+  // };
+  
+  // const handleGoalNumberChange = (userId, value) => {
+  //   setGoalNumbers((prevGoalNumbers) => ({
+  //     ...prevGoalNumbers,
+  //     [userId]: value,
+  //   }));
+  
+  //   setUsers((prevUsers) =>
+  //     prevUsers.map((prevUser) =>
+  //       prevUser._id === userId
+  //         ? { ...prevUser, goalNumber: value }
+  //         : prevUser
+  //     )
+  //   );
+  // };
+  const handleGoalNumberChange = (userId, value) => {
+    setGoalNumbers((prevGoalNumbers) => ({
+      ...prevGoalNumbers,
+      [userId]: value,
+    }));
+  
+    setUsers((prevUsers) =>
+      prevUsers.map((prevUser) =>
+        prevUser._id === userId
+          ? { ...prevUser, goalNumber: value }
+          : prevUser
+      )
+    );
+  };
+  
+  
+  
+  
   const handleAssignAllChange = () => {
     const newCheckedUsers = {};
     users.forEach((user) => {
       newCheckedUsers[user._id] = !selectAll;
     });
     setCheckedUsers(newCheckedUsers);
+  
+    setUsers((prevUsers) =>
+      prevUsers.map((user) => ({
+        ...user,
+        isChecked: !selectAll,
+      }))
+    );
+  
     setSelectAll(!selectAll);
   };
+  
+  // const handleUserCheckboxChange = (userId) => {
+  //   setCheckedUsers((prevCheckedUsers) => ({
+  //     ...prevCheckedUsers,
+  //     [userId]: !prevCheckedUsers[userId],
+  //   }));
+  
+  //   setUsers((prevUsers) =>
+  //     prevUsers.map((user) =>
+  //       user._id === userId ? { ...user, isChecked: !user.isChecked } : user
+  //     )
+  //   );
+  // };
   const handleUserCheckboxChange = (userId) => {
     setCheckedUsers((prevCheckedUsers) => ({
       ...prevCheckedUsers,
       [userId]: !prevCheckedUsers[userId],
     }));
+
+    setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user._id === userId ? { ...user, isChecked: !user.isChecked } : user
+      )
+    );
   };
+  
+  
+  
+  
   const areAllUsersSelected = () => {
     return Object.values(checkedUsers).every((isSelected) => isSelected);
   };
@@ -140,26 +278,63 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
             Authorization: `Bearer ${token}`,
           },
         });
+  
         const Users = await data.json();
         const filteredUsers = Users.filter((user) => user.role === 3);
-        setUsers(filteredUsers);
-        const initialGoalNumbers = filteredUsers.reduce((acc, user) => {
-          acc[user.id] = ""; // Assuming user.id is unique, adjust accordingly
-          return acc;
-        }, {});
-        setGoalNumbers(initialGoalNumbers);
-
-        const initialCheckedUsers = filteredUsers.reduce((acc, user) => {
-          acc[user.id] = false; // Assuming user.id is unique, adjust accordingly
-          return acc;
-        }, {});
-        setCheckedUsers(initialCheckedUsers);
+  
+        // Set initial values for checkboxes and inputs based on goals.users
+        const initialUsersState = filteredUsers.map((filteredUser) => {
+          const goalUser = goals.users.find(
+            (goalUser) => goalUser.userId === filteredUser._id
+          );
+  
+          return {
+            ...filteredUser,
+            isChecked: goalUser !== undefined,
+            goalNumber: goalUser ? goalUser.goalNumber : "",
+          };
+        });
+  
+        setUsers(initialUsersState);
       } catch (error) {
         console.log(error);
       }
     };
     getAllUsers();
-  }, []);
+  }, [token, goals]);
+  
+  
+  // useEffect(() => {
+  //   const getAllUsers = async () => {
+  //     try {
+  //       const data = await fetch(`${UserEndPoint}`, {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+  //       const Users = await data.json();
+  //       const filteredUsers = Users.filter((user) => user.role === 3);
+  //       console.log(filteredUsers)
+  //       setUsers(filteredUsers);
+  //       const initialGoalNumbers = filteredUsers.reduce((acc, user) => {
+  //         acc[user.id] = ""; // Assuming user.id is unique, adjust accordingly
+  //         return acc;
+  //       }, {});
+  //       setGoalNumbers(initialGoalNumbers);
+
+  //       const initialCheckedUsers = filteredUsers.reduce((acc, user) => {
+  //         acc[user.id] = false; // Assuming user.id is unique, adjust accordingly
+  //         return acc;
+  //       }, {});
+  //       setCheckedUsers(initialCheckedUsers);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getAllUsers();
+  // }, []);
   const handleDateChange = (dates) => {
     setSelectedDates(dates);
   };
@@ -172,30 +347,19 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
   }, [selectedDates, defaultGoalNumber]);
 
 
-  //   const CreateNewGoal = async () => {
-  //   console.log(selectedDates);
-  //   console.log("Goal Numbers:", goalNumbers);
-    
-  //   console.log(startDate, endDate, bonus, repeat, reward, checkedUsers, goalNumbers);
-  //   const selectedUsers = Object.entries(checkedUsers)
-  //     .filter(([userId, isChecked]) => isChecked)
-  //     .map(([userId]) => ({
-  //       userId,
-  //       goalNumber: goalNumbers[userId],
-  //     }));
-  //     setUser(selectedUsers)
-
-  // };
   const CreateNewGoal = async () => {
-    // Filter users with checkedUsers being true and map to a new array with id and goalNumber
-    const selectedUsers = Object.entries(checkedUsers)
-      .filter(([userId, isChecked]) => isChecked)
-      .map(([userId]) => ({
-        userId,
-        goalNumber: goalNumbers[userId],
-      }));
-  
-    console.log("Selected Users:", selectedUsers);
+    const goalId = goals._id;
+    const selectedUsers = users
+    .filter((user) => user.isChecked)
+    .map((user) => ({
+      userId: user._id,
+      goalId,
+      goalNumber: user.goalNumber,
+    }));
+  console.log("Selected Users:", selectedUsers);
+    console.log("Selected Users:", startDate, endDate,reward, repeat, bonus, status,
+    //  selectedUsers
+     );
   
     // Log the selected users for testing purposes
   
@@ -212,8 +376,8 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
     }
   
     try {
-      const data = await fetch(`${GoalEndPoint}/create`, {
-        method: 'POST',
+      const data = await fetch(`${GoalEndPoint}/${goalId}`, {
+        method: 'PUT',
         headers: {
           'Content-type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -224,8 +388,7 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
           reward,
           bonus,
           repeat,
-          status,
-          user: selectedUsers,
+          users: selectedUsers,
         }),
       });
   
@@ -234,20 +397,21 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
   
       console.log('Response:', res);
       console.log('Status:', stats);
-      if (stats === 201) {
-        dispatch(toggleGoalCreated());
+  
+      if (stats === 200) {
+        dispatch(updateGoal());
+        onClose()
         toast({
-          title: 'Goal Success',
-          description: 'Logged In',
+          title: 'Goal Updated',
+          description: 'update',
           position: 'bottom-right',
           status: 'success',
           duration: 2000,
           isClosable: true,
         });
-        onClose();
-                  } else {
+      } else {
         toast({
-          title: error.message,
+          title: 'Invalid Signup',
           description: 'Error',
           position: 'bottom-right',
           status: 'error',
@@ -257,7 +421,7 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
       }
     } catch (error) {
       toast({
-        title: error.message,
+        title: 'Error',
         description: error.message || 'An error occurred',
         position: 'bottom-right',
         status: 'error',
@@ -265,6 +429,28 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
         isClosable: true,
       });
     }
+  };
+  // const handleDefaultGoalNumberChange = (value) => {
+  //   setDefaultGoalNumber(value);
+  
+  //   // Update the goal number for all users
+  //   setUsers((prevUsers) =>
+  //     prevUsers.map((user) => ({
+  //       ...user,
+  //       goalNumber: value,
+  //     }))
+  //   );
+  // };
+  const handleDefaultGoalNumberChange = (value) => {
+    setDefaultGoalNumber(value);
+  
+    // Update the goal number for all users
+    setUsers((prevUsers) =>
+      prevUsers.map((user) => ({
+        ...user,
+        goalNumber: value,
+      }))
+    );
   };
   
   return (
@@ -288,7 +474,6 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                 <Container
                   onClick={openCalendar}
                   placeholder="Select Date"
-                  // style={{ width: "fit-content" }}
                   padding={0}
                   margin={0}
                   borderRadius="10px"
@@ -297,7 +482,7 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                     style={{
                       position: "relative",
                       width: "100%",
-                      // height: "45px",
+                      
                     }}
                   >
                     <Image
@@ -322,7 +507,7 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                       className="flatpickr-goal"
                       options={options}
                       value={selectedDates}
-                      onChange={(dates) => handleDateChange(dates)}
+                                            onChange={(dates) => handleDateChange(dates)}
                     >
                       <div className="datepicker-container">
                         <CalendarIcon />
@@ -467,8 +652,8 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                           height="4vh"
                           backgroundColor="white"
                           value={defaultGoalNumber}
-                          onChange={(e) => setDefaultGoalNumber(e.target.value)}
-                        />
+                          onChange={(e) => handleDefaultGoalNumberChange(e.target.value)}
+                          />
                       </Th>
                     </Tr>
                   </Thead>
@@ -488,8 +673,8 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                           style={{ padding: "5px 30px", borderBottom: "none" }}
                         >
                           <Checkbox
-                            isChecked={checkedUsers[user._id]}
-                            onChange={() => handleUserCheckboxChange(user._id)}
+                           isChecked={user.isChecked}
+                          onChange={() => handleUserCheckboxChange(user._id)}
                             colorScheme="#0D7A79"
                             padding="8px"
                             iconColor="#03AF9F"
@@ -520,11 +705,9 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
                             padding="10px"
                             border="1px solid #ced4da"
                             width="3vw"
-                            value={goalNumbers[user._id]}
-                            onChange={(e) =>
-                              handleGoalNumberChange(user, e.target.value)
-                            }
-                          />
+                            value={user.goalNumber}     
+                          onChange={(e) => handleGoalNumberChange(user._id, e.target.value)}
+                                  />
                         </Td>
                       </Tr>
                     ))}

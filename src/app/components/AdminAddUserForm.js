@@ -32,6 +32,8 @@ import { useSelector } from 'react-redux';
 import { selectToken } from '../redux/authSlice';
 import { selectUserId } from "../redux/userIdSlice";
 import UserEndPoint from '../constants/apiruls'
+import { useDispatch } from 'react-redux'
+import { setUsers } from '../redux/userTableSlice';
 // import { useRef } from "react";
 export default function AdminAddUserForm({
   isOpen,
@@ -46,20 +48,40 @@ export default function AdminAddUserForm({
   getUpdatedUsers,
   getNewUsers
 }) {
-  
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState('');
+
+  useEffect(() => {
+    // Set selectedOption based on the initial value of 'role' when 'role' changes
+    switch (prole) {
+      case 1:
+        setSelectedOption('Super Admin');
+        break;
+      case 2:
+        setSelectedOption('Admin');
+        break;
+      case 3:
+        setSelectedOption('User');
+        break;
+      default:
+        setSelectedOption('');
+        break;
+    }
+  }, [prole]); 
+ 
   const [isOpenn, setIsOpen] = useState(false);
   const [firstName, setFirstName] = useState(fName);
   const [lastName, setLastName] = useState(lName);
   const [email, setEmail] = useState(pemail);
   const [password, setPassword] = useState("");
   const [role, setRole] = useState(prole);
+  
   const toast = useToast()
   const token = useSelector(selectToken);
   const userId = useSelector(selectUserId);
 const [oldPassword, setOldPassword] = useState("")
 const [newPassword, setNewPassword] = useState("")
 const [confirmPassword, setConfirmPassword] = useState("")
+const dispatch = useDispatch()
 
 
   useEffect(() => {
@@ -68,7 +90,7 @@ const [confirmPassword, setConfirmPassword] = useState("")
     setEmail(pemail || "");
     setRole(prole || 0)
   }, [fName, lName, pemail]);
- console.log(firstName, lastName, email, role)  
+//  console.log(firstName, lastName, email, role)  
   const SaveUser = (e) => {
     if (id) 
     UpdateUser(e);
@@ -188,6 +210,14 @@ const [confirmPassword, setConfirmPassword] = useState("")
       console.log(res, status)
       
       if (status == 201) {
+        dispatch(setUsers({
+          firstName,
+          lastName,
+          email,
+          password,
+          role,
+        }));
+        onClose()
         toast({
           title: 'User Created',
           description: "Success",
@@ -196,7 +226,6 @@ const [confirmPassword, setConfirmPassword] = useState("")
           duration: 2000,
           isClosable: true,
         })
-        getUpdatedUsers()
       }
       else {
         toast({
@@ -536,6 +565,7 @@ const [confirmPassword, setConfirmPassword] = useState("")
              }}
              _hover={{ backgroundColor: "#039E90" }}
              onClick={() => handleOptionClick(option)}
+             isSelected={selectedOption === option}
            >
              {option}
            </ListItem>
