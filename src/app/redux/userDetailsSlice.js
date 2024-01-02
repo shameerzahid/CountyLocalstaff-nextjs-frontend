@@ -17,8 +17,13 @@ export const userSlice = createSlice({
     setEmail: (state, action) => {
       state.email = action.payload;
     },
+    resetUser: (state) => {
+      state.firstName = '';
+      state.lastName = '';
+      state.email = '';
+    },
   },
 });
 
-export const { setFirstName, setLastName, setEmail } = userSlice.actions;
+export const { setFirstName, setLastName, setEmail, resetUser } = userSlice.actions;
 export const selectUser = (state) => state.user;

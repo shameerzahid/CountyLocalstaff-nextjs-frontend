@@ -11,7 +11,7 @@ import GoalEndPoint from "../constants/goalurls";
 import { useDispatch, useSelector } from "react-redux";
 import { selectToken } from "../redux/authSlice";
 import NoGoal from "./NoGoal";
-import { setUpcomingGoals } from '../redux/upcomingGoalSlice'
+import { setUpcomingGoals, removeUpcomingGoals, toggleUpcomingLoading  } from '../redux/upcomingGoalSlice'
 import EditGoal from './EditGoal'
 export default function AdminUpcomingGoal() {
   const token = useSelector(selectToken);
@@ -19,7 +19,8 @@ export default function AdminUpcomingGoal() {
   const [users, setUsers] = useState([])
   const [startDate, setStartDate] = useState("")
   const [endDate, setEndDate] = useState("")
-  const [loading, setLoading] = useState(true)
+  // const [loading, setLoading] = useState(true)
+  const loading = useSelector((state) => state.adminUpcomingGoal.loading);
   const dispatch = useDispatch()
   const [upcomingGoal, setUpcomingGoal] = useState(true)
   const goalCreated = useSelector((state) => state.adminCurrentGoal.goalCreated);
@@ -46,12 +47,13 @@ export default function AdminUpcomingGoal() {
         console.log("success")
       } else {
         setUpcomingGoal(false);
+       dispatch(toggleUpcomingLoading()) 
       }
       setUpcoming(data)
       setUsers(data.users)
       setStartDate(data.startDate)
       setEndDate(data.endDate)
-      setLoading(false);
+      // setLoading(false);
     } catch (error) {
       console.log(error)
     }
@@ -73,9 +75,10 @@ export default function AdminUpcomingGoal() {
       });
       const res = await data.json();
       const status = await data.status;
-      GetCurrentGoals()
       console.log(res, status);
       if (status === 200) {
+        dispatch(removeUpcomingGoals())
+        GetCurrentGoals()
         toast({
           title: 'Goal Removed',
           position: "bottom-right",
@@ -117,35 +120,36 @@ export default function AdminUpcomingGoal() {
       Drawer
     }
   });
-
+console.log(loading)
   if (loading) {
     return <div>Loading...</div>;
   }
+  if(!upcomingGoals)
+  return  <NoGoal title="No Upcoming Goal" />
   return (
     <>
-      {upcomingGoal ?
         <div style={{ padding: "0 2.5rem", marginTop: "1rem" }}>
           <Flex flexDirection="row" alignItems="center" fontSize="1rem" fontWeight="500" marginLeft="0.5rem" paddingLeft="15px" paddingRight="15px" >
             <Image style={{ marginLeft: '0.25rem', width: '1rem', height: '1rem' }} src={calender} />
             <Text marginLeft="0.5rem">upcoming goal from</Text>
             <Text width="14rem" marginLeft="1.5rem">
-              {new Date(startDate).toISOString().split('T')[0]} to {new Date(endDate).toISOString().split('T')[0]}
+              {new Date(upcomingGoals.startDate).toISOString().split('T')[0]} to {new Date(upcomingGoals.endDate).toISOString().split('T')[0]}
             </Text>
             <Image style={{ marginLeft: '3rem', width: '1rem', height: '1rem' }} src={goal} />
             <Text marginLeft="0.5rem">Goal Number</Text>
-            <Text marginLeft="1.5rem">{users[0].goalNumber}</Text>
+            <Text marginLeft="1.5rem">{upcomingGoals.users[0].goalNumber}</Text>
             {
-              upcoming.repeat && <Text marginLeft="3rem" paddingTop="5px" color="#03AF9F" backgroundColor="#03af9e18" borderRadius="20px" fontWeight="500" height="34px" width="70px" textAlign="center">Repeat</Text>
+              upcomingGoals.repeat && <Text marginLeft="3rem" paddingTop="5px" color="#03AF9F" backgroundColor="#03af9e18" borderRadius="20px" fontWeight="500" height="34px" width="70px" textAlign="center">Repeat</Text>
 
             }
           </Flex>
           <Flex flexDirection="row" alignItems="center" fontSize="1rem" fontWeight="500" marginLeft="0.5rem" marginTop="0.7rem" paddingLeft="15px" paddingRight="15px" >
             <Image style={{ marginLeft: '0.25rem', width: '1rem', height: '1rem' }} src={trophy} />
             <Text marginLeft="0.5rem">Goal Reward</Text>
-            <Text width="14rem" marginLeft="5rem">{upcoming.reward}</Text>
+            <Text width="14rem" marginLeft="5rem">{upcomingGoals.reward}</Text>
             <Image style={{ marginLeft: '3rem', width: '1rem', height: '1rem' }} src={stats} />
             <Text marginLeft="0.5rem">Bonus Goal</Text>
-            <Text marginLeft="2.4rem">{upcoming.bonus}</Text>
+            <Text marginLeft="2.4rem">{upcomingGoals.bonus}</Text>
 
           </Flex>
           <Flex flexDirection="row" justifyContent="flex-end" alignItems="center" marginTop="-35px" marginRight="-45px">
@@ -170,7 +174,7 @@ export default function AdminUpcomingGoal() {
                 //  height={`${numRows * rowHeight}vh`}
                 >
                   <Tbody>
-                    {users.map((user, index) => (
+                    {upcomingGoals.users.map((user, index) => (
                       <Tr key={user.id} style={{ height: "4.5rem", boxShadow: '0px 4px 16px -4px rgba(0, 0, 0, 0.12)', borderRadius: "6px" }}>
                         <Td bg={index % 2 === 0 ? `${bg + '!important'}` : "white"} style={{ padding: "0 16px", borderTop: "0.1px solid  #ccc", width: "50%", fontFamily: "poppinsreg", fontSize: "14px" }} >{`${user.firstName} ${user.lastName}`}</Td>
                         <Td bg={index % 2 === 0 ? `${bg + '!important'}` : "white"} style={{ padding: "0 16px", borderTop: "0.1px solid  #ccc", width: "50%", fontFamily: "poppinsreg", fontSize: "14px", textAlign: "center" }} >{user.goalNumber}</Td>
@@ -184,7 +188,7 @@ export default function AdminUpcomingGoal() {
                 </ChakraProvider>
 
               </div> </div> </Flex>
-        </div> : <NoGoal title="No Upcoming Goal" />}
+        </div> 
     </>
   );
 }

@@ -4,6 +4,10 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { deleteToken } from "../../redux/authSlice";
 import { deleteUserId } from "../../redux/userIdSlice";
+import { removeGoal } from "../../redux/currentGoalSlice";
+import { removeUpcomingGoals } from "../../redux/upcomingGoalSlice";
+import { resetUser } from "../../redux/userDetailsSlice";
+import { removeAllUsers } from "../../redux/userTableSlice";
 export default function NavItem({ icon, title, goto, navSize, active }) {
   const dispatch = useDispatch();
   
@@ -12,6 +16,10 @@ export default function NavItem({ icon, title, goto, navSize, active }) {
     {
       dispatch(deleteToken())
       dispatch(deleteUserId())
+      dispatch(removeGoal())
+      dispatch(removeUpcomingGoals())
+      dispatch(resetUser())
+      dispatch(removeAllUsers())
     }
   }
   return (

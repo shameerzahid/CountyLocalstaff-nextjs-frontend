@@ -15,7 +15,7 @@ import { selectToken } from "../redux/authSlice";
 import Chart from 'chart.js/auto';
 import NoGoal from "./NoGoal";
 import { useDispatch } from 'react-redux';
-import { removeGoal, setGoal, toggleGoalCreated } from '../redux/currentGoalSlice';
+import { removeGoal, setGoal, toggleGoalCreated,  toggleLoading } from '../redux/currentGoalSlice';
 import { useSelector } from 'react-redux';
 import PieChart from './PieChart'
 import { setGoalUserId } from '../redux/adminGoalUserIdSlice';
@@ -29,7 +29,7 @@ export default function AdminCurrentGoal() {
   const [users, setUsers] = useState([])
   const [startDate, setStartDate] = useState("")
   const [endDate, setEndDate] = useState("")
-  const [loading, setLoading] = useState(true);
+  const loading = useSelector((state) => state.adminCurrentGoal.loading);
   const isActive = useSelector((state) => state.adminCurrentGoal.isActive);
   const [chartInitialized, setChartInitialized] = useState(false);
   const router = useRouter();
@@ -55,9 +55,13 @@ export default function AdminCurrentGoal() {
       const stat = await res.status;
       if (stat == 200) {
         dispatch(setGoal(data));
-        setLoading(false)
+        // setLoading(false)
       }
-      setLoading(false)
+      else
+      {
+        dispatch(toggleLoading());
+      }
+      // setLoading(false)
     } catch (error) {
       console.log(error);
       // setLoading(false);
@@ -70,11 +74,12 @@ export default function AdminCurrentGoal() {
   // }, [goalCreated]);
   useEffect(() => {
     // Check if goals.goal is not 
-    if (!goals.goal) {
-      setLoading(true);
+    // if (!goals.goal) {
+    //   setLoading(true);
 
-    }
-    GetCurrentGoals().then(() => setLoading(false)); // Wait for data before setting loading to false
+    // }
+    GetCurrentGoals()
+    // .then(() => setLoading(false)); // Wait for data before setting loading to false
 
   }, [goalCreated]);
   let goals = useSelector((state) => state.adminCurrentGoal);

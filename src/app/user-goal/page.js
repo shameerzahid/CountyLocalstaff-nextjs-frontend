@@ -24,6 +24,7 @@ export default function UserGoal() {
   const canvas = useRef();
   const [userData, setUserData] = useState([])
   const [recruits, setRecruits] = useState([])
+  const [goalstats, setGoalStats] = useState([])
   const goalId = useSelector((state) => state.admingoaluserid.goalId);  // Use the correct path to your slice
   const userId = useSelector((state) => state.admingoaluserid.userId);  // Use the correct path to your slice
   if(!goalId || !userId)
@@ -42,15 +43,9 @@ export default function UserGoal() {
       const data = await res.json();
       setUserData(data)
       setRecruits(data.recruits)
-      // const stat = await res.status;
+      setGoalStats(data.userStates)
   
       console.log("curren Data: ", data, data.recruits);
-      // Remove the following lines since you are no longer using local state
-      // setUsers(data.users);
-      // console.log(data.users);
-      // setStartDate(data.startDate);
-      // setEndDate(data.endDate);
-      // setLoading(false);
     } catch (error) {
       console.log(error);
       // setLoading(false);
@@ -70,14 +65,13 @@ console.log(goalId, userId)
     // Go back one step in history
     router.back();
   };
-
   const pieChart = () => {
     const ctx = canvas.current;
     let chartStatus = Chart.getChart('myChart');
     if (chartStatus != undefined) {
       chartStatus.destroy();
     }
-
+console.log(goalstats)
     const chart = new Chart(ctx, {
       type: 'pie',
       data: {
@@ -85,7 +79,7 @@ console.log(goalId, userId)
         datasets: [
           {
             label: 'value',
-            data: [20, 20, 40],
+            data: [goalstats.completed_percentage,goalstats.incompleted_percentage,goalstats.bonus_percentage],
             backgroundColor: [
               'rgba(3, 175, 159, 1)',
               'rgba(255, 206, 33, 1)',
@@ -139,23 +133,30 @@ console.log(goalId, userId)
   };
   
   useEffect(() => {
-    pieChart()
-  },[userData])
+    console.log(goalstats)
+          pieChart();
+  }, [userData]);
+  ;
+console.log(goalstats, userData)
   const formatDate = (date) => {
     return new Date(date).toISOString().split('T')[0];
   };
-  if (!userData || userData.length === 0) {
-    return <div>Loading...</div>; // You can replace this with a loading component or message
-  }
+  // if (!userData || userData.length === 0) {
+  //   return <div>Loading...</div>; // You can replace this with a loading component or message
+  // }
   return (
+    
     <div style={{ backgroundColor: "#F4F9F6", display: "flex", flexDirection: "row" }}>
     <Sidebar />
+    {!userData || userData.length === 0 ? (
+      <div>Loading...</div>
+    ) : (
     <Box margin="27px 40px 20px 32px" width="calc(100% - 11vw)">
         <Flex flexDirection="row" alignItems="center" marginLeft="25px" marginBottom="3rem">
        <Icon backgroundColor="red" as={() =>( <svg  onClick={handleIconClick} style={{backgroundColor: "#03AF9F", cursor: "pointer", height: '1.7rem', borderRadius: "3px", width: "1.6rem"}} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <path d="M20.9999 11H6.41394L11.7069 5.707L10.2929 4.293L2.58594 12L10.2929 19.707L11.7069 18.293L6.41394 13H20.9999V11Z" fill="white"></path>
               </svg>)} />
-      <Heading  marginLeft="15px" fontSize="2.4rem" fontFamily="lato700" color="#212529">Bob Williams</Heading> </Flex>
+      <Heading  marginLeft="15px" fontSize="2.4rem" fontFamily="lato700" color="#212529">{userData.userName}</Heading> </Flex>
     <div style={{ padding: "0 0.5rem", marginTop: "1rem" }}>
       <Flex flexDirection="row" alignItems="center" fontSize="1rem" fontWeight="500" marginLeft="0.5rem" paddingLeft="15px" paddingRight="15px" >
         <Image style={{ marginLeft: '0.25rem', width: '1rem', height: '1rem' }} src={calender} />
@@ -167,7 +168,7 @@ console.log(goalId, userId)
         <Image style={{ marginLeft: '3rem', width: '1rem', height: '1rem' }} src={goal} />
         {/* <GoGoal style={{ marginLeft: "3rem" }} color="#03AF9F" /> */}
         <Text marginLeft="0.5rem" color="#212529">Goal Number</Text>
-        <Text marginLeft="1.5rem" color="#212529">10</Text>
+        <Text marginLeft="1.5rem" color="#212529">{userData.goalNumber}</Text>
       </Flex>
       <Flex flexDirection="row" alignItems="center" fontSize="1rem" fontWeight="500" marginLeft="0.5rem" marginTop="0.7rem" paddingLeft="15px" paddingRight="15px" >
       <Image style={{ marginLeft: '0.25rem', width: '1rem', height: '1rem' }} src={trophy} />
@@ -215,7 +216,7 @@ console.log(goalId, userId)
                     </Flex>
            </Flex>
     </div>
-    </Box>
+    </Box>  )}
       </div>
   );
 }
