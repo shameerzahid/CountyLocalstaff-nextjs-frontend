@@ -66,12 +66,12 @@ console.log(goalId, userId)
     router.back();
   };
   const pieChart = () => {
-    const ctx = canvas.current;
-    let chartStatus = Chart.getChart('myChart');
-    if (chartStatus != undefined) {
-      chartStatus.destroy();
-    }
-console.log(goalstats)
+    if (typeof window !== 'undefined') {
+      const ctx = canvas.current;
+      let chartStatus = Chart.getChart('myChart');
+      if (chartStatus != undefined) {
+        chartStatus.destroy();
+      }
     const chart = new Chart(ctx, {
       type: 'pie',
       data: {
@@ -130,6 +130,7 @@ console.log(goalstats)
         },
       },
     });
+  }
   };
   
   useEffect(() => {
