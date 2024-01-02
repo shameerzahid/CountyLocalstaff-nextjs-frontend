@@ -42,7 +42,7 @@ export default function UserTable() {
   const [status, setStatus] = useState(true)
   const toast = useToast()
   const dispatch = useDispatch()
-
+  const bg = useToken("colors", "#F6F6F6");
 
   const [selectedUser, setSelectedUser] = useState("");
   const handleEdit = (user) => {
@@ -229,8 +229,6 @@ export default function UserTable() {
   };
   const rowHeight = 3; // Set the desired height for each row in vh
   const numRows = Math.min(Math.floor(70 / rowHeight), users.length); // Calculate the number of rows that fit within 70vh
-  // const bg = useToken("colors", "#F6F6F6");
-
   return (
     <div
       style={{
