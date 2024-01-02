@@ -70,10 +70,11 @@ let goals = useSelector((state) => state.adminCurrentGoal);
           legend: {
             position: 'bottom',
             labels: {
+              padding: 14,
                 font: {
-                  size: 8, // Adjust the font size for legends
+                  size: 10, // Adjust the font size for legends
                 },
-                boxWidth: 12,
+                boxWidth: 15,
               },
           },
           title: {

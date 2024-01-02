@@ -248,8 +248,8 @@ export default function AdminCurrentGoal() {
 
             </div> </div>
           <Flex flexDirection="column" height="59vh" width="31%" backgroundColor="white" borderRadius="15px" border="1px solid #ccc">
-            <h5 style={{ paddingLeft: "1.5rem", fontSize: "1.1rem", paddingTop: "1rem", fontFamily: "poppinsmed" }}>Team Overview</h5>
-            <div id="container" style={{ height: '70%', width: "100%", marginBottom: "0", marginTop: "5px", display: "flex", justifyContent: "center" }}>
+            <h5 style={{ paddingLeft: "1.5rem",paddingBottom: "1rem", fontSize: "1.1rem", paddingTop: "1rem", fontFamily: "poppinsmed" }}>Team Overview</h5>
+            <div id="container" style={{ height: '65%', width: "100%", marginTop: "5px", display: "flex", justifyContent: "center" }}>
               <PieChart
               // com={percentage.completed_percentage} 
               // bon={percentage.bonus_percentage} 
