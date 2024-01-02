@@ -96,7 +96,7 @@ export default function AdminAddGoalForm({ isOpen, onClose }) {
   };
   const rowHeight = 3; // Set the desired height for each row in vh
   const numRows = Math.min(Math.floor(70 / rowHeight), users.length); // Calculate the number of rows that fit within 70vh
-  const bg = useToken("colors", "#F6F6F6");
+  // const bg = useToken("colors", "#F6F6F6");
   const router = useRouter()
   const CalendarIcon = () => (
     <Image
