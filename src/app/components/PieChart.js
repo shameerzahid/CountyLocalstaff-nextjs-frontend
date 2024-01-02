@@ -65,6 +65,7 @@ let goals = useSelector((state) => state.adminCurrentGoal);
         ],
       },
       options: {
+        
         plugins: {
             
           legend: {
@@ -80,17 +81,16 @@ let goals = useSelector((state) => state.adminCurrentGoal);
           title: {
             display: false,
           },
-          datalabels: {
-            color: '#fff',
-            anchor: 'end',
-            align: 'start',
-            formatter: (value, context) => {
-              const total = context.dataset.data.reduce((a, b) => a + b, 0);
-              const percentage = ((value / total) * 100).toFixed(2);
-              return `${percentage}%`;
-            },
-            offset: 10, 
-          },
+          // datalabels: {
+          //   formatter: (value, ctx) => {
+      
+          //     let sum = ctx.dataset._meta[0].total;
+          //     let percentage = (value * 100 / sum).toFixed(2) + "%";
+          //     return percentage;
+      
+          //   },
+          //   color: '#fff',
+          // }
         },
       },
     });
