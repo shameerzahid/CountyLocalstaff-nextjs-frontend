@@ -121,9 +121,13 @@ export default function AdminUpcomingGoal() {
     }
   });
 console.log(loading)
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+if (loading) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "80vh" }}>
+      <div>Loading...</div>
+    </div>
+  );
+}
   if(!upcomingGoals)
   return  <NoGoal title="No Upcoming Goal" />
   return (

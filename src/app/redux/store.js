@@ -9,6 +9,7 @@ import { userTableSlice } from './userTableSlice';
 import admingoaluseridReducer from './adminGoalUserIdSlice';
 import adminOverviewReducer from './adminOverviewSlice';
 import adminUpcomingGoalReducer from './upcomingGoalSlice';
+import adminReportReducer from './AdminReportSlice';
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -20,5 +21,6 @@ export const store = configureStore({
     admingoaluserid: admingoaluseridReducer,
     adminOverview: adminOverviewReducer,
     adminUpcomingGoal: adminUpcomingGoalReducer,
+    adminReport: adminReportReducer,
       },
 });

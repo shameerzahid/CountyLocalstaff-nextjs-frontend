@@ -55,13 +55,11 @@ export default function AdminCurrentGoal() {
       const stat = await res.status;
       if (stat == 200) {
         dispatch(setGoal(data));
-        // setLoading(false)
       }
       else
       {
         dispatch(toggleLoading());
       }
-      // setLoading(false)
     } catch (error) {
       console.log(error);
       // setLoading(false);
@@ -83,7 +81,6 @@ export default function AdminCurrentGoal() {
 
   }, [goalCreated]);
   let goals = useSelector((state) => state.adminCurrentGoal);
-
   const EndGoal = async () => {
     try {
 
@@ -142,35 +139,39 @@ export default function AdminCurrentGoal() {
     }
   });
   const [percentage, setPercentage] = useState([])
-  const GetGoalStats = async () => {
-    try {
-      const data = await fetch(`${GoalEndPoint}/stats/${goals.goal._id}`, {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${token}`
-        }
-      })
-      const res = await data.json()
-      const stats = await data.status
-      console.log("goal stats", res, stats)
-      if (stats == 200) {
-        setPercentage(res)
-        dispatch(setGoalStats(res));
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const GetGoalStats = async () => {
+  //   try {
+  //     const data = await fetch(`${GoalEndPoint}/stats/${goals.goal._id}`, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-type": "application/json",
+  //         Authorization: `Bearer ${token}`
+  //       }
+  //     })
+  //     const res = await data.json()
+  //     const stats = await data.status
+  //     console.log("goal stats", res, stats)
+  //     if (stats == 200) {
+  //       setPercentage(res)
+  //       dispatch(setGoalStats(res));
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
   const goalStats = useSelector((state) => state.adminOverview.goalStats);
-  useEffect(() => {
-    if (goals.goal) {
-      GetGoalStats().then(() => console.log(percentage));  // Only call GetGoalStats if goals.goal is available
-    }
-  }, [goalCreated]);
+  // useEffect(() => {
+  //   if (goals.goal) {
+  //     GetGoalStats().then(() => console.log(percentage));  // Only call GetGoalStats if goals.goal is available
+  //   }
+  // }, [goalCreated]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "80vh" }}>
+        <div>Loading...</div>
+      </div>
+    );
   }
 
   if (!goals.goal) {
